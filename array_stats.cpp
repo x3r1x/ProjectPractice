@@ -5,7 +5,7 @@
 #include <iostream>
 #include <vector>
 
-bool IsArraySizeCorrect(int* size)
+static bool IsArraySizeCorrect(int* size)
 {
     std::cin >> *size;
 
@@ -35,18 +35,17 @@ static void CountAndPrintStatistics(const std::vector<int>* array)
     int min = (*array)[0];
     int max = (*array)[0];
 
-    for (int i = 0; i < array->size(); i++)
+    for (const int number : *array)
     {
-        const int element = (*array)[i];
-        sum += element;
+        sum += number;
 
-        if (element > max)
+        if (number > max)
         {
-            max = element;
+            max = number;
         }
-        if (element < min)
+        if (number < min)
         {
-            min = element;
+            min = number;
         }
     }
 
