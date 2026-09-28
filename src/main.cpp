@@ -2,61 +2,134 @@
 // Created by x3r1x on 9/23/26.
 //
 
-#include <SFML/Graphics.hpp>
+#include <iostream>
 #include <optional>
+
+#include <SFML/Graphics.hpp>
 
 constexpr int WINDOW_WIDTH = 800;
 constexpr int WINDOW_HEIGHT = 600;
+constexpr int DEFAULT_PLAYER_SPEED = 30;
+constexpr auto DEFAULT_PLAYER_POSITION = sf::Vector2f(400, 300);
 
 constexpr sf::Color FILL_COLOR = sf::Color::Magenta;
 constexpr sf::Color OUTLINE_COLOR = sf::Color::Red;
 constexpr sf::Color DEFAULT_BACKGROUND_COLOR = sf::Color::Green;
 constexpr sf::Color CHANGED_BACKGROUND_COLOR = sf::Color::Cyan;
-constexpr float OUTLINE_THICKNESS = 3.f;
+constexpr float OUTLINE_THICKNESS = 3;
 
-constexpr auto RECTANGLE_SIZE = sf::Vector2f(240, 50);
-constexpr auto RECTANGLE_POSITION = sf::Vector2f(400, 300);
+constexpr auto RECTANGLE_SIZE = sf::Vector2f(200, 50);
+constexpr float CIRCLE_RADIUS = 50;
 
-constexpr float LEFT_CIRCLE_RADIUS = 50.f;
-constexpr auto LEFT_CIRCLE_POSITION = sf::Vector2f(410, 350);
+typedef struct
+{
+    sf::RectangleShape rectangle;
+    sf::CircleShape leftCircle;
+    sf::CircleShape rightCircle;
 
-constexpr float RIGHT_CIRCLE_RADIUS = 50.f;
-constexpr auto RIGHT_CIRCLE_POSITION = sf::Vector2f(530, 350);
+    sf::Vector2f position;
+    float speed;
+} Player;
 
-static void DrawShape(sf::Shape& shape, const sf::Vector2f position, sf::RenderWindow& window)
+static sf::Vector2f GetRectanglePosition(const sf::Vector2f playerPosition)
+{
+    return sf::Vector2f(playerPosition.x - RECTANGLE_SIZE.x / 2, playerPosition.y - RECTANGLE_SIZE.y / 2);
+}
+
+static sf::Vector2f GetLeftCirclePosition(const sf::Vector2f playerPosition)
+{
+    return sf::Vector2f(playerPosition.x - CIRCLE_RADIUS * 2, playerPosition.y + CIRCLE_RADIUS / 2);
+}
+
+static sf::Vector2f GetRightCirclePosition(const sf::Vector2f playerPosition)
+{
+    return sf::Vector2f(playerPosition.x, playerPosition.y + CIRCLE_RADIUS / 2);
+}
+
+static void InitShape(sf::Shape& shape, const sf::Vector2f position)
 {
     shape.setFillColor(FILL_COLOR);
     shape.setOutlineThickness(OUTLINE_THICKNESS);
     shape.setFillColor(OUTLINE_COLOR);
     shape.setPosition(position);
-
-    window.draw(shape);
 }
 
-static void DrawRectangle(sf::RenderWindow& window)
+static void InitPlayer(Player& player)
 {
-    sf::RectangleShape rectangle(RECTANGLE_SIZE);
+    player.position = DEFAULT_PLAYER_POSITION;
+    player.speed = DEFAULT_PLAYER_SPEED;
 
-    DrawShape(rectangle, RECTANGLE_POSITION, window);
+    player.rectangle.setSize(RECTANGLE_SIZE);
+    InitShape(player.rectangle, GetRectanglePosition(player.position));
+
+    player.leftCircle.setRadius(CIRCLE_RADIUS);
+    InitShape(player.leftCircle, GetLeftCirclePosition(player.position));
+
+    player.rightCircle.setRadius(CIRCLE_RADIUS);
+    InitShape(player.rightCircle, GetRightCirclePosition(player.position));
 }
 
-static void DrawLeftCircle(sf::RenderWindow& window)
+static sf::Vector2f GetMovementDirection()
 {
-    sf::CircleShape circle(LEFT_CIRCLE_RADIUS);
+    sf::Vector2f direction(0, 0);
 
-    DrawShape(circle, LEFT_CIRCLE_POSITION, window);
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))
+    {
+        direction.y -= 1;
+    }
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
+    {
+        direction.x += 1;
+    }
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S))
+    {
+        direction.y += 1;
+    }
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))
+    {
+        direction.x -= 1;
+    }
+
+    const float directionLength = std::sqrt(direction.x * direction.x + direction.y * direction.y);
+    if (directionLength != 0)
+    {
+        direction.x = direction.x / directionLength;
+        direction.y = direction.y / directionLength;
+    }
+
+    return direction;
 }
 
-static void DrawRightCircle(sf::RenderWindow& window)
+static void UpdatePlayer(Player& player, const float elapsedTime)
 {
-    sf::CircleShape circle(RIGHT_CIRCLE_RADIUS);
+    const sf::Vector2f direction = GetMovementDirection();
 
-    DrawShape(circle, RIGHT_CIRCLE_POSITION, window);
+    player.position.x += direction.x * elapsedTime * player.speed;
+    player.position.y += direction.y * elapsedTime * player.speed;
 }
 
+static void DrawPlayer(sf::RenderWindow& window, Player& player)
+{
+    player.rectangle.setPosition(GetRectanglePosition(player.position));
+    player.leftCircle.setPosition(GetLeftCirclePosition(player.position));
+    player.rightCircle.setPosition(GetRightCirclePosition(player.position));
+
+    window.draw(player.rectangle);
+    window.draw(player.leftCircle);
+    window.draw(player.rightCircle);
+}
+
+//TODO: make collisions
 int main() {
     sf::RenderWindow window(sf::VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), "Рыжов");
     sf::Color color = DEFAULT_BACKGROUND_COLOR;
+    sf::Clock clock;
+
+    Player player;
+    InitPlayer(player);
 
     while (window.isOpen()) {
         while (const std::optional event = window.pollEvent()) {
@@ -72,9 +145,8 @@ int main() {
 
         window.clear(color);
 
-        DrawRectangle(window);
-        DrawLeftCircle(window);
-        DrawRightCircle(window);
+        UpdatePlayer(player, clock.restart().asSeconds());
+        DrawPlayer(window, player);
 
         window.display();
     }
