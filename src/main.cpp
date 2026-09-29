@@ -9,13 +9,18 @@
 
 constexpr int WINDOW_WIDTH = 800;
 constexpr int WINDOW_HEIGHT = 600;
-constexpr int DEFAULT_PLAYER_SPEED = 30;
-constexpr auto DEFAULT_PLAYER_POSITION = sf::Vector2f(400, 300);
+constexpr int INITIAL_PLAYER_SPEED = 300;
+constexpr auto DEFAULT_PLAYER_POSITION = sf::Vector2f(100, 400);
 
-constexpr sf::Color FILL_COLOR = sf::Color::Magenta;
-constexpr sf::Color OUTLINE_COLOR = sf::Color::Red;
+constexpr auto DEFAULT_ENEMY_VELOCITY = sf::Vector2f(200, 150);
+constexpr auto INITIAL_ENEMY_POSITION = sf::Vector2f(400, 300);
+constexpr auto ENEMY_SIZE = sf::Vector2f(100, 25);
+
+constexpr sf::Color PLAYER_FILL_COLOR = sf::Color::Magenta;
+constexpr sf::Color ENEMY_FILL_COLOR = sf::Color::Red;
+constexpr sf::Color OUTLINE_COLOR = sf::Color::White;
 constexpr sf::Color DEFAULT_BACKGROUND_COLOR = sf::Color::Green;
-constexpr sf::Color CHANGED_BACKGROUND_COLOR = sf::Color::Cyan;
+constexpr sf::Color CHANGED_COLOR = sf::Color::Cyan;
 constexpr float OUTLINE_THICKNESS = 3;
 
 constexpr auto RECTANGLE_SIZE = sf::Vector2f(200, 50);
@@ -31,42 +36,64 @@ typedef struct
     float speed;
 } Player;
 
+typedef struct
+{
+    sf::RectangleShape rectangle;
+
+    sf::Vector2f position;
+    sf::Vector2f velocity;
+} Enemy;
+
 static sf::Vector2f GetRectanglePosition(const sf::Vector2f playerPosition)
 {
-    return sf::Vector2f(playerPosition.x - RECTANGLE_SIZE.x / 2, playerPosition.y - RECTANGLE_SIZE.y / 2);
+    return {playerPosition.x - RECTANGLE_SIZE.x / 2, playerPosition.y - RECTANGLE_SIZE.y / 2};
 }
 
 static sf::Vector2f GetLeftCirclePosition(const sf::Vector2f playerPosition)
 {
-    return sf::Vector2f(playerPosition.x - CIRCLE_RADIUS * 2, playerPosition.y + CIRCLE_RADIUS / 2);
+    return {playerPosition.x - CIRCLE_RADIUS * 2, playerPosition.y + CIRCLE_RADIUS / 2};
 }
 
 static sf::Vector2f GetRightCirclePosition(const sf::Vector2f playerPosition)
 {
-    return sf::Vector2f(playerPosition.x, playerPosition.y + CIRCLE_RADIUS / 2);
+    return {playerPosition.x, playerPosition.y + CIRCLE_RADIUS / 2};
 }
 
-static void InitShape(sf::Shape& shape, const sf::Vector2f position)
+static bool IsWindowCollision(const sf::Vector2f currentPosition, const sf::Vector2f move, const sf::Vector2f spriteOffset)
 {
-    shape.setFillColor(FILL_COLOR);
+    if (currentPosition.x + move.x + spriteOffset.x >= WINDOW_WIDTH || currentPosition.x + move.x <= 0)
+    {
+        return true;
+    }
+
+    if (currentPosition.y + move.y + spriteOffset.y >= WINDOW_HEIGHT || currentPosition.y + move.y <= 0)
+    {
+        return true;
+    }
+
+    return false;
+}
+
+static void InitShape(sf::Shape& shape, sf::Color color)
+{
+    shape.setFillColor(color);
     shape.setOutlineThickness(OUTLINE_THICKNESS);
-    shape.setFillColor(OUTLINE_COLOR);
-    shape.setPosition(position);
+    shape.setOutlineColor(OUTLINE_COLOR);
 }
 
 static void InitPlayer(Player& player)
 {
     player.position = DEFAULT_PLAYER_POSITION;
-    player.speed = DEFAULT_PLAYER_SPEED;
+    player.speed = INITIAL_PLAYER_SPEED;
 
     player.rectangle.setSize(RECTANGLE_SIZE);
-    InitShape(player.rectangle, GetRectanglePosition(player.position));
+    InitShape(player.rectangle, PLAYER_FILL_COLOR);
 
     player.leftCircle.setRadius(CIRCLE_RADIUS);
-    InitShape(player.leftCircle, GetLeftCirclePosition(player.position));
+    InitShape(player.leftCircle, PLAYER_FILL_COLOR);
 
     player.rightCircle.setRadius(CIRCLE_RADIUS);
-    InitShape(player.rightCircle, GetRightCirclePosition(player.position));
+    InitShape(player.rightCircle, PLAYER_FILL_COLOR);
 }
 
 static sf::Vector2f GetMovementDirection()
@@ -107,8 +134,14 @@ static void UpdatePlayer(Player& player, const float elapsedTime)
 {
     const sf::Vector2f direction = GetMovementDirection();
 
-    player.position.x += direction.x * elapsedTime * player.speed;
-    player.position.y += direction.y * elapsedTime * player.speed;
+    const auto offset  = sf::Vector2f(direction.x * elapsedTime * player.speed,
+        direction.y * elapsedTime * player.speed);
+
+    if (!IsWindowCollision(player.position, offset, RECTANGLE_SIZE))
+    {
+        player.position.x += offset.x;
+        player.position.y += offset.y;
+    }
 }
 
 static void DrawPlayer(sf::RenderWindow& window, Player& player)
@@ -122,14 +155,59 @@ static void DrawPlayer(sf::RenderWindow& window, Player& player)
     window.draw(player.rightCircle);
 }
 
-//TODO: make collisions
+static void InitEnemy(Enemy& enemy)
+{
+    enemy.position = INITIAL_ENEMY_POSITION;
+    enemy.velocity = DEFAULT_ENEMY_VELOCITY;
+    enemy.rectangle.setSize(ENEMY_SIZE);
+
+    InitShape(enemy.rectangle, ENEMY_FILL_COLOR);
+}
+
+static void UpdateEnemy(Enemy& enemy, const float elapsedTime)
+{
+    const auto offset = sf::Vector2f(enemy.velocity.x * elapsedTime, enemy.velocity.y * elapsedTime);
+
+    if (IsWindowCollision(enemy.position, offset, ENEMY_SIZE))
+    {
+        enemy.velocity.x *= -1;
+        enemy.velocity.y *= -1;
+    }
+
+    enemy.position.x += offset.x;
+    enemy.position.y += offset.y;
+}
+
+static void DrawEnemy(sf::RenderWindow& window, Enemy& enemy)
+{
+    enemy.rectangle.setPosition(enemy.position);
+
+    window.draw(enemy.rectangle);
+}
+
+static void HandlePlayerEnemyCollision(Player& player, const Enemy& enemy)
+{
+    const auto enemyBounds = enemy.rectangle.getGlobalBounds();
+    const auto isRectangleIntersection = player.rectangle.getGlobalBounds().findIntersection(enemyBounds);
+    const auto isLeftCircleIntersection = player.leftCircle.getGlobalBounds().findIntersection(enemyBounds);
+    const auto isRightCircleIntersection = player.rightCircle.getGlobalBounds().findIntersection(enemyBounds);
+
+    if (isRectangleIntersection || isLeftCircleIntersection || isRightCircleIntersection)
+    {
+        player.position = DEFAULT_PLAYER_POSITION;
+        std::cout << "COLLISION DETECTED!" << std::endl;
+    }
+}
+
 int main() {
     sf::RenderWindow window(sf::VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), "Рыжов");
-    sf::Color color = DEFAULT_BACKGROUND_COLOR;
+    sf::Color backgroundColor = DEFAULT_BACKGROUND_COLOR;
     sf::Clock clock;
 
     Player player;
+    Enemy enemy;
     InitPlayer(player);
+    InitEnemy(enemy);
 
     while (window.isOpen()) {
         while (const std::optional event = window.pollEvent()) {
@@ -139,14 +217,20 @@ int main() {
 
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space))
             {
-                color = CHANGED_BACKGROUND_COLOR;
+                backgroundColor = CHANGED_COLOR;
             }
         }
 
-        window.clear(color);
+        window.clear(backgroundColor);
 
-        UpdatePlayer(player, clock.restart().asSeconds());
+        const float elapsedTime = clock.restart().asSeconds();
+        UpdatePlayer(player, elapsedTime);
+        UpdateEnemy(enemy, elapsedTime);
+
+        HandlePlayerEnemyCollision(player, enemy);
+
         DrawPlayer(window, player);
+        DrawEnemy(window, enemy);
 
         window.display();
     }
