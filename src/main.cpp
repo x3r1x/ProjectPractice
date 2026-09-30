@@ -59,7 +59,22 @@ static sf::Vector2f GetRightCirclePosition(const sf::Vector2f playerPosition)
     return {playerPosition.x, playerPosition.y + CIRCLE_RADIUS / 2};
 }
 
-static bool IsWindowCollision(const sf::Vector2f currentPosition, const sf::Vector2f move, const sf::Vector2f spriteOffset)
+static bool IsWindowPlayerCollision(const sf::Vector2f currentPosition, const sf::Vector2f move, const sf::Vector2f spriteOffset, const float extraBottomOffset)
+{
+    if (currentPosition.x + move.x + spriteOffset.x >= WINDOW_WIDTH || currentPosition.x + move.x - spriteOffset.x <= 0)
+    {
+        return true;
+    }
+
+    if (currentPosition.y + move.y + spriteOffset.y + extraBottomOffset >= WINDOW_HEIGHT || currentPosition.y + move.y - spriteOffset.y <= 0)
+    {
+        return true;
+    }
+
+    return false;
+}
+
+static bool IsWindowEnemyCollision(const sf::Vector2f currentPosition, const sf::Vector2f move, const sf::Vector2f spriteOffset)
 {
     if (currentPosition.x + move.x + spriteOffset.x >= WINDOW_WIDTH || currentPosition.x + move.x <= 0)
     {
@@ -137,7 +152,7 @@ static void UpdatePlayer(Player& player, const float elapsedTime)
     const auto offset  = sf::Vector2f(direction.x * elapsedTime * player.speed,
         direction.y * elapsedTime * player.speed);
 
-    if (!IsWindowCollision(player.position, offset, RECTANGLE_SIZE))
+    if (!IsWindowPlayerCollision(player.position, offset, {RECTANGLE_SIZE.x / 2, RECTANGLE_SIZE.y / 2}, CIRCLE_RADIUS * 2))
     {
         player.position.x += offset.x;
         player.position.y += offset.y;
@@ -168,7 +183,7 @@ static void UpdateEnemy(Enemy& enemy, const float elapsedTime)
 {
     const auto offset = sf::Vector2f(enemy.velocity.x * elapsedTime, enemy.velocity.y * elapsedTime);
 
-    if (IsWindowCollision(enemy.position, offset, ENEMY_SIZE))
+    if (IsWindowEnemyCollision(enemy.position, offset, ENEMY_SIZE))
     {
         enemy.velocity.x *= -1;
         enemy.velocity.y *= -1;
