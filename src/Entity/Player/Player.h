@@ -5,10 +5,9 @@
 #ifndef SFML_TEST_PLAYER_H
 #define SFML_TEST_PLAYER_H
 #include <SFML/Graphics/RectangleShape.hpp>
-#include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Vector2.hpp>
 
-#include "../ViewModule/PlayerView/PlayerView.h"
+#include "../../ViewModule/PlayerView/PlayerView.h"
 
 class Player
 {
@@ -23,7 +22,7 @@ public:
 
     PlayerView& GetView();
 
-    void Update(float elapsedTime);
+    void Update(sf::Vector2f direction, float elapsedTime);
 };
 
 #endif // SFML_TEST_PLAYER_H

@@ -4,8 +4,9 @@
 
 #ifndef SFML_TEST_GAME_H
 #define SFML_TEST_GAME_H
-#include "../Map/Map.h"
-#include "../Player/Player.h"
+#include "../Entity/Map/Map.h"
+#include "../Entity/Player/Player.h"
+#include "../EventListener/EventListener.h"
 #include "../ViewModule/View/View.h"
 
 class Game
@@ -13,11 +14,13 @@ class Game
     Player m_player;
     Map m_map;
     View m_view;
+    EventListener m_eventListener;
     sf::Clock m_clock;
 
     bool m_isRunning{};
 public:
     Game();
+    ~Game();
 
     void StartGame();
     void EndGame();

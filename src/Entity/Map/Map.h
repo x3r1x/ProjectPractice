@@ -7,7 +7,7 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/System/Vector2.hpp>
 
-#include "../ViewModule/MapView/MapView.h"
+#include "../../ViewModule/MapView/MapView.h"
 
 class Map
 {

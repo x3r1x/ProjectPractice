@@ -3,21 +3,20 @@
 //
 
 #include "Player.h"
-#include "../constants.cpp"
+#include "../../constants.cpp"
 
 Player::Player()
 {
     m_position = PLAYER_POSITION;
-    m_speed = sf::Vector2f(10, 10);
 
     m_shape = sf::RectangleShape(PLAYER_SIZE);
     m_shape.setFillColor(sf::Color::Green);
 }
 
-void Player::Update(const float elapsedTime)
+void Player::Update(const sf::Vector2f direction, const float elapsedTime)
 {
-    m_position.x += m_speed.x * elapsedTime;
-    m_position.y += m_speed.y * elapsedTime;
+    m_position.x += PLAYER_SPEED * direction.x * elapsedTime;
+    m_position.y += PLAYER_SPEED * direction.y * elapsedTime;
 
     m_view.SetPosition(m_position);
 }

@@ -8,24 +8,22 @@ Game::Game() : m_view(m_map.GetView(), m_player.GetView())
 {
 }
 
+Game::~Game()
+{
+    m_isRunning = false;
+}
+
 void Game::StartGame()
 {
     m_isRunning = true;
 
     while (m_view.GetWindow().isOpen() && m_isRunning)
     {
-        while (const std::optional event = m_view.GetWindow().pollEvent())
-        {
-            if (event->is<sf::Event::Closed>() ||
-                sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape))
-            {
-                m_view.GetWindow().close();
-                m_isRunning = false;
-            }
-        }
+        EventListener::HandleEvents(m_view.GetWindow());
 
         const float elapsedTime = m_clock.restart().asSeconds();
-        m_player.Update(elapsedTime);
+
+        m_eventListener.HandleInput(m_player, elapsedTime);
 
         m_view.DrawObjects();
     }

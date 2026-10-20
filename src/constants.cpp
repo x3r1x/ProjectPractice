@@ -6,6 +6,8 @@
 
 constexpr auto PLAYER_POSITION = sf::Vector2f(0, 0);
 constexpr auto PLAYER_SIZE = sf::Vector2f(50, 50);
+constexpr int PLAYER_SPEED = 200;
+
 constexpr auto MAP_SIZE = sf::Vector2f(500, 500);
 
 constexpr int WINDOW_WIDTH = 800;
