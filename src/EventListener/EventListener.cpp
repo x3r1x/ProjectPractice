@@ -17,7 +17,7 @@ void EventListener::HandleEvents(sf::RenderWindow &window)
             window.close();
         }
 
-        if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>())
+        if (const auto *keyPressed = event->getIf<sf::Event::KeyPressed>())
         {
             if (keyPressed->code == sf::Keyboard::Key::Escape)
             {
@@ -35,20 +35,14 @@ void EventListener::HandleInput(Player &player, float elapsedTime)
     {
         playerDirection.y -= 1.0;
     }
-
-
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S))
     {
         playerDirection.y += 1.0;
     }
-
-
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))
     {
         playerDirection.x -= 1.0;
     }
-
-
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
     {
         playerDirection.x += 1.0;
@@ -62,5 +56,8 @@ void EventListener::HandleInput(Player &player, float elapsedTime)
         playerDirection.y = playerDirection.y / vectorLength;
     }
 
-    player.Update(playerDirection, elapsedTime);
+    const bool isSprinting = sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift) ||
+                             sf::Keyboard::isKeyPressed(sf::Keyboard::Key::RShift);
+
+    player.Update(playerDirection, isSprinting, elapsedTime);
 }

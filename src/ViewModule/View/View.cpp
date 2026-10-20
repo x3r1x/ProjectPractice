@@ -3,14 +3,17 @@
 //
 
 #include "View.h"
-#include "../../constants.cpp"
 
-View::View(MapView& map_view, PlayerView& playerView)
+#include "../../constants.cpp"
+#include "../Hud/Hud.h"
+
+View::View(MapView& map_view, PlayerView& playerView, Hud& hud)
 {
     m_window = sf::RenderWindow(sf::VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), "NaB: SL");
 
     m_objects.push_back(&map_view);
     m_objects.push_back(&playerView);
+    m_objects.push_back(&hud);
 }
 
 sf::RenderWindow &View::GetWindow()

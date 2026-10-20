@@ -10,13 +10,14 @@
 #include "../MapView/MapView.h"
 #include "../PlayerView/PlayerView.h"
 
+class Hud;
 class View
 {
     std::vector<IDrawable*> m_objects;
     sf::RenderWindow m_window;
 
 public:
-    View(MapView& map_view, PlayerView& playerView);
+    View(MapView& map_view, PlayerView& playerView, Hud& hud);
 
     sf::RenderWindow& GetWindow();
 

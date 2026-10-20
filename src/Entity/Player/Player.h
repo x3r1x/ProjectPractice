@@ -4,25 +4,28 @@
 
 #ifndef SFML_TEST_PLAYER_H
 #define SFML_TEST_PLAYER_H
-#include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/System/Vector2.hpp>
-
 #include "../../ViewModule/PlayerView/PlayerView.h"
 
 class Player
 {
     sf::Vector2f m_position;
-    sf::Vector2f m_speed;
-
-    sf::RectangleShape m_shape;
+    sf::Vector2f m_velocity;
+    float m_stamina;
+    bool m_isSprinting = false;
 
     PlayerView m_view;
+
+    void ProcessStamina(bool shouldSprint, bool isMoving, float elapsedTime);
+    void ProcessVelocityChange(bool isMoving, sf::Vector2f direction, float elapsedTime);
+    void NormalizeSpeed(bool shouldSprint, bool isMoving);
 public:
     Player();
 
     PlayerView& GetView();
+    float GetStamina() const;
 
-    void Update(sf::Vector2f direction, float elapsedTime);
+    void Update(sf::Vector2f direction, bool shouldSprint, float elapsedTime);
 };
 
 #endif // SFML_TEST_PLAYER_H

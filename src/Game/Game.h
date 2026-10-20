@@ -7,12 +7,14 @@
 #include "../Entity/Map/Map.h"
 #include "../Entity/Player/Player.h"
 #include "../EventListener/EventListener.h"
+#include "../ViewModule/Hud/Hud.h"
 #include "../ViewModule/View/View.h"
 
 class Game
 {
     Player m_player;
     Map m_map;
+    Hud m_hud;
     View m_view;
     EventListener m_eventListener;
     sf::Clock m_clock;

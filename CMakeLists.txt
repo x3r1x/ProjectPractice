@@ -22,5 +22,7 @@ add_executable(app src/main.cpp
         src/ViewModule/MapView/MapView.h
         src/EventListener/EventListener.cpp
         src/EventListener/EventListener.h
+        src/ViewModule/Hud/Hud.cpp
+        src/ViewModule/Hud/Hud.h
 )
 target_link_libraries(app PRIVATE SFML::Graphics)

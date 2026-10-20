@@ -14,8 +14,6 @@ protected:
 
 public:
     virtual ~IDrawable() = default;
-
-    virtual void SetPosition(sf::Vector2f newPosition) = 0;
     virtual void Draw(sf::RenderWindow& window) = 0;
 };
 

@@ -11,7 +11,7 @@ class MapView: public IDrawable
 public:
     MapView();
 
-    void SetPosition(sf::Vector2f newPosition) override;
+    void SetPosition(sf::Vector2f newPosition);
     void Draw(sf::RenderWindow &window) override;
 };
 

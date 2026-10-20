@@ -4,9 +4,7 @@
 
 #include "Game.h"
 
-Game::Game() : m_view(m_map.GetView(), m_player.GetView())
-{
-}
+Game::Game() : m_hud(m_player), m_view(m_map.GetView(), m_player.GetView(), m_hud) {}
 
 Game::~Game()
 {
