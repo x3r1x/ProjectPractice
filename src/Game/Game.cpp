@@ -5,7 +5,7 @@
 #include "Game.h"
 
 Game::Game()
-    : m_collisionHandler(m_player, m_map), m_hud(m_player), m_view(m_map.GetView(), m_player.GetView(), m_hud)
+    : m_collisionHandler(m_player, m_map), m_view(m_map.GetView(), m_player)
 {
 }
 

@@ -17,7 +17,6 @@ class Game
     Player m_player;
     Map m_map;
     CollisionHandler m_collisionHandler;
-    Hud m_hud;
     View m_view;
     EventListener m_eventListener;
     sf::Clock m_clock;

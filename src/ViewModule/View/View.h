@@ -7,22 +7,22 @@
 #pragma once
 #include <vector>
 
+#include "../../Hud/Hud.h"
 #include "../Camera/Camera.h"
 #include "../IDrawable.h"
 #include "../MapView/MapView.h"
-#include "../PlayerView/PlayerView.h"
 
-class Hud;
+class Player;
 class View
 {
-    Hud& m_hud;
+    Hud m_hud;
     std::vector<IDrawable*> m_objects;
     sf::RenderWindow m_window;
 
     Camera m_camera;
 
 public:
-    View(MapView& map_view, PlayerView& playerView, Hud& hud);
+    View(MapView& map_view, Player& player);
 
     sf::RenderWindow& GetWindow();
 
