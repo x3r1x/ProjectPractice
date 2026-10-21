@@ -5,10 +5,12 @@
 #ifndef SFML_TEST_MAPVIEW_H
 #define SFML_TEST_MAPVIEW_H
 #pragma once
+#include <SFML/Graphics/RectangleShape.hpp>
 #include "../IDrawable.hpp"
 
 class MapView: public IDrawable
 {
+    sf::RectangleShape m_sprite;
 public:
     MapView();
 

@@ -6,9 +6,12 @@
 #define SFML_TEST_PLAYERVIEW_H
 #pragma once
 #include "../IDrawable.hpp"
+#include <SFML/Graphics.hpp>
 
 class PlayerView: public IDrawable
 {
+    sf::Texture m_texture;
+    sf::Sprite m_sprite;
 public:
     PlayerView();
 

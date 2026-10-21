@@ -5,6 +5,7 @@
 #include "Player.hpp"
 
 #include <cmath>
+#include <iostream>
 
 #include "../../constants.hpp"
 
@@ -13,6 +14,8 @@ Player::Player()
     m_position = PLAYER_START_POSITION;
     m_stamina = PLAYER_MAX_STAMINA;
     m_bounds = PLAYER_BOUNDS;
+
+    m_view.SetPosition(m_position);
 }
 
 PlayerView &Player::GetView()

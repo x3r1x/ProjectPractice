@@ -8,8 +8,7 @@
 #include <SFML/System/Vector2.hpp>
 
 constexpr auto PLAYER_START_POSITION = sf::Vector2f(150.0, 150.0);
-constexpr auto PLAYER_SIZE = sf::Vector2f(50, 50);
-constexpr auto PLAYER_BOUNDS = sf::Vector2f(50, 50);
+constexpr auto PLAYER_BOUNDS = sf::Vector2f(0, 50);
 constexpr float PLAYER_ACCELERATION = 600.0;
 constexpr float PLAYER_FRICTION = 400.0;
 constexpr float PLAYER_MAX_SPEED = 200.0;
@@ -17,6 +16,7 @@ constexpr float PLAYER_MAX_STAMINA = 100.0;
 constexpr float PLAYER_STAMINA_DRAIN = 25.0;
 constexpr float PLAYER_STAMINA_REGENERATION = 15.0;
 constexpr float PLAYER_STAMINA_SPEED_MULTIPLIER = 1.7;
+constexpr float PLAYER_SPRITE_SCALE = 0.12;
 
 constexpr float HUD_WIDTH = 200.0;
 constexpr float HUD_HEIGHT = 20.0;

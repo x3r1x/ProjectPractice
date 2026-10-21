@@ -4,7 +4,7 @@
 
 #include "CollisionHandler.hpp"
 
-#include <algorithm>
+
 
 CollisionHandler::CollisionHandler(Player &player, Map &map) : m_player(player), m_map(map) {}
 
