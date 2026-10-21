@@ -7,7 +7,7 @@
 
 Map::Map()
 {
-    m_bounds = sf::Vector2f(MAP_SIZE);
+    m_bounds = MAP_SIZE;
     m_shape = sf::RectangleShape(m_bounds);
 
     m_shape.setPosition(sf::Vector2f(0,0));
@@ -16,4 +16,9 @@ Map::Map()
 MapView &Map::GetView()
 {
     return m_view;
+}
+
+sf::Vector2f Map::GetBounds() const
+{
+    return m_bounds;
 }

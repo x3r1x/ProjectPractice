@@ -22,7 +22,11 @@ add_executable(app src/main.cpp
         src/ViewModule/MapView/MapView.h
         src/EventListener/EventListener.cpp
         src/EventListener/EventListener.h
-        src/ViewModule/Hud/Hud.cpp
-        src/ViewModule/Hud/Hud.h
+        src/Hud/Hud.cpp
+        src/Hud/Hud.h
+        src/ViewModule/Camera/Camera.cpp
+        src/ViewModule/Camera/Camera.h
+        src/CollisionHandler/CollisionHandler.cpp
+        src/CollisionHandler/CollisionHandler.h
 )
 target_link_libraries(app PRIVATE SFML::Graphics)

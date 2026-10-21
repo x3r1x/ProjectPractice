@@ -4,7 +4,10 @@
 
 #include "Game.h"
 
-Game::Game() : m_hud(m_player), m_view(m_map.GetView(), m_player.GetView(), m_hud) {}
+Game::Game()
+    : m_collisionHandler(m_player, m_map), m_hud(m_player), m_view(m_map.GetView(), m_player.GetView(), m_hud)
+{
+}
 
 Game::~Game()
 {
@@ -23,6 +26,9 @@ void Game::StartGame()
 
         m_eventListener.HandleInput(m_player, elapsedTime);
 
+        m_collisionHandler.HandlePlayerMapCollision();
+
+        m_view.UpdateCamera(m_player.GetPosition());
         m_view.DrawObjects();
     }
 }

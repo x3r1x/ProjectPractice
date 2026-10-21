@@ -4,7 +4,10 @@
 
 #ifndef SFML_TEST_HUD_H
 #define SFML_TEST_HUD_H
-#include "../IDrawable.h"
+#pragma once
+#include <SFML/Graphics/RectangleShape.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
+#include "../ViewModule/IDrawable.h"
 
 class Player;
 class Hud: public IDrawable

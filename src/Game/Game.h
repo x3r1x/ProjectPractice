@@ -4,16 +4,19 @@
 
 #ifndef SFML_TEST_GAME_H
 #define SFML_TEST_GAME_H
+#pragma once
+#include "../CollisionHandler/CollisionHandler.h"
 #include "../Entity/Map/Map.h"
 #include "../Entity/Player/Player.h"
 #include "../EventListener/EventListener.h"
-#include "../ViewModule/Hud/Hud.h"
+#include "../Hud/Hud.h"
 #include "../ViewModule/View/View.h"
 
 class Game
 {
     Player m_player;
     Map m_map;
+    CollisionHandler m_collisionHandler;
     Hud m_hud;
     View m_view;
     EventListener m_eventListener;

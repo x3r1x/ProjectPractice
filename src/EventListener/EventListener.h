@@ -4,6 +4,7 @@
 
 #ifndef SFML_TEST_EVENTLISTENER_H
 #define SFML_TEST_EVENTLISTENER_H
+#pragma once
 #include <SFML/Graphics/RenderWindow.hpp>
 
 class Player;

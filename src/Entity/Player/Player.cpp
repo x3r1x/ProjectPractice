@@ -12,6 +12,7 @@ Player::Player()
 {
     m_position = PLAYER_START_POSITION;
     m_stamina = PLAYER_MAX_STAMINA;
+    m_bounds = PLAYER_BOUNDS;
 }
 
 PlayerView &Player::GetView()
@@ -22,6 +23,32 @@ PlayerView &Player::GetView()
 float Player::GetStamina() const
 {
     return m_stamina;
+}
+
+sf::Vector2f Player::GetPosition() const
+{
+    return m_position;
+}
+
+sf::Vector2f Player::GetBounds() const
+{
+    return m_bounds;
+}
+
+sf::Vector2f Player::GetVelocity() const
+{
+    return m_velocity;
+}
+
+void Player::SetPosition(const sf::Vector2f position)
+{
+    m_position = position;
+    m_view.SetPosition(position);
+}
+
+void Player::SetVelocity(const sf::Vector2f velocity)
+{
+    m_velocity = velocity;
 }
 
 void Player::Update(const sf::Vector2f direction, const bool shouldSprint, const float elapsedTime)

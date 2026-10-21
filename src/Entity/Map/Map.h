@@ -4,6 +4,7 @@
 
 #ifndef SFML_TEST_MAP_H
 #define SFML_TEST_MAP_H
+#pragma once
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/System/Vector2.hpp>
 
@@ -17,6 +18,8 @@ class Map
     MapView m_view;
 public:
     Map();
+
+    sf::Vector2f GetBounds() const;
 
     MapView& GetView();
 };

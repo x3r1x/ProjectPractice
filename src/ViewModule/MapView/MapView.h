@@ -4,6 +4,7 @@
 
 #ifndef SFML_TEST_MAPVIEW_H
 #define SFML_TEST_MAPVIEW_H
+#pragma once
 #include "../IDrawable.h"
 
 class MapView: public IDrawable

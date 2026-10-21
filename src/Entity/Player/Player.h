@@ -4,11 +4,13 @@
 
 #ifndef SFML_TEST_PLAYER_H
 #define SFML_TEST_PLAYER_H
+#pragma once
 #include <SFML/System/Vector2.hpp>
 #include "../../ViewModule/PlayerView/PlayerView.h"
 
 class Player
 {
+    sf::Vector2f m_bounds;
     sf::Vector2f m_position;
     sf::Vector2f m_velocity;
     float m_stamina;
@@ -24,6 +26,12 @@ public:
 
     PlayerView& GetView();
     float GetStamina() const;
+    sf::Vector2f GetVelocity() const;
+    sf::Vector2f GetPosition() const;
+    sf::Vector2f GetBounds() const;
+
+    void SetPosition(sf::Vector2f position);
+    void SetVelocity(sf::Vector2f velocity);
 
     void Update(sf::Vector2f direction, bool shouldSprint, float elapsedTime);
 };
