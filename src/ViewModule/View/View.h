@@ -7,7 +7,7 @@
 #pragma once
 #include <vector>
 
-#include "../../Hud/Hud.h"
+#include "../Hud/Hud.h"
 #include "../Camera/Camera.h"
 #include "../IDrawable.h"
 #include "../MapView/MapView.h"

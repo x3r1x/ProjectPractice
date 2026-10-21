@@ -4,8 +4,8 @@
 
 #include "Hud.h"
 
-#include "../Entity/Player/Player.h"
-#include "../constants.cpp"
+#include "../../Entity/Player/Player.h"
+#include "../../constants.cpp"
 
 Hud::Hud(const Player &player): m_player(player)
 {

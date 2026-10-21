@@ -9,7 +9,6 @@
 #include "../Entity/Map/Map.h"
 #include "../Entity/Player/Player.h"
 #include "../EventListener/EventListener.h"
-#include "../Hud/Hud.h"
 #include "../ViewModule/View/View.h"
 
 class Game
@@ -18,7 +17,6 @@ class Game
     Map m_map;
     CollisionHandler m_collisionHandler;
     View m_view;
-    EventListener m_eventListener;
     sf::Clock m_clock;
 
     bool m_isRunning{};

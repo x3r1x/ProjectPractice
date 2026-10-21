@@ -12,7 +12,7 @@ class EventListener
 {
 public:
     static void HandleEvents(sf::RenderWindow& window);
-    void HandleInput(Player& player, float elapsedTime);
+    static void HandleInput(Player& player, float elapsedTime);
 };
 
 #endif // SFML_TEST_EVENTLISTENER_H

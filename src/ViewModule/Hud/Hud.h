@@ -7,7 +7,7 @@
 #pragma once
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
-#include "../ViewModule/IDrawable.h"
+#include "../IDrawable.h"
 
 class Player;
 class Hud: public IDrawable

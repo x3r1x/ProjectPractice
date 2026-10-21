@@ -24,7 +24,7 @@ void Game::StartGame()
 
         const float elapsedTime = m_clock.restart().asSeconds();
 
-        m_eventListener.HandleInput(m_player, elapsedTime);
+        EventListener::HandleInput(m_player, elapsedTime);
 
         m_collisionHandler.HandlePlayerMapCollision();
 

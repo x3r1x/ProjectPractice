@@ -5,7 +5,7 @@
 #include "View.h"
 
 #include "../../Entity/Player/Player.h"
-#include "../../Hud/Hud.h"
+#include "../Hud/Hud.h"
 #include "../../constants.cpp"
 
 View::View(MapView& map_view, Player& player)
