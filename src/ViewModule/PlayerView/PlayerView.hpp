@@ -5,7 +5,7 @@
 #ifndef SFML_TEST_PLAYERVIEW_H
 #define SFML_TEST_PLAYERVIEW_H
 #pragma once
-#include "../IDrawable.h"
+#include "../IDrawable.hpp"
 
 class PlayerView: public IDrawable
 {

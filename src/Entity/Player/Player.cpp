@@ -2,11 +2,11 @@
 // Created by x3r1x on 10/20/26.
 //
 
-#include "Player.h"
+#include "Player.hpp"
 
 #include <cmath>
 
-#include "../../constants.cpp"
+#include "../../constants.hpp"
 
 Player::Player()
 {

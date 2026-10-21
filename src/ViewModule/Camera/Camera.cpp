@@ -2,7 +2,7 @@
 // Created by x3r1x on 10/21/26.
 //
 
-#include "Camera.h"
+#include "Camera.hpp"
 
 Camera::Camera(float width, float height)
 {

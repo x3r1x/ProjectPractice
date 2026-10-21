@@ -2,11 +2,11 @@
 // Created by x3r1x on 10/20/26.
 //
 
-#include "View.h"
+#include "View.hpp"
 
-#include "../../Entity/Player/Player.h"
-#include "../Hud/Hud.h"
-#include "../../constants.cpp"
+#include "../../Entity/Player/Player.hpp"
+#include "../../constants.hpp"
+#include "../Hud/Hud.hpp"
 
 View::View(MapView& map_view, Player& player)
     : m_hud(player), m_camera(WINDOW_WIDTH, WINDOW_HEIGHT)

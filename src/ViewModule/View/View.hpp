@@ -7,10 +7,10 @@
 #pragma once
 #include <vector>
 
-#include "../Hud/Hud.h"
-#include "../Camera/Camera.h"
-#include "../IDrawable.h"
-#include "../MapView/MapView.h"
+#include "../Camera/Camera.hpp"
+#include "../Hud/Hud.hpp"
+#include "../IDrawable.hpp"
+#include "../MapView/MapView.hpp"
 
 class Player;
 class View

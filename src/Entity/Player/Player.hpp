@@ -6,7 +6,8 @@
 #define SFML_TEST_PLAYER_H
 #pragma once
 #include <SFML/System/Vector2.hpp>
-#include "../../ViewModule/PlayerView/PlayerView.h"
+
+#include "../../ViewModule/PlayerView/PlayerView.hpp"
 
 class Player
 {

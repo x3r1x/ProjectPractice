@@ -2,8 +2,10 @@
 // Created by x3r1x on 10/20/26.
 //
 
-#include <SFML/System/Vector2.hpp>
+#pragma once
+
 #include <SFML/Graphics/Color.hpp>
+#include <SFML/System/Vector2.hpp>
 
 constexpr auto PLAYER_START_POSITION = sf::Vector2f(150.0, 150.0);
 constexpr auto PLAYER_SIZE = sf::Vector2f(50, 50);

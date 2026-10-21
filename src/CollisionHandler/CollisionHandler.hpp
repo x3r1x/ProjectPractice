@@ -5,8 +5,8 @@
 #ifndef SFML_TEST_COLLISIONHANDLER_H
 #define SFML_TEST_COLLISIONHANDLER_H
 #pragma once
-#include "../Entity/Map/Map.h"
-#include "../Entity/Player/Player.h"
+#include "../Entity/Map/Map.hpp"
+#include "../Entity/Player/Player.hpp"
 
 class CollisionHandler
 {

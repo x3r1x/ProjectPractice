@@ -7,26 +7,26 @@ find_package(SFML 3 COMPONENTS Graphics REQUIRED)
 
 add_executable(app src/main.cpp
         src/Game/Game.cpp
-        src/Game/Game.h
+        src/Game/Game.hpp
         src/Entity/Player/Player.cpp
-        src/Entity/Player/Player.h
+        src/Entity/Player/Player.hpp
         src/Entity/Map/Map.cpp
-        src/Entity/Map/Map.h
-        src/constants.cpp
+        src/Entity/Map/Map.hpp
+        src/constants.hpp
         src/ViewModule/View/View.cpp
-        src/ViewModule/View/View.h
-        src/ViewModule/IDrawable.h
+        src/ViewModule/View/View.hpp
+        src/ViewModule/IDrawable.hpp
         src/ViewModule/PlayerView/PlayerView.cpp
-        src/ViewModule/PlayerView/PlayerView.h
+        src/ViewModule/PlayerView/PlayerView.hpp
         src/ViewModule/MapView/MapView.cpp
-        src/ViewModule/MapView/MapView.h
+        src/ViewModule/MapView/MapView.hpp
         src/EventListener/EventListener.cpp
-        src/EventListener/EventListener.h
+        src/EventListener/EventListener.hpp
         src/ViewModule/Hud/Hud.cpp
-        src/ViewModule/Hud/Hud.h
+        src/ViewModule/Hud/Hud.hpp
         src/ViewModule/Camera/Camera.cpp
-        src/ViewModule/Camera/Camera.h
+        src/ViewModule/Camera/Camera.hpp
         src/CollisionHandler/CollisionHandler.cpp
-        src/CollisionHandler/CollisionHandler.h
+        src/CollisionHandler/CollisionHandler.hpp
 )
 target_link_libraries(app PRIVATE SFML::Graphics)

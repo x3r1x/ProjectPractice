@@ -2,7 +2,7 @@
 // Created by x3r1x on 10/20/26.
 //
 
-#include "Game.h"
+#include "Game.hpp"
 
 Game::Game()
     : m_collisionHandler(m_player, m_map), m_view(m_map.GetView(), m_player)

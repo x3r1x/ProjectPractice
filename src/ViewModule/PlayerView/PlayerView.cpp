@@ -2,8 +2,9 @@
 // Created by x3r1x on 10/20/26.
 //
 
-#include "PlayerView.h"
-#include "../../constants.cpp"
+#include "PlayerView.hpp"
+
+#include "../../constants.hpp"
 
 PlayerView::PlayerView()
 {

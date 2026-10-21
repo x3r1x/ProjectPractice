@@ -5,11 +5,11 @@
 #ifndef SFML_TEST_GAME_H
 #define SFML_TEST_GAME_H
 #pragma once
-#include "../CollisionHandler/CollisionHandler.h"
-#include "../Entity/Map/Map.h"
-#include "../Entity/Player/Player.h"
-#include "../EventListener/EventListener.h"
-#include "../ViewModule/View/View.h"
+#include "../CollisionHandler/CollisionHandler.hpp"
+#include "../Entity/Map/Map.hpp"
+#include "../Entity/Player/Player.hpp"
+#include "../EventListener/EventListener.hpp"
+#include "../ViewModule/View/View.hpp"
 
 class Game
 {

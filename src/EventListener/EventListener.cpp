@@ -2,11 +2,11 @@
 // Created by x3r1x on 10/21/26.
 //
 
-#include "EventListener.h"
+#include "EventListener.hpp"
 
 #include <cmath>
 
-#include "../Entity/Player/Player.h"
+#include "../Entity/Player/Player.hpp"
 
 void EventListener::HandleEvents(sf::RenderWindow &window)
 {

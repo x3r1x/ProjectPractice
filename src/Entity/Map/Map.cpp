@@ -2,8 +2,9 @@
 // Created by x3r1x on 10/20/26.
 //
 
-#include "Map.h"
-#include "../../constants.cpp"
+#include "Map.hpp"
+
+#include "../../constants.hpp"
 
 Map::Map()
 {

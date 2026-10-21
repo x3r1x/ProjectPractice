@@ -2,10 +2,10 @@
 // Created by x3r1x on 10/21/26.
 //
 
-#include "Hud.h"
+#include "Hud.hpp"
 
-#include "../../Entity/Player/Player.h"
-#include "../../constants.cpp"
+#include "../../Entity/Player/Player.hpp"
+#include "../../constants.hpp"
 
 Hud::Hud(const Player &player): m_player(player)
 {
