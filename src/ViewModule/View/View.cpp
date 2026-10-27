@@ -8,8 +8,11 @@
 #include "../../constants.hpp"
 #include "../Hud/Hud.hpp"
 
-View::View(MapView& map_view, Player& player)
-    : m_hud(player), m_camera(WINDOW_WIDTH, WINDOW_HEIGHT)
+View::View(MapView &map_view, Player &player)
+    : m_hud(player), m_camera(
+        WINDOW_WIDTH,
+        WINDOW_HEIGHT,
+        sf::Vector2f(MAP_WIDTH * TILE_SIZE, MAP_HEIGHT * TILE_SIZE))
 {
     m_window = sf::RenderWindow(sf::VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), "NaB: SL");
 
@@ -28,7 +31,7 @@ void View::DrawObjects()
 
     m_window.setView(m_camera.GetView());
 
-    for (IDrawable* object: m_objects)
+    for (IDrawable *object : m_objects)
     {
         object->Draw(m_window);
     }

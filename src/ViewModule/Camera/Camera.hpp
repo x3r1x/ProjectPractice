@@ -9,10 +9,11 @@
 
 class Camera
 {
+    sf::Vector2f m_mapPixelSize;
     sf::View m_view;
 
 public:
-    Camera(float width, float height);
+    Camera(float width, float height, sf::Vector2f mapPixelSize);
 
     sf::View& GetView();
 

@@ -24,8 +24,6 @@ constexpr auto HUD_STAMINA_SIZE = sf::Vector2f(HUD_WIDTH, HUD_HEIGHT);
 constexpr auto HUD_STAMINA_BACKGROUND_COLOR = sf::Color(60, 60, 60);
 constexpr auto HUD_STAMINA_FILL = sf::Color(50, 200, 80);
 
-constexpr auto MAP_SIZE = sf::Vector2f(1000, 1000);
-
 constexpr int WINDOW_WIDTH = 800;
 constexpr int WINDOW_HEIGHT = 600;
 
