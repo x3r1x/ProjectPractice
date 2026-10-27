@@ -5,23 +5,25 @@
 #ifndef SFML_TEST_MAP_H
 #define SFML_TEST_MAP_H
 #pragma once
-#include <SFML/Graphics/RectangleShape.hpp>
-#include <SFML/System/Vector2.hpp>
 
 #include "../../ViewModule/MapView/MapView.hpp"
+#include "TileType.h"
 
 class Map
 {
-    sf::Vector2f m_bounds;
-    sf::RectangleShape m_shape;
+    std::vector<TileType> m_grid;
+    int m_width;
+    int m_height;
 
     MapView m_view;
 public:
     Map();
 
-    sf::Vector2f GetBounds() const;
-
     MapView& GetView();
+
+    TileType GetTile(float worldX, float worldY) const;
+    void SetTile(int worldX, int worldY, TileType type);
+    bool IsSolid(float worldX, float worldY);
 };
 
 #endif // SFML_TEST_MAP_H

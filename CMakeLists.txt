@@ -28,5 +28,6 @@ add_executable(app src/main.cpp
         src/ViewModule/Camera/Camera.hpp
         src/CollisionHandler/CollisionHandler.cpp
         src/CollisionHandler/CollisionHandler.hpp
+        src/Entity/Map/TileType.h
 )
 target_link_libraries(app PRIVATE SFML::Graphics)

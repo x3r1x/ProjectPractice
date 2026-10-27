@@ -6,11 +6,13 @@
 #define SFML_TEST_MAPVIEW_H
 #pragma once
 #include <SFML/Graphics/RectangleShape.hpp>
+#include <SFML/Graphics/Texture.hpp>
+
 #include "../IDrawable.hpp"
 
 class MapView: public IDrawable
 {
-    sf::RectangleShape m_sprite;
+    sf::Texture tilesetTexture;
 public:
     MapView();
 
