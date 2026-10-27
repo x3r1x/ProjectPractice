@@ -12,7 +12,7 @@ void CollisionHandler::HandlePlayerMapCollision() const
 {
     const sf::Vector2f oldPosition = m_player.GetPosition();
     const sf::Vector2f playerBounds = m_player.GetBounds();
-    const sf::Vector2f mapBounds = m_map.GetBounds();
+    const sf::Vector2f mapBounds = {0, 0};
 
     sf::Vector2f position = oldPosition;
     sf::Vector2f velocity = m_player.GetVelocity();

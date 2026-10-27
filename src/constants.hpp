@@ -29,4 +29,6 @@ constexpr auto MAP_SIZE = sf::Vector2f(1000, 1000);
 constexpr int WINDOW_WIDTH = 800;
 constexpr int WINDOW_HEIGHT = 600;
 
-constexpr uint32_t TILE_SIZE = 50;
+constexpr int TILE_SIZE = 50;
+constexpr int MAP_WIDTH = 30;
+constexpr int MAP_HEIGHT = 20;

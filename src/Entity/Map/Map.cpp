@@ -6,37 +6,45 @@
 
 #include "../../constants.hpp"
 
-Map::Map()
+Map::Map() : m_view(MAP_HEIGHT, MAP_WIDTH)
 {
-    m_width = 30;
-    m_height = 20;
+    m_width = MAP_WIDTH;
+    m_height = MAP_HEIGHT;
 
     m_grid.assign(m_width * m_height, TileType::Empty);
 
-    for (int x = 0; x < m_width; x++) {
+    for (int x = 0; x < m_width; x++)
+    {
         SetTile(x, 0, TileType::Solid);
         SetTile(x, m_height - 1, TileType::Solid);
     }
-    for (int y = 0; y < m_height; y++) {
+    for (int y = 0; y < m_height; y++)
+    {
         SetTile(0, y, TileType::Solid);
         SetTile(m_width - 1, y, TileType::Solid);
     }
 
-    for (int x = 3; x <= 8; x++) {
+    for (int x = 3; x <= 8; x++)
+    {
         SetTile(x, 15, TileType::Platform);
     }
 
-    for (int x = 12; x <= 18; x++) {
+    for (int x = 12; x <= 18; x++)
+    {
         SetTile(x, 12, TileType::Platform);
     }
 
-    for (int x = 22; x <= 27; x++) {
+    for (int x = 22; x <= 27; x++)
+    {
         SetTile(x, 8, TileType::Platform);
     }
 
-    for (int x = 4; x <= 8; x++) {
+    for (int x = 4; x <= 8; x++)
+    {
         SetTile(x, 6, TileType::Solid);
     }
+
+    m_view.SetGrid(m_grid);
 }
 
 MapView &Map::GetView()

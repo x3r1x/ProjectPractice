@@ -26,7 +26,7 @@ void Game::StartGame()
 
         EventListener::HandleInput(m_player, elapsedTime);
 
-        m_collisionHandler.HandlePlayerMapCollision();
+        // m_collisionHandler.HandlePlayerMapCollision();
 
         m_view.UpdateCamera(m_player.GetPosition());
         m_view.DrawObjects();

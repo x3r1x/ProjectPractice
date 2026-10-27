@@ -14,7 +14,7 @@ PlayerView::PlayerView(): m_sprite(m_texture)
 {
     if (!m_texture.loadFromFile(PATH_TO_SPRITE))
     {
-        std::cout << "Could not load Nightguard.png" << std::endl;
+        std::cerr << "Could not load Nightguard.png" << std::endl;
         return;
     }
 
