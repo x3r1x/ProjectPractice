@@ -7,11 +7,13 @@
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/System/Vector2.hpp>
 
-constexpr auto PLAYER_START_POSITION = sf::Vector2f(150.0, 150.0);
-constexpr auto PLAYER_BOUNDS = sf::Vector2f(0, 50);
+constexpr auto PLAYER_START_POSITION = sf::Vector2f(250.0, 150.0);
 constexpr float PLAYER_ACCELERATION = 600.0;
 constexpr float PLAYER_FRICTION = 400.0;
 constexpr float PLAYER_MAX_SPEED = 200.0;
+constexpr float PLAYER_GRAVITY = 800.0;
+constexpr float PLAYER_JUMP_SPEED = 600.0;
+constexpr float PLAYER_MAX_FALL_SPEED = 900.0;
 constexpr float PLAYER_MAX_STAMINA = 100.0;
 constexpr float PLAYER_STAMINA_DRAIN = 25.0;
 constexpr float PLAYER_STAMINA_REGENERATION = 15.0;
@@ -30,3 +32,6 @@ constexpr int WINDOW_HEIGHT = 600;
 constexpr int TILE_SIZE = 50;
 constexpr int MAP_WIDTH = 30;
 constexpr int MAP_HEIGHT = 20;
+
+constexpr float EPSILON = 0.001;
+constexpr float COLLISION_MULTIPLIER = 0.95;

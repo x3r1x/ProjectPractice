@@ -13,7 +13,6 @@ Player::Player()
 {
     m_position = PLAYER_START_POSITION;
     m_stamina = PLAYER_MAX_STAMINA;
-    m_bounds = PLAYER_BOUNDS;
 
     m_view.SetPosition(m_position);
 }
@@ -33,11 +32,6 @@ sf::Vector2f Player::GetPosition() const
     return m_position;
 }
 
-sf::Vector2f Player::GetBounds() const
-{
-    return m_bounds;
-}
-
 sf::Vector2f Player::GetVelocity() const
 {
     return m_velocity;
@@ -54,17 +48,51 @@ void Player::SetVelocity(const sf::Vector2f velocity)
     m_velocity = velocity;
 }
 
-void Player::Update(const sf::Vector2f direction, const bool shouldSprint, const float elapsedTime)
+bool Player::IsGrounded() const
 {
-    const bool isMoving = direction.x != 0 || direction.y != 0;
+    return m_isGrounded;
+}
+
+void Player::SetGround(const bool grounded)
+{
+    m_isGrounded = grounded;
+}
+
+void Player::Land(const float landedY)
+{
+    m_position.y = landedY - m_view.GetBounds().size.y / 2;
+    m_velocity.y = 0;
+    m_isGrounded = true;
+    m_view.SetPosition(m_position);
+}
+
+void Player::Update(const float directionX, const bool shouldSprint, const bool shouldJump,
+                    const float elapsedTime)
+{
+    const bool isMoving = directionX != 0;
 
     ProcessStamina(shouldSprint, isMoving, elapsedTime);
-    ProcessVelocityChange(isMoving, direction, elapsedTime);
-    NormalizeSpeed(shouldSprint, isMoving);
+    ProcessHorizontalVelocity(isMoving, directionX, elapsedTime);
+    NormalizeHorizontalSpeed(shouldSprint);
+
+    if (shouldJump && m_isGrounded)
+    {
+        m_velocity.y = -PLAYER_JUMP_SPEED;
+        m_isGrounded = false;
+    }
+
+    if (!m_isGrounded)
+    {
+        m_velocity.y += PLAYER_GRAVITY * elapsedTime;
+
+        if (m_velocity.y > PLAYER_MAX_FALL_SPEED)
+        {
+            m_velocity.y = PLAYER_MAX_FALL_SPEED;
+        }
+    }
 
     m_position.x += m_velocity.x * elapsedTime;
     m_position.y += m_velocity.y * elapsedTime;
-
     m_view.SetPosition(m_position);
 }
 
@@ -82,40 +110,29 @@ void Player::ProcessStamina(const bool shouldSprint, const bool isMoving, const 
     }
 }
 
-void Player::ProcessVelocityChange(const bool isMoving, const sf::Vector2f direction,
-                                   const float elapsedTime)
+void Player::ProcessHorizontalVelocity(const bool isMoving, const float directionX,
+                                       const float elapsedTime)
 {
     if (isMoving)
     {
-        m_velocity.x += direction.x * PLAYER_ACCELERATION * elapsedTime;
-        m_velocity.y += direction.y * PLAYER_ACCELERATION * elapsedTime;
+        m_velocity.x += directionX * PLAYER_ACCELERATION * elapsedTime;
     }
-    else
+    else if (const float currentSpeed = std::abs(m_velocity.x); currentSpeed > 0)
     {
-        const float currentSpeed =
-            std::sqrt(m_velocity.x * m_velocity.x + m_velocity.y * m_velocity.y);
-
-        if (currentSpeed > 0)
-        {
-            const float estimatedNewSpeed = currentSpeed - PLAYER_FRICTION * elapsedTime;
-            const float newSpeed = estimatedNewSpeed >= 0 ? estimatedNewSpeed : 0;
-
-            m_velocity.x *= newSpeed / currentSpeed;
-            m_velocity.y *= newSpeed / currentSpeed;
-        }
+        const float newSpeed = std::max(0.0f, currentSpeed - PLAYER_FRICTION * elapsedTime);
+        m_velocity.x = (m_velocity.x < 0.0f ? -newSpeed : newSpeed);
     }
 }
 
-void Player::NormalizeSpeed(const bool shouldSprint, const bool isMoving)
+void Player::NormalizeHorizontalSpeed(const bool shouldSprint)
 {
-    m_isSprinting = shouldSprint && isMoving && m_stamina > 0;
+    m_isSprinting = shouldSprint && m_stamina > 0;
 
-    const float maxSpeed = m_isSprinting ? PLAYER_MAX_SPEED * PLAYER_STAMINA_SPEED_MULTIPLIER : PLAYER_MAX_SPEED;
-    const float speed = std::sqrt(m_velocity.x * m_velocity.x + m_velocity.y * m_velocity.y);
+    const float maxSpeed =
+        m_isSprinting ? PLAYER_MAX_SPEED * PLAYER_STAMINA_SPEED_MULTIPLIER : PLAYER_MAX_SPEED;
 
-    if (speed > maxSpeed)
+    if (std::abs(m_velocity.x) > maxSpeed)
     {
-        m_velocity.x = m_velocity.x / speed * maxSpeed;
-        m_velocity.y = m_velocity.y / speed * maxSpeed;
+        m_velocity.x = m_velocity.x < 0 ? -maxSpeed : maxSpeed;
     }
 }

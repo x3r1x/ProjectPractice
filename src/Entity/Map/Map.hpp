@@ -23,7 +23,7 @@ public:
 
     TileType GetTile(float worldX, float worldY) const;
     void SetTile(int worldX, int worldY, TileType type);
-    bool IsSolid(float worldX, float worldY);
+    std::vector<sf::FloatRect> GetNearbyCollidableTiles(const sf::FloatRect& bounds) const;
 };
 
 #endif // SFML_TEST_MAP_H

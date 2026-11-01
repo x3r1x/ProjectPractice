@@ -27,37 +27,26 @@ void EventListener::HandleEvents(sf::RenderWindow &window)
     }
 }
 
-void EventListener::HandleInput(Player &player, float elapsedTime)
+void EventListener::HandleInput(Player &player, const float elapsedTime)
 {
-    sf::Vector2f playerDirection{0.0, 0.0};
+    float directionX = 0;
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))
-    {
-        playerDirection.y -= 1.0;
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S))
-    {
-        playerDirection.y += 1.0;
-    }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))
     {
-        playerDirection.x -= 1.0;
+        directionX -= 1;
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
     {
-        playerDirection.x += 1.0;
-    }
-
-    if (const float vectorLength = std::sqrt(playerDirection.x * playerDirection.x +
-                                             playerDirection.y * playerDirection.y);
-        vectorLength != 0)
-    {
-        playerDirection.x = playerDirection.x / vectorLength;
-        playerDirection.y = playerDirection.y / vectorLength;
+        directionX += 1;
     }
 
     const bool isSprinting = sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift) ||
                              sf::Keyboard::isKeyPressed(sf::Keyboard::Key::RShift);
 
-    player.Update(playerDirection, isSprinting, elapsedTime);
+    bool spacePressed = false;
+    const bool isSpacePressed = sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space);
+    const bool isJumping = isSpacePressed && !spacePressed;
+    spacePressed = isSpacePressed;
+
+    player.Update(directionX, isSprinting, isJumping, elapsedTime);
 }

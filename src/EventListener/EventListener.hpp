@@ -7,6 +7,8 @@
 #pragma once
 #include <SFML/Graphics/RenderWindow.hpp>
 
+#include "../CollisionHandler/CollisionHandler.hpp"
+
 class Player;
 class EventListener
 {

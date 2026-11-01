@@ -4,47 +4,95 @@
 
 #include "CollisionHandler.hpp"
 
+#include <iostream>
 
+#include "../constants.hpp"
+
+using namespace std;
 
 CollisionHandler::CollisionHandler(Player &player, Map &map) : m_player(player), m_map(map) {}
 
+void CollisionHandler::HandlePlayerMapCollisionByX() const
+{
+    sf::FloatRect bounds = m_player.GetView().GetBounds();
+    const sf::Vector2f position = m_player.GetPosition();
+    const sf::Vector2f velocity = m_player.GetVelocity();
+
+    bounds.position.y += EPSILON * 20;
+    bounds.size.y -= EPSILON * 40;
+
+    for (const auto &tileRect : m_map.GetNearbyCollidableTiles(bounds))
+    {
+        const auto tileType = m_map.GetTile(tileRect.position.x, tileRect.position.y);
+
+        if (bounds.findIntersection(tileRect) && tileType != TileType::Platform)
+        {
+            cout << "Collision by x!" << endl;
+
+            if (velocity.x > 0)
+            {
+                m_player.SetPosition(
+                    {tileRect.position.x - bounds.size.x / 2 - EPSILON, position.y});
+            }
+            else if (velocity.x < 0)
+            {
+                m_player.SetPosition(
+                    {tileRect.position.x + tileRect.size.x + bounds.size.x / 2 + EPSILON,
+                     position.y});
+            }
+
+            m_player.SetVelocity({0, velocity.y});
+            break;
+        }
+    }
+}
+
+void CollisionHandler::HandlePlayerMapCollisionByY() const
+{
+    m_player.SetGround(false);
+    sf::FloatRect bounds = m_player.GetView().GetBounds();
+    const auto velocity = m_player.GetVelocity();
+    const auto position = m_player.GetPosition();
+
+    bounds.position.x += EPSILON * 20;
+    bounds.size.x -= EPSILON * 40;
+
+    for (const auto &tileRect : m_map.GetNearbyCollidableTiles(bounds))
+    {
+        const TileType tileType = m_map.GetTile(tileRect.position.x, tileRect.position.y);
+
+        if (bounds.findIntersection(tileRect) && !(tileType == TileType::Platform && velocity.y <= 0))
+        {
+            if (velocity.y > 0)
+            {
+                m_player.SetPosition(
+                    {position.x, tileRect.position.y - bounds.size.y / 2 - EPSILON});
+                m_player.SetGround(true);
+            }
+            else if (velocity.y < 0)
+            {
+                m_player.SetPosition({position.x, tileRect.position.y + tileRect.size.y +
+                                                      bounds.size.y / 2 + EPSILON});
+            }
+
+            m_player.SetVelocity({velocity.x, 0});
+            break;
+        }
+    }
+}
+
 void CollisionHandler::HandlePlayerMapCollision() const
 {
-    const sf::Vector2f oldPosition = m_player.GetPosition();
-    const sf::Vector2f playerBounds = m_player.GetBounds();
-    const sf::Vector2f mapBounds = {0, 0};
+    HandlePlayerMapCollisionByX();
+    HandlePlayerMapCollisionByY();
+}
 
-    sf::Vector2f position = oldPosition;
-    sf::Vector2f velocity = m_player.GetVelocity();
+bool CollisionHandler::IntersectsX(const sf::FloatRect a, const sf::FloatRect b)
+{
+    return a.position.x < b.position.x + b.size.x && a.position.x + a.size.x > b.position.x;
+}
 
-    if (position.x < 0.f)
-    {
-        position.x = 0.f;
-    }
-    else if (position.x + playerBounds.x > mapBounds.x)
-    {
-        position.x = mapBounds.x - playerBounds.x;
-    }
-
-    if (position.y < 0.f)
-    {
-        position.y = 0.f;
-    }
-    else if (position.y + playerBounds.y > mapBounds.y)
-    {
-        position.y = mapBounds.y - playerBounds.y;
-    }
-
-
-    if (position.x != oldPosition.x)
-    {
-        velocity.x = 0.f;
-    }
-
-    if (position.y != oldPosition.y)
-    {
-        velocity.y = 0.f;
-    }
-
-    m_player.SetPosition(position);
+bool CollisionHandler::IntersectsY(const sf::FloatRect a, const sf::FloatRect b)
+{
+    return a.position.y < b.position.y + b.size.y && a.position.y + a.size.y > b.position.y;
 }

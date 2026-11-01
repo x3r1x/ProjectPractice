@@ -15,6 +15,7 @@ class PlayerView: public IDrawable
 public:
     PlayerView();
 
+    sf::FloatRect GetBounds() const;
     void SetPosition(sf::Vector2f newPosition);
     void Draw(sf::RenderWindow &window) override;
 };

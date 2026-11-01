@@ -8,7 +8,7 @@
 
 Camera::Camera(float width, float height, const sf::Vector2f mapPixelSize)
 {
-    m_view = sf::View(sf::FloatRect({0.0, 0.0}, {width, height}));
+    m_view = sf::View(sf::FloatRect({0, 0}, {width, height}));
     m_mapPixelSize = mapPixelSize;
 }
 
@@ -22,7 +22,7 @@ void Camera::Follow(const sf::Vector2f position)
     const float minX = m_view.getSize().x / 2;
     float maxX = m_mapPixelSize.x - (m_view.getSize().x / 2);
     const float minY = m_view.getSize().y / 2.0f;
-    float maxY = m_mapPixelSize.y - (m_view.getSize().y / 2.0f);
+    float maxY = m_mapPixelSize.y - (m_view.getSize().y / 2);
 
     if (maxX < minX) maxX = minX;
     if (maxY < minY) maxY = minY;

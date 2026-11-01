@@ -4,6 +4,8 @@
 
 #include "Map.hpp"
 
+#include <algorithm>
+
 #include "../../constants.hpp"
 
 Map::Map() : m_view(MAP_HEIGHT, MAP_WIDTH)
@@ -39,10 +41,14 @@ Map::Map() : m_view(MAP_HEIGHT, MAP_WIDTH)
         SetTile(x, 8, TileType::Platform);
     }
 
+    SetTile(26, 7, TileType::Solid);
+
     for (int x = 4; x <= 8; x++)
     {
         SetTile(x, 6, TileType::Solid);
     }
+
+    SetTile(10, MAP_HEIGHT - 2, TileType::Solid);
 
     m_view.SetGrid(m_grid);
 }
@@ -61,7 +67,7 @@ void Map::SetTile(const int worldX, const int worldY, const TileType type)
 
 TileType Map::GetTile(const float worldX, const float worldY) const
 {
-    if (worldX < 0 || worldY < 0 || worldY > m_height * TILE_SIZE || worldY > m_width * TILE_SIZE)
+    if (worldX < 0 || worldY < 0 || worldY > m_height * TILE_SIZE || worldX > m_width * TILE_SIZE)
     {
         return TileType::Empty;
     }
@@ -72,4 +78,30 @@ TileType Map::GetTile(const float worldX, const float worldY) const
     const int index = row * m_width + col;
 
     return m_grid[index];
+}
+
+std::vector<sf::FloatRect> Map::GetNearbyCollidableTiles(const sf::FloatRect &bounds) const
+{
+    std::vector<sf::FloatRect> nearbyTiles;
+
+    const int minCol = std::clamp(static_cast<int>(bounds.position.x / TILE_SIZE), 0, m_width - 1);
+    const int maxCol = std::clamp(static_cast<int>((bounds.position.x + bounds.size.x) / TILE_SIZE), 0, m_width - 1);
+    const int minRow = std::clamp(static_cast<int>(bounds.position.y / TILE_SIZE), 0, m_height - 1);
+    const int maxRow = std::clamp(static_cast<int>((bounds.position.y + bounds.size.y) / TILE_SIZE), 0, m_height - 1);
+
+    for (int r = minRow; r <= maxRow; r++)
+    {
+        for (int c = minCol; c <= maxCol; c++)
+        {
+            if (m_grid[r * m_width + c] != TileType::Empty)
+            {
+                nearbyTiles.emplace_back(
+                    sf::Vector2f(c * TILE_SIZE, r * TILE_SIZE),
+                    sf::Vector2f(TILE_SIZE, TILE_SIZE)
+                );
+            }
+        }
+    }
+
+    return nearbyTiles;
 }

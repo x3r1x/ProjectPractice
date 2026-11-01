@@ -28,6 +28,11 @@ PlayerView::PlayerView(): m_sprite(m_texture)
     m_sprite.setOrigin({bounds.size.x / 2, bounds.size.y / 2});
 }
 
+sf::FloatRect PlayerView::GetBounds() const
+{
+    return m_sprite.getGlobalBounds();
+}
+
 void PlayerView::SetPosition(const sf::Vector2f newPosition)
 {
     m_sprite.setPosition(newPosition);
