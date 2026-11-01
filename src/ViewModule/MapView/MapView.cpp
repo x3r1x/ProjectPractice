@@ -37,18 +37,12 @@ void MapView::Draw(sf::RenderWindow &window)
             const int index = row * m_width + col;
             TileType type = m_grid[index];
 
-            if (type == TileType::Empty)
-            {
-                continue;
-            }
-
             auto x = static_cast<float>(col * TILE_SIZE);
             auto y = static_cast<float>(row * TILE_SIZE);
 
             const int tileSetIndex = static_cast<int>(type);
-            sf::IntRect textureRect({tileSetIndex * TILE_SIZE, 0},
-                                    {TILE_SIZE, TILE_SIZE});
-            
+            sf::IntRect textureRect({tileSetIndex * TILE_SIZE, 0}, {TILE_SIZE, TILE_SIZE});
+
             m_sprite.setTextureRect(textureRect);
             m_sprite.setPosition({x, y});
 

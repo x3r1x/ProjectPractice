@@ -8,6 +8,35 @@
 
 #include "../../constants.hpp"
 
+const std::vector TILE_ABBREVIATIONS = {'.', '#', 'p', 'n', 'k', 'l', 'r', 'L', 'R'};
+
+const std::string MAP_STRUCTURE = "####################"
+                                  "#..................#"
+                                  "#..................#"
+                                  "#..................#"
+                                  "#..................#"
+                                  "#..................#"
+                                  "#..................#"
+                                  "#..................#"
+                                  "#..................#"
+                                  "#..................#"
+                                  "#..................#"
+                                  "#..................#"
+                                  "#...LR.............#"
+                                  "#..pppp............#"
+                                  "#..................#"
+                                  "#.............lr...#"
+                                  "#............####..#"
+                                  "#..................#"
+                                  "#...k..............#"
+                                  "#...###............#"
+                                  "#..................#"
+                                  "#...........ppp....#"
+                                  "#..................#"
+                                  "#..................#"
+                                  "#............n.....#"
+                                  "####################";
+
 Map::Map() : m_view(MAP_HEIGHT, MAP_WIDTH)
 {
     m_width = MAP_WIDTH;
@@ -15,42 +44,28 @@ Map::Map() : m_view(MAP_HEIGHT, MAP_WIDTH)
 
     m_grid.assign(m_width * m_height, TileType::Empty);
 
-    for (int x = 0; x < m_width; x++)
+    for (int i = 0; i < m_width; i++)
     {
-        SetTile(x, 0, TileType::Solid);
-        SetTile(x, m_height - 1, TileType::Solid);
+        for (int j = 0; j < m_height; j++)
+        {
+            SetTile(i, j, GetTileType(MAP_STRUCTURE[j * m_width + i]));
+        }
     }
-    for (int y = 0; y < m_height; y++)
-    {
-        SetTile(0, y, TileType::Solid);
-        SetTile(m_width - 1, y, TileType::Solid);
-    }
-
-    for (int x = 3; x <= 8; x++)
-    {
-        SetTile(x, 15, TileType::Platform);
-    }
-
-    for (int x = 12; x <= 18; x++)
-    {
-        SetTile(x, 12, TileType::Platform);
-    }
-
-    for (int x = 22; x <= 27; x++)
-    {
-        SetTile(x, 8, TileType::Platform);
-    }
-
-    SetTile(26, 7, TileType::Solid);
-
-    for (int x = 4; x <= 8; x++)
-    {
-        SetTile(x, 6, TileType::Solid);
-    }
-
-    SetTile(10, MAP_HEIGHT - 2, TileType::Solid);
 
     m_view.SetGrid(m_grid);
+}
+
+TileType Map::GetTileType(const char tileAbbreviation)
+{
+    for (size_t i = 0; i < TILE_ABBREVIATIONS.size(); i++)
+    {
+        if (TILE_ABBREVIATIONS[i] == tileAbbreviation)
+        {
+            return static_cast<TileType>(i);
+        }
+    }
+
+    return TileType::Empty;
 }
 
 MapView &Map::GetView()
@@ -60,7 +75,8 @@ MapView &Map::GetView()
 
 void Map::SetTile(const int worldX, const int worldY, const TileType type)
 {
-    if (worldX < m_width && worldY < m_height) {
+    if (worldX < m_width && worldY < m_height)
+    {
         m_grid[worldY * m_width + worldX] = type;
     }
 }
@@ -85,20 +101,20 @@ std::vector<sf::FloatRect> Map::GetNearbyCollidableTiles(const sf::FloatRect &bo
     std::vector<sf::FloatRect> nearbyTiles;
 
     const int minCol = std::clamp(static_cast<int>(bounds.position.x / TILE_SIZE), 0, m_width - 1);
-    const int maxCol = std::clamp(static_cast<int>((bounds.position.x + bounds.size.x) / TILE_SIZE), 0, m_width - 1);
+    const int maxCol = std::clamp(static_cast<int>((bounds.position.x + bounds.size.x) / TILE_SIZE),
+                                  0, m_width - 1);
     const int minRow = std::clamp(static_cast<int>(bounds.position.y / TILE_SIZE), 0, m_height - 1);
-    const int maxRow = std::clamp(static_cast<int>((bounds.position.y + bounds.size.y) / TILE_SIZE), 0, m_height - 1);
+    const int maxRow = std::clamp(static_cast<int>((bounds.position.y + bounds.size.y) / TILE_SIZE),
+                                  0, m_height - 1);
 
     for (int r = minRow; r <= maxRow; r++)
     {
         for (int c = minCol; c <= maxCol; c++)
         {
-            if (m_grid[r * m_width + c] != TileType::Empty)
+            if (m_grid[r * m_width + c] == TileType::Platform || m_grid[r * m_width + c] == TileType::Solid)
             {
-                nearbyTiles.emplace_back(
-                    sf::Vector2f(c * TILE_SIZE, r * TILE_SIZE),
-                    sf::Vector2f(TILE_SIZE, TILE_SIZE)
-                );
+                nearbyTiles.emplace_back(sf::Vector2f(c * TILE_SIZE, r * TILE_SIZE),
+                                         sf::Vector2f(TILE_SIZE, TILE_SIZE));
             }
         }
     }

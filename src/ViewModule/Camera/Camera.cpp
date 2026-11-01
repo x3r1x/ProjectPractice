@@ -10,6 +10,7 @@ Camera::Camera(float width, float height, const sf::Vector2f mapPixelSize)
 {
     m_view = sf::View(sf::FloatRect({0, 0}, {width, height}));
     m_mapPixelSize = mapPixelSize;
+    m_view.zoom(0.7);
 }
 
 sf::View &Camera::GetView()

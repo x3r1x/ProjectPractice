@@ -16,6 +16,8 @@ class Map
     int m_height;
 
     MapView m_view;
+
+    static TileType GetTileType(char tileAbbreviation);
 public:
     Map();
 

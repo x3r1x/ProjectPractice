@@ -18,7 +18,7 @@ constexpr float PLAYER_MAX_STAMINA = 100.0;
 constexpr float PLAYER_STAMINA_DRAIN = 25.0;
 constexpr float PLAYER_STAMINA_REGENERATION = 15.0;
 constexpr float PLAYER_STAMINA_SPEED_MULTIPLIER = 1.7;
-constexpr float PLAYER_SPRITE_SCALE = 0.12;
+constexpr float PLAYER_SPRITE_SCALE = 0.06;
 
 constexpr float HUD_WIDTH = 200.0;
 constexpr float HUD_HEIGHT = 20.0;
@@ -30,8 +30,8 @@ constexpr int WINDOW_WIDTH = 800;
 constexpr int WINDOW_HEIGHT = 600;
 
 constexpr int TILE_SIZE = 50;
-constexpr int MAP_WIDTH = 30;
-constexpr int MAP_HEIGHT = 20;
+constexpr int MAP_WIDTH = 20;
+constexpr int MAP_HEIGHT = 26;
 
 constexpr float EPSILON = 0.001;
 constexpr float COLLISION_MULTIPLIER = 0.95;

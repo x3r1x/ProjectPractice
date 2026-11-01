@@ -18,17 +18,15 @@ void CollisionHandler::HandlePlayerMapCollisionByX() const
     const sf::Vector2f position = m_player.GetPosition();
     const sf::Vector2f velocity = m_player.GetVelocity();
 
-    bounds.position.y += EPSILON * 20;
-    bounds.size.y -= EPSILON * 40;
+    bounds.position.y += EPSILON * 500;
+    bounds.size.y -= EPSILON * 1000;
 
     for (const auto &tileRect : m_map.GetNearbyCollidableTiles(bounds))
     {
         const auto tileType = m_map.GetTile(tileRect.position.x, tileRect.position.y);
 
-        if (bounds.findIntersection(tileRect) && tileType != TileType::Platform)
+        if (bounds.findIntersection(tileRect) && tileType == TileType::Solid)
         {
-            cout << "Collision by x!" << endl;
-
             if (velocity.x > 0)
             {
                 m_player.SetPosition(
@@ -54,8 +52,8 @@ void CollisionHandler::HandlePlayerMapCollisionByY() const
     const auto velocity = m_player.GetVelocity();
     const auto position = m_player.GetPosition();
 
-    bounds.position.x += EPSILON * 20;
-    bounds.size.x -= EPSILON * 40;
+    bounds.position.x += EPSILON * 500;
+    bounds.size.x -= EPSILON * 1000;
 
     for (const auto &tileRect : m_map.GetNearbyCollidableTiles(bounds))
     {

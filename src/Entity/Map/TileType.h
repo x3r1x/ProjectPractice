@@ -11,7 +11,13 @@
 enum class TileType : uint8_t {
     Empty = 0,
     Solid = 1,
-    Platform = 2 
+    Platform = 2,
+    Note = 3,
+    Key = 4,
+    LeftDoorClosed = 5,
+    RightDoorClosed = 6,
+    LeftDoorOpen = 7,
+    RightDoorOpen = 8
 };
 
 #endif // SFML_TEST_TILETYPR_H
