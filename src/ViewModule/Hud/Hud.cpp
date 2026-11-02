@@ -4,10 +4,14 @@
 
 #include "Hud.hpp"
 
+#include <iostream>
+
 #include "../../Entity/Player/Player.hpp"
 #include "../../constants.hpp"
 
-Hud::Hud(const Player &player): m_player(player)
+constexpr auto FONT_PATH = "../assets/ttf/Euclid Circular B Bold.ttf";
+
+Hud::Hud(const Player &player) : m_player(player)
 {
     m_staminaBackground.setSize(HUD_STAMINA_SIZE);
     m_staminaBackground.setPosition({20, 20});

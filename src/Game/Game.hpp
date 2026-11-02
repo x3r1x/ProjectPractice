@@ -15,8 +15,8 @@ class Game
 {
     Player m_player;
     Map m_map;
-    CollisionHandler m_collisionHandler;
     View m_view;
+    CollisionHandler m_collisionHandler;
     sf::Clock m_clock;
 
     bool m_isRunning{};

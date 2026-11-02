@@ -8,7 +8,7 @@
 
 #include "../../constants.hpp"
 
-constexpr auto PATH_TO_SPRITE = "../assets/Nightguard.png";
+constexpr auto PATH_TO_SPRITE = "../assets/png/Nightguard.png";
 
 PlayerView::PlayerView(): m_sprite(m_texture)
 {

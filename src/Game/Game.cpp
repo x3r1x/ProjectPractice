@@ -5,7 +5,7 @@
 #include "Game.hpp"
 
 Game::Game()
-    : m_collisionHandler(m_player, m_map), m_view(m_map.GetView(), m_player)
+    : m_view(m_map.GetView(), m_player), m_collisionHandler(m_player, m_map, m_view)
 {
 }
 
@@ -20,7 +20,7 @@ void Game::StartGame()
 
     while (m_view.GetWindow().isOpen() && m_isRunning)
     {
-        EventListener::HandleEvents(m_view.GetWindow());
+        EventListener::HandleEvents(m_view.GetWindow(), m_collisionHandler);
 
         const float elapsedTime = m_clock.restart().asSeconds();
 

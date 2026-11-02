@@ -7,7 +7,7 @@
 #pragma once
 
 #include "../../ViewModule/MapView/MapView.hpp"
-#include "TileType.h"
+#include "TileType.hpp"
 
 class Map
 {
@@ -22,10 +22,13 @@ public:
     Map();
 
     MapView& GetView();
-
+    void SetInteraction(bool canInteract);
+    void SetInteractingTile(sf::FloatRect tileRect);
     TileType GetTile(float worldX, float worldY) const;
     void SetTile(int worldX, int worldY, TileType type);
+
     std::vector<sf::FloatRect> GetNearbyCollidableTiles(const sf::FloatRect& bounds) const;
+    std::vector<sf::FloatRect> GetNearbyInteractableTiles(const sf::FloatRect& bounds) const;
 };
 
 #endif // SFML_TEST_MAP_H

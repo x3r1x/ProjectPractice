@@ -13,7 +13,7 @@ class Player;
 class EventListener
 {
 public:
-    static void HandleEvents(sf::RenderWindow& window);
+    static void HandleEvents(sf::RenderWindow& window, CollisionHandler& collisionHandler);
     static void HandleInput(Player& player, float elapsedTime);
 };
 

@@ -5,8 +5,10 @@
 #ifndef SFML_TEST_HUD_H
 #define SFML_TEST_HUD_H
 #pragma once
+#include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics/Text.hpp>
 
 #include "../IDrawable.hpp"
 
@@ -16,7 +18,6 @@ class Hud: public IDrawable
     const Player& m_player;
     sf::RectangleShape m_staminaBackground;
     sf::RectangleShape m_staminaFill;
-
 public:
     explicit Hud(const Player& player);
 

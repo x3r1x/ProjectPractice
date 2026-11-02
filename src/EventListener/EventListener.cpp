@@ -8,7 +8,7 @@
 
 #include "../Entity/Player/Player.hpp"
 
-void EventListener::HandleEvents(sf::RenderWindow &window)
+void EventListener::HandleEvents(sf::RenderWindow &window, CollisionHandler& collisionHandler)
 {
     while (const std::optional event = window.pollEvent())
     {
@@ -22,6 +22,11 @@ void EventListener::HandleEvents(sf::RenderWindow &window)
             if (keyPressed->code == sf::Keyboard::Key::Escape)
             {
                 window.close();
+            }
+
+            if (keyPressed->code == sf::Keyboard::Key::E)
+            {
+                collisionHandler.Interact();
             }
         }
     }

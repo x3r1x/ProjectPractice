@@ -34,4 +34,7 @@ constexpr int MAP_WIDTH = 20;
 constexpr int MAP_HEIGHT = 26;
 
 constexpr float EPSILON = 0.001;
-constexpr float COLLISION_MULTIPLIER = 0.95;
+constexpr float INTERACTION_DISTANCE = 25;
+constexpr auto INTERACTION_TEXT = "E";
+constexpr auto INTERACTION_TEXT_SIZE = 22;
+constexpr auto INTERACTION_TEXT_FILL_COLOR = sf::Color::White;

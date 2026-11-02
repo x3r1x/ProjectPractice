@@ -7,23 +7,26 @@
 #pragma once
 #include "../Entity/Map/Map.hpp"
 #include "../Entity/Player/Player.hpp"
-
-
+#include "../ViewModule/View/View.hpp"
 
 class CollisionHandler
 {
     Player& m_player;
     Map& m_map;
+    View& m_view;
 
-    static bool IntersectsX(sf::FloatRect a, sf::FloatRect b);
-    static bool IntersectsY(sf::FloatRect a, sf::FloatRect b);
+    bool m_isInteracting = false;
+    sf::FloatRect m_interactingTile;
 
-    void HandlePlayerMapCollisionByX() const;
-    void HandlePlayerMapCollisionByY() const;
+    void HandlePlayerMapBumpByX(const std::vector<sf::FloatRect>& collidableTiles) const;
+    void HandlePlayerMapBumpByY(const std::vector<sf::FloatRect>& collidableTiles) const;
+    void HandlePlayerMapBump() const;
+    void HandlePlayerMapInteraction();
 public:
-    CollisionHandler(Player &player, Map &map);
+    CollisionHandler(Player &player, Map &map, View& view);
 
-    void HandlePlayerMapCollision() const;
+    void HandlePlayerMapCollision();
+    void Interact() const;
 };
 
 #endif // SFML_TEST_COLLISIONHANDLER_H
