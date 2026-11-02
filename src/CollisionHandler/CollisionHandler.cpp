@@ -128,7 +128,7 @@ void CollisionHandler::HandlePlayerMapCollision()
     HandlePlayerMapInteraction();
 }
 
-void CollisionHandler::Interact() const
+void CollisionHandler::Interact(bool& isNoteOpen) const
 {
     if (!m_isInteracting)
     {
@@ -146,16 +146,28 @@ void CollisionHandler::Interact() const
     case TileType::LeftDoorClosed:
         m_map.SetTile(x, y, TileType::LeftDoorOpen);
         m_map.SetTile(x + 1, y, TileType::RightDoorOpen);
+        m_map.ChangeRoom(Room::Ennard);
+        m_player.SetPosition({100, 100});
+        m_view.SetMapPixelSize({ENNARD_ROOM_WIDTH * TILE_SIZE, ENNARD_ROOM_HEIGHT * TILE_SIZE});
+
         break;
     case TileType::RightDoorClosed:
         m_map.SetTile(x - 1, y, TileType::LeftDoorOpen);
         m_map.SetTile(x, y, TileType::RightDoorOpen);
+        m_map.ChangeRoom(Room::Ennard);
+        m_player.SetPosition({100, 100});
+        m_view.SetMapPixelSize({ENNARD_ROOM_WIDTH * TILE_SIZE, ENNARD_ROOM_HEIGHT * TILE_SIZE});
+
         break;
     case TileType::Key:
         m_map.SetTile(x, y, TileType::CollectedKey);
+
         break;
     case TileType::Note:
         m_map.SetTile(x, y, TileType::CollectedNote);
+        isNoteOpen = true;
+
+        break;
     default:
         break;
     }

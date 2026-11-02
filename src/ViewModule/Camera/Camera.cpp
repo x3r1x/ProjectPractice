@@ -13,6 +13,11 @@ Camera::Camera(float width, float height, const sf::Vector2f mapPixelSize)
     m_view.zoom(0.7);
 }
 
+void Camera::SetMapPixelSize(const sf::Vector2f size)
+{
+    m_mapPixelSize = size;
+}
+
 sf::View &Camera::GetView()
 {
     return m_view;
@@ -20,16 +25,18 @@ sf::View &Camera::GetView()
 
 void Camera::Follow(const sf::Vector2f position)
 {
-    const float minX = m_view.getSize().x / 2;
-    float maxX = m_mapPixelSize.x - (m_view.getSize().x / 2);
-    const float minY = m_view.getSize().y / 2.0f;
-    float maxY = m_mapPixelSize.y - (m_view.getSize().y / 2);
+    const float halfWidth = m_view.getSize().x / 2;
+    const float halfHeight = m_view.getSize().y / 2;
 
-    if (maxX < minX) maxX = minX;
-    if (maxY < minY) maxY = minY;
+    const float minX = halfWidth;
+    const float minY = halfHeight;
 
-    float clampedX = std::clamp(position.x, minX, maxX);
-    float clampedY = std::clamp(position.y, minY, maxY);
+    const float maxX = m_mapPixelSize.x - halfWidth;
+    const float maxY = m_mapPixelSize.y - halfHeight;
+
+    const float clampedX = maxX < minX ? m_mapPixelSize.x / 2 : std::clamp(position.x, minX, maxX);
+
+    const float clampedY = maxY < minY ? m_mapPixelSize.y / 2 : std::clamp(position.y, minY, maxY);
 
     m_view.setCenter({clampedX, clampedY});
 }

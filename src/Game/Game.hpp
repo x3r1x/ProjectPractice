@@ -20,6 +20,7 @@ class Game
     sf::Clock m_clock;
 
     bool m_isRunning{};
+    bool m_isNoteOpen = false;
 public:
     Game();
     ~Game();

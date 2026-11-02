@@ -12,7 +12,7 @@ View::View(MapView &map_view, Player &player)
     : m_hud(player), m_camera(
         WINDOW_WIDTH,
         WINDOW_HEIGHT,
-        sf::Vector2f(MAP_WIDTH * TILE_SIZE, MAP_HEIGHT * TILE_SIZE))
+        sf::Vector2f(MAIN_ROOM_WIDTH * TILE_SIZE, MAIN_ROOM_HEIGHT * TILE_SIZE))
 {
     m_window = sf::RenderWindow(sf::VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), "NaB: SL");
 
@@ -23,6 +23,16 @@ View::View(MapView &map_view, Player &player)
 sf::RenderWindow &View::GetWindow()
 {
     return m_window;
+}
+
+void View::SetMapPixelSize(const sf::Vector2f size)
+{
+    m_camera.SetMapPixelSize(size);
+}
+
+void View::SetIsShowingNote(const bool isShowingNote)
+{
+    m_hud.SetIsShowingNote(isShowingNote);
 }
 
 void View::DrawObjects()

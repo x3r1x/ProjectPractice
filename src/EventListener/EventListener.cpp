@@ -8,7 +8,7 @@
 
 #include "../Entity/Player/Player.hpp"
 
-void EventListener::HandleEvents(sf::RenderWindow &window, CollisionHandler& collisionHandler)
+void EventListener::HandleEvents(sf::RenderWindow &window, const CollisionHandler & collisionHandler, bool& isNoteOpen)
 {
     while (const std::optional event = window.pollEvent())
     {
@@ -21,12 +21,26 @@ void EventListener::HandleEvents(sf::RenderWindow &window, CollisionHandler& col
         {
             if (keyPressed->code == sf::Keyboard::Key::Escape)
             {
-                window.close();
+                if (isNoteOpen)
+                {
+                    isNoteOpen = false;
+                }
+                else
+                {
+                    window.close();
+                }
             }
 
             if (keyPressed->code == sf::Keyboard::Key::E)
             {
-                collisionHandler.Interact();
+                if (isNoteOpen)
+                {
+                    isNoteOpen = false;
+                }
+                else
+                {
+                    collisionHandler.Interact(isNoteOpen);
+                }
             }
         }
     }

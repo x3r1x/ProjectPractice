@@ -15,8 +15,8 @@
 
 class MapView: public IDrawable
 {
-    int m_height;
-    int m_width;
+    int m_height{};
+    int m_width{};
     std::vector<TileType> m_grid;
 
     sf::Texture m_texture;
@@ -27,12 +27,13 @@ class MapView: public IDrawable
 
     bool m_canInteract = false;
 public:
-    MapView(int height, int width);
+    MapView();
 
+    void SetSize(int width, int height);
     void SetCanInteract(bool canInteract);
     void SetInteractionPosition(sf::FloatRect tileRect, TileType type);
-
     void SetGrid(const std::vector<TileType> &grid);
+
     void Draw(sf::RenderWindow &window) override;
 };
 

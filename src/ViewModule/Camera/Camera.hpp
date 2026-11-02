@@ -15,6 +15,7 @@ class Camera
 public:
     Camera(float width, float height, sf::Vector2f mapPixelSize);
 
+    void SetMapPixelSize(sf::Vector2f size);
     sf::View& GetView();
 
     void Follow(sf::Vector2f position);

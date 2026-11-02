@@ -20,15 +20,20 @@ void Game::StartGame()
 
     while (m_view.GetWindow().isOpen() && m_isRunning)
     {
-        EventListener::HandleEvents(m_view.GetWindow(), m_collisionHandler);
+        EventListener::HandleEvents(m_view.GetWindow(), m_collisionHandler, m_isNoteOpen);
+        m_view.SetIsShowingNote(m_isNoteOpen);
 
         const float elapsedTime = m_clock.restart().asSeconds();
 
-        EventListener::HandleInput(m_player, elapsedTime);
+        if (!m_isNoteOpen)
+        {
+            EventListener::HandleInput(m_player, elapsedTime);
 
-        m_collisionHandler.HandlePlayerMapCollision();
+            m_collisionHandler.HandlePlayerMapCollision();
 
-        m_view.UpdateCamera(m_player.GetPosition());
+            m_view.UpdateCamera(m_player.GetPosition());
+        }
+
         m_view.DrawObjects();
     }
 }

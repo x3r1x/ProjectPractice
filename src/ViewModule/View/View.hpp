@@ -25,6 +25,8 @@ public:
     View(MapView& map_view, Player& player);
 
     sf::RenderWindow& GetWindow();
+    void SetMapPixelSize(sf::Vector2f size);
+    void SetIsShowingNote(bool isShowingNote);
 
     void DrawObjects();
     void UpdateCamera(sf::Vector2f playerPosition);

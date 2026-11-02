@@ -19,37 +19,73 @@
 // r = right door
 const std::vector TILE_ABBREVIATIONS = {'.', '#', 'p', 'n', 'N', 'k', 'K', 'l', 'r', 'L', 'R'};
 
-const std::string MAP_STRUCTURE = "####################"
-                                  "#..................#"
-                                  "#..................#"
-                                  "#..................#"
-                                  "#..................#"
-                                  "#..................#"
-                                  "#..................#"
-                                  "#..................#"
-                                  "#..................#"
-                                  "#..................#"
-                                  "#..................#"
-                                  "#..................#"
-                                  "#...LR.............#"
-                                  "#..pppp............#"
-                                  "#..................#"
-                                  "#.............lr...#"
-                                  "#............####..#"
-                                  "#..................#"
-                                  "#...k..............#"
-                                  "#...###............#"
-                                  "#.............N....#"
-                                  "#...........ppp....#"
-                                  "#..................#"
-                                  "#..................#"
-                                  "#......K.....n.....#"
-                                  "####################";
+constexpr auto MAIN_ROOM_STRUCTURE = "####################"
+                                     "#..................#"
+                                     "#..................#"
+                                     "#..................#"
+                                     "#..................#"
+                                     "#..................#"
+                                     "#..................#"
+                                     "#..................#"
+                                     "#..................#"
+                                     "#..................#"
+                                     "#..................#"
+                                     "#..................#"
+                                     "#...LR.............#"
+                                     "#..pppp............#"
+                                     "#..................#"
+                                     "#.............lr...#"
+                                     "#............####..#"
+                                     "#..................#"
+                                     "#...k..............#"
+                                     "#...###............#"
+                                     "#.............N....#"
+                                     "#...........ppp....#"
+                                     "#..................#"
+                                     "#..................#"
+                                     "#......K.....n.....#"
+                                     "####################";
 
-Map::Map() : m_view(MAP_HEIGHT, MAP_WIDTH)
+constexpr auto ENNARD_ROOM_STRUCTURE = "############"
+                                       "#..........#"
+                                       "#..........#"
+                                       "#..........#"
+                                       "#..........#"
+                                       "#..........#"
+                                       "#..........#"
+                                       "#..........#"
+                                       "#..........#"
+                                       "############";
+
+Map::Map()
 {
-    m_width = MAP_WIDTH;
-    m_height = MAP_HEIGHT;
+    ReadRoom(Room::Main);
+}
+
+const char *Map::GetRoomStructure(const Room room)
+{
+    switch (room)
+    {
+    case Room::Main:
+        m_width = MAIN_ROOM_WIDTH;
+        m_height = MAIN_ROOM_HEIGHT;
+        m_view.SetSize(m_width, m_height);
+
+        return MAIN_ROOM_STRUCTURE;
+    case Room::Ennard:
+        m_width = ENNARD_ROOM_WIDTH;
+        m_height = ENNARD_ROOM_HEIGHT;
+        m_view.SetSize(m_width, m_height);
+
+        return ENNARD_ROOM_STRUCTURE;
+    }
+
+    return "";
+}
+
+void Map::ReadRoom(const Room room)
+{
+    const auto structure = GetRoomStructure(room);
 
     m_grid.assign(m_width * m_height, TileType::Empty);
 
@@ -57,7 +93,7 @@ Map::Map() : m_view(MAP_HEIGHT, MAP_WIDTH)
     {
         for (int j = 0; j < m_height; j++)
         {
-            SetTile(i, j, GetTileType(MAP_STRUCTURE[j * m_width + i]));
+            SetTile(i, j, GetTileType(structure[j * m_width + i]));
         }
     }
 
@@ -116,6 +152,11 @@ TileType Map::GetTile(const float worldX, const float worldY) const
     const int index = row * m_width + col;
 
     return m_grid[index];
+}
+
+void Map::ChangeRoom(const Room room)
+{
+    ReadRoom(room);
 }
 
 std::vector<sf::FloatRect> Map::GetNearbyCollidableTiles(const sf::FloatRect &bounds) const

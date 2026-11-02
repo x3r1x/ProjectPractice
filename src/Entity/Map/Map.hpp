@@ -7,16 +7,21 @@
 #pragma once
 
 #include "../../ViewModule/MapView/MapView.hpp"
+#include "Room.hpp"
 #include "TileType.hpp"
 
 class Map
 {
+    Room m_room = Room::Main;
+
     std::vector<TileType> m_grid;
-    int m_width;
-    int m_height;
+    int m_width{};
+    int m_height{};
 
     MapView m_view;
 
+    const char* GetRoomStructure(Room room);
+    void ReadRoom(Room room);
     static TileType GetTileType(char tileAbbreviation);
 public:
     Map();
@@ -27,6 +32,7 @@ public:
     TileType GetTile(float worldX, float worldY) const;
     void SetTile(int worldX, int worldY, TileType type);
 
+    void ChangeRoom(Room room);
     std::vector<sf::FloatRect> GetNearbyCollidableTiles(const sf::FloatRect& bounds) const;
     std::vector<sf::FloatRect> GetNearbyInteractableTiles(const sf::FloatRect& bounds) const;
 };

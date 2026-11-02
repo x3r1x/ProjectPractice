@@ -18,9 +18,15 @@ class Hud: public IDrawable
     const Player& m_player;
     sf::RectangleShape m_staminaBackground;
     sf::RectangleShape m_staminaFill;
+
+    bool m_isShowingNote = false;
+    sf::Font m_noteFont;
+    sf::Text m_noteText{m_noteFont};
+    sf::RectangleShape m_noteBackground;
 public:
     explicit Hud(const Player& player);
 
+    void SetIsShowingNote(bool isShowingNote);
     void Draw(sf::RenderWindow &window) override;
 };
 

@@ -13,11 +13,8 @@ enum class TileType : uint8_t;
 constexpr auto PATH_TO_SPRITE = "../assets/png/Tiles.png";
 constexpr auto FONT_PATH = "../assets/ttf/Euclid Circular B Bold.ttf";
 
-MapView::MapView(const int height, const int width) : m_sprite(m_texture), m_text(m_font)
+MapView::MapView() : m_sprite(m_texture), m_text(m_font)
 {
-    m_height = height;
-    m_width = width;
-
     if (!m_texture.loadFromFile(PATH_TO_SPRITE))
     {
         std::cerr << "Could not load Tiles.png" << std::endl;
@@ -38,6 +35,12 @@ MapView::MapView(const int height, const int width) : m_sprite(m_texture), m_tex
         localTextBounds.position.x + localTextBounds.size.x / 2,
         localTextBounds.position.y + localTextBounds.size.y / 2
     });
+}
+
+void MapView::SetSize(const int width, const int height)
+{
+    m_width = width;
+    m_height = height;
 }
 
 void MapView::SetCanInteract(const bool canInteract)
