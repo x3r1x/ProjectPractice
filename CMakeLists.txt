@@ -31,5 +31,6 @@ add_executable(app src/main.cpp
         src/Entity/Map/TileType.hpp
         src/CollisionHandler/CollisionType.hpp
         src/Entity/Map/Room.hpp
+        src/CollisionHandler/InteracctionData.hpp
 )
 target_link_libraries(app PRIVATE SFML::Graphics)

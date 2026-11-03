@@ -26,6 +26,7 @@ class Hud: public IDrawable
 public:
     explicit Hud(const Player& player);
 
+    void SetNoteText(const std::string& text);
     void SetIsShowingNote(bool isShowingNote);
     void Draw(sf::RenderWindow &window) override;
 };

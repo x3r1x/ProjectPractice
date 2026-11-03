@@ -48,6 +48,11 @@ Hud::Hud(const Player &player) : m_player(player)
     });
 }
 
+void Hud::SetNoteText(const std::string &text)
+{
+    m_noteText.setString(text);
+}
+
 void Hud::SetIsShowingNote(const bool isShowingNote)
 {
     m_isShowingNote = isShowingNote;

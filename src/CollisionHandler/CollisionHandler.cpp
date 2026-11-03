@@ -128,7 +128,7 @@ void CollisionHandler::HandlePlayerMapCollision()
     HandlePlayerMapInteraction();
 }
 
-void CollisionHandler::Interact(bool& isNoteOpen) const
+void CollisionHandler::Interact(bool& isNoteOpen, std::string& noteText) const
 {
     if (!m_isInteracting)
     {
@@ -155,20 +155,52 @@ void CollisionHandler::Interact(bool& isNoteOpen) const
         break;
     case TileType::LeftDoorOpen:
     case TileType::RightDoorOpen:
-        m_map.ChangeRoom(Room::Electrical);
-        m_player.SetPosition(ELECTRICAL_SPAWN_POSITION);
-        m_view.SetMapPixelSize({ENNARD_ROOM_WIDTH * TILE_SIZE, ENNARD_ROOM_HEIGHT * TILE_SIZE});
+    {
+        const auto data = m_map.GetInteractionData(x, y);
+
+        if (data)
+        {
+            m_player.SetPosition(data->spawnPosition);
+
+            switch (data->targetRoom)
+            {
+            case Room::Main:
+                m_view.SetMapPixelSize({MAIN_ROOM_WIDTH * TILE_SIZE, MAIN_ROOM_HEIGHT * TILE_SIZE});
+                break;
+            case Room::CircusBaby:
+                m_view.SetMapPixelSize({CIRCUS_BABY_ROOM_WIDTH * TILE_SIZE, CIRCUS_BABY_ROOM_HEIGHT * TILE_SIZE});
+                break;
+            case Room::Electrical:
+                m_view.SetMapPixelSize({ELECTRICAL_ROOM_WIDTH * TILE_SIZE, ELECTRICAL_ROOM_HEIGHT * TILE_SIZE});
+                break;
+            case Room::Ennard:
+                m_view.SetMapPixelSize({ENNARD_ROOM_WIDTH * TILE_SIZE, ELECTRICAL_ROOM_HEIGHT * TILE_SIZE});
+                break;
+            }
+
+            m_map.ChangeRoom(data->targetRoom);
+        }
 
         break;
+    }
     case TileType::Key:
         m_map.SetTile(x, y, TileType::CollectedKey);
 
         break;
     case TileType::Note:
-        m_map.SetTile(x, y, TileType::CollectedNote);
-        isNoteOpen = true;
+    {
+        const auto data = m_map.GetInteractionData(x, y);
+
+        if (data && data->type != InteractionType::None)
+        {
+            noteText = data->noteText;
+            isNoteOpen = true;
+            m_view.SetNoteText(noteText);
+            m_map.SetTile(x, y, TileType::CollectedNote);
+        }
 
         break;
+    }
     default:
         break;
     }

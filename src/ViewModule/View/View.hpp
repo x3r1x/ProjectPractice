@@ -27,6 +27,7 @@ public:
     sf::RenderWindow& GetWindow();
     void SetMapPixelSize(sf::Vector2f size);
     void SetIsShowingNote(bool isShowingNote);
+    void SetNoteText(const std::string& text);
 
     void DrawObjects();
     void UpdateCamera(sf::Vector2f playerPosition);

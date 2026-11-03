@@ -8,7 +8,8 @@
 
 #include "../Entity/Player/Player.hpp"
 
-void EventListener::HandleEvents(sf::RenderWindow &window, const CollisionHandler & collisionHandler, bool& isNoteOpen)
+void EventListener::HandleEvents(sf::RenderWindow &window, const CollisionHandler &collisionHandler,
+                                 bool &isNoteOpen, std::string &noteText)
 {
     while (const std::optional event = window.pollEvent())
     {
@@ -39,7 +40,7 @@ void EventListener::HandleEvents(sf::RenderWindow &window, const CollisionHandle
                 }
                 else
                 {
-                    collisionHandler.Interact(isNoteOpen);
+                    collisionHandler.Interact(isNoteOpen, noteText);
                 }
             }
         }

@@ -32,6 +32,8 @@ constexpr int WINDOW_HEIGHT = 600;
 constexpr int TILE_SIZE = 50;
 constexpr int MAIN_ROOM_WIDTH = 20;
 constexpr int MAIN_ROOM_HEIGHT = 41;
+constexpr auto MAIN_ROOM_FROM_CIRCUS_SPAWN_POSITION = sf::Vector2f(850.0, 2010.0);
+constexpr auto MAIN_ROOM_FROM_ELECTRICAL_SPAWN_POSITION = sf::Vector2f(500.0, 710.0);
 
 constexpr int ENNARD_ROOM_WIDTH = 12;
 constexpr int ENNARD_ROOM_HEIGHT = 10;

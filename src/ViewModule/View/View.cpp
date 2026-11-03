@@ -30,6 +30,11 @@ void View::SetMapPixelSize(const sf::Vector2f size)
     m_camera.SetMapPixelSize(size);
 }
 
+void View::SetNoteText(const std::string &text)
+{
+    m_hud.SetNoteText(text);
+}
+
 void View::SetIsShowingNote(const bool isShowingNote)
 {
     m_hud.SetIsShowingNote(isShowingNote);

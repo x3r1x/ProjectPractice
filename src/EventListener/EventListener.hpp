@@ -12,9 +12,10 @@
 class Player;
 class EventListener
 {
-public:
-    static void HandleEvents(sf::RenderWindow& window, const CollisionHandler & collisionHandler, bool& isNoteOpen);
-    static void HandleInput(Player& player, float elapsedTime);
+  public:
+    static void HandleEvents(sf::RenderWindow &window, const CollisionHandler &collisionHandler,
+                             bool &isNoteOpen, std::string &noteText);
+    static void HandleInput(Player &player, float elapsedTime);
 };
 
 #endif // SFML_TEST_EVENTLISTENER_H

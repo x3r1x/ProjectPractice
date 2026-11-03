@@ -21,7 +21,174 @@ const std::vector TILE_ABBREVIATIONS = {'.', '#', 'p', 'n', 'N', 'k', 'K', 'l', 
 
 Map::Map()
 {
-    ReadRoom(Room::Main);
+    ChangeRoom(Room::Main);
+}
+
+int Map::GetTileIndex(const int x, const int y) const
+{
+    return y * m_width + x;
+}
+
+void Map::ChangeToMainRoom()
+{
+    m_width = MAIN_ROOM_WIDTH;
+    m_height = MAIN_ROOM_HEIGHT;
+
+    //DOORS
+    SetInteractionData(9, 12, {
+        InteractionType::Door,
+        "",
+        Room::Electrical,
+        ELECTRICAL_SPAWN_POSITION
+    });
+
+    SetInteractionData(10, 12, {
+        InteractionType::Door,
+        "",
+        Room::Electrical,
+        ELECTRICAL_SPAWN_POSITION
+    });
+
+    SetInteractionData(2, 39, {
+        InteractionType::Door,
+        "",
+        Room::Ennard,
+        ENNARD_ROOM_SPAWN_POSITION
+    });
+
+    SetInteractionData(3, 39, {
+        InteractionType::Door,
+        "",
+        Room::Ennard,
+        ENNARD_ROOM_SPAWN_POSITION
+    });
+
+    SetInteractionData(16, 39, {
+        InteractionType::Door,
+        "",
+        Room::CircusBaby,
+        CIRCUS_BABY_SPAWN_POSITION
+    });
+
+    SetInteractionData(17, 39, {
+        InteractionType::Door,
+        "",
+        Room::CircusBaby,
+        CIRCUS_BABY_SPAWN_POSITION
+    });
+
+    // NOTES
+    //left at spawn
+    SetInteractionData(6, 39, {
+        InteractionType::Note,
+        "NOTE 1\nHey!"
+    });
+
+    //right at spawn
+    SetInteractionData(13, 39, {
+        InteractionType::Note,
+        "NOTE 2\nHello!"
+    });
+
+    //left near spawn
+    SetInteractionData(1, 36, {
+        InteractionType::Note,
+        "NOTE 3\nGoodbye!"
+    });
+
+
+    //right near spawn
+    SetInteractionData(18, 36, {
+        InteractionType::Note,
+        "NOTE 4\nBye!"
+    });
+
+    //funtime freddy room
+    SetInteractionData(5, 1, {
+        InteractionType::Note,
+        "NOTE 5\nSay hello to Funtime Freddy,\nas well as his BonBon!"
+    });
+
+    //bidybab and electrobab room
+    SetInteractionData(14, 21, {
+        InteractionType::Note,
+        "NOTE 6\nSay hello to Bidybab and\nElectrobab duo!"
+    });
+}
+
+void Map::ChangeToEnnardRoom()
+{
+    m_width = ENNARD_ROOM_WIDTH;
+    m_height = ENNARD_ROOM_HEIGHT;
+
+    //DOORS
+    SetInteractionData(5, 8, {
+        InteractionType::Door,
+        "",
+        Room::Main,
+        PLAYER_START_POSITION
+    });
+
+    SetInteractionData(6, 8, {
+        InteractionType::Door,
+        "",
+        Room::Main,
+        PLAYER_START_POSITION
+    });
+}
+
+void Map::ChangeToCircusBabyRoom()
+{
+    m_width = CIRCUS_BABY_ROOM_WIDTH;
+    m_height = CIRCUS_BABY_ROOM_HEIGHT;
+
+    //DOORS
+    SetInteractionData(9, 14, {
+        InteractionType::Door,
+        "",
+        Room::Main,
+        MAIN_ROOM_FROM_CIRCUS_SPAWN_POSITION
+    });
+
+    SetInteractionData(10, 14, {
+        InteractionType::Door,
+        "",
+        Room::Main,
+        MAIN_ROOM_FROM_CIRCUS_SPAWN_POSITION
+    });
+
+    // NOTES
+    SetInteractionData(11, 3, {
+        InteractionType::Note,
+        "NOTE 7\nSay hello to CIIIIIRCUS BABY!"
+    });
+}
+
+void Map::ChangeToElectricalRoom()
+{
+    m_width = ELECTRICAL_ROOM_WIDTH;
+    m_height = ELECTRICAL_ROOM_HEIGHT;
+
+    //DOORS
+    SetInteractionData(1, 8, {
+        InteractionType::Door,
+        "",
+        Room::Main,
+        MAIN_ROOM_FROM_ELECTRICAL_SPAWN_POSITION
+    });
+
+    SetInteractionData(2, 8, {
+        InteractionType::Door,
+        "",
+        Room::Main,
+        MAIN_ROOM_FROM_ELECTRICAL_SPAWN_POSITION
+    });
+
+    // NOTES
+    SetInteractionData(9, 2, {
+        InteractionType::Note,
+        "NOTE 8\nSome secrets are gonna be \nrevealed here...\nIdk which ones, so...\n\n\nCOMING SOON!"
+    });
 }
 
 const char *Map::GetRoomStructure(const Room room)
@@ -29,28 +196,16 @@ const char *Map::GetRoomStructure(const Room room)
     switch (room)
     {
     case Room::Main:
-        m_width = MAIN_ROOM_WIDTH;
-        m_height = MAIN_ROOM_HEIGHT;
-        m_view.SetSize(m_width, m_height);
-
+        ChangeToMainRoom();
         return MAIN_ROOM_STRUCTURE;
     case Room::Ennard:
-        m_width = ENNARD_ROOM_WIDTH;
-        m_height = ENNARD_ROOM_HEIGHT;
-        m_view.SetSize(m_width, m_height);
-
+        ChangeToEnnardRoom();
         return ENNARD_ROOM_STRUCTURE;
     case Room::CircusBaby:
-        m_width = CIRCUS_BABY_ROOM_WIDTH;
-        m_height = CIRCUS_BABY_ROOM_HEIGHT;
-        m_view.SetSize(m_width, m_height);
-
+        ChangeToCircusBabyRoom();
         return CIRCUS_BABY_ROOM_STRUCTURE;
     case Room::Electrical:
-        m_width = ELECTRICAL_ROOM_WIDTH;
-        m_height = ELECTRICAL_ROOM_HEIGHT;
-        m_view.SetSize(m_width, m_height);
-
+        ChangeToElectricalRoom();
         return ELECTRICAL_ROOM_STRUCTURE;
     default:;
     }
@@ -58,10 +213,8 @@ const char *Map::GetRoomStructure(const Room room)
     return "";
 }
 
-void Map::ReadRoom(const Room room)
+void Map::ReadRoom(const char* structure)
 {
-    const auto structure = GetRoomStructure(room);
-
     m_grid.assign(m_width * m_height, TileType::Empty);
 
     for (int i = 0; i < m_width; i++)
@@ -131,7 +284,50 @@ TileType Map::GetTile(const float worldX, const float worldY) const
 
 void Map::ChangeRoom(const Room room)
 {
-    ReadRoom(room);
+    m_interactionData.clear();
+
+    m_room = room;
+    const char* roomStructure;
+
+    switch (room)
+    {
+    case Room::Main:
+        ChangeToMainRoom();
+        roomStructure = MAIN_ROOM_STRUCTURE;
+        break;
+    case Room::Ennard:
+        ChangeToEnnardRoom();
+        roomStructure = ENNARD_ROOM_STRUCTURE;
+        break;
+    case Room::CircusBaby:
+        ChangeToCircusBabyRoom();
+        roomStructure = CIRCUS_BABY_ROOM_STRUCTURE;
+        break;
+    case Room::Electrical:
+        ChangeToElectricalRoom();
+        roomStructure = ELECTRICAL_ROOM_STRUCTURE;
+        break;
+    default:;
+        roomStructure = "";
+    }
+
+    m_view.SetSize(m_width, m_height);
+    ReadRoom(roomStructure);
+}
+
+void Map::SetInteractionData(int x, int y, const InteractionData &data)
+{
+    m_interactionData[GetTileIndex(x, y)] = data;
+}
+
+const InteractionData *Map::GetInteractionData(const int x, const int y) const
+{
+    const auto data = m_interactionData.find(GetTileIndex(x, y));
+
+    if (data == m_interactionData.end())
+        return nullptr;
+
+    return &data->second;
 }
 
 std::vector<sf::FloatRect> Map::GetNearbyCollidableTiles(const sf::FloatRect &bounds) const

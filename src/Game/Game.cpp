@@ -20,7 +20,7 @@ void Game::StartGame()
 
     while (m_view.GetWindow().isOpen() && m_isRunning)
     {
-        EventListener::HandleEvents(m_view.GetWindow(), m_collisionHandler, m_isNoteOpen);
+        EventListener::HandleEvents(m_view.GetWindow(), m_collisionHandler, m_isNoteOpen, m_currentNoteText);
         m_view.SetIsShowingNote(m_isNoteOpen);
 
         const float elapsedTime = m_clock.restart().asSeconds();

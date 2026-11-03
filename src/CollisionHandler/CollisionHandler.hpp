@@ -26,7 +26,7 @@ public:
     CollisionHandler(Player &player, Map &map, View& view);
 
     void HandlePlayerMapCollision();
-    void Interact(bool& isNoteOpen) const;
+    void Interact(bool& isNoteOpen, std::string& noteText) const;
 };
 
 #endif // SFML_TEST_COLLISIONHANDLER_H

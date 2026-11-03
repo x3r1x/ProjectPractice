@@ -21,6 +21,7 @@ class Game
 
     bool m_isRunning{};
     bool m_isNoteOpen = false;
+    std::string m_currentNoteText;
 public:
     Game();
     ~Game();
