@@ -5,9 +5,8 @@
 #include "Player.hpp"
 
 #include <cmath>
-#include <iostream>
 
-#include "../../constants.hpp"
+#include "../../gameConstants.hpp"
 
 Player::Player()
 {

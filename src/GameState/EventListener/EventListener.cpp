@@ -4,8 +4,6 @@
 
 #include "EventListener.hpp"
 
-#include <cmath>
-
 #include "../Entity/Player/Player.hpp"
 
 void EventListener::HandleEvents(sf::RenderWindow &window, const CollisionHandler &collisionHandler,
