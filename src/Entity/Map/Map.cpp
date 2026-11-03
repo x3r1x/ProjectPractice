@@ -19,44 +19,6 @@
 // r = right door
 const std::vector TILE_ABBREVIATIONS = {'.', '#', 'p', 'n', 'N', 'k', 'K', 'l', 'r', 'L', 'R'};
 
-constexpr auto MAIN_ROOM_STRUCTURE = "####################"
-                                     "#..................#"
-                                     "#..................#"
-                                     "#..................#"
-                                     "#..................#"
-                                     "#..................#"
-                                     "#..................#"
-                                     "#..................#"
-                                     "#..................#"
-                                     "#..................#"
-                                     "#..................#"
-                                     "#..................#"
-                                     "#...LR.............#"
-                                     "#..pppp............#"
-                                     "#..................#"
-                                     "#.............lr...#"
-                                     "#............####..#"
-                                     "#..................#"
-                                     "#...k..............#"
-                                     "#...###............#"
-                                     "#.............N....#"
-                                     "#...........ppp....#"
-                                     "#..................#"
-                                     "#..................#"
-                                     "#......K.....n.....#"
-                                     "####################";
-
-constexpr auto ENNARD_ROOM_STRUCTURE = "############"
-                                       "#..........#"
-                                       "#..........#"
-                                       "#..........#"
-                                       "#..........#"
-                                       "#..........#"
-                                       "#..........#"
-                                       "#..........#"
-                                       "#..........#"
-                                       "############";
-
 Map::Map()
 {
     ReadRoom(Room::Main);
@@ -78,6 +40,19 @@ const char *Map::GetRoomStructure(const Room room)
         m_view.SetSize(m_width, m_height);
 
         return ENNARD_ROOM_STRUCTURE;
+    case Room::CircusBaby:
+        m_width = CIRCUS_BABY_ROOM_WIDTH;
+        m_height = CIRCUS_BABY_ROOM_HEIGHT;
+        m_view.SetSize(m_width, m_height);
+
+        return CIRCUS_BABY_ROOM_STRUCTURE;
+    case Room::Electrical:
+        m_width = ELECTRICAL_ROOM_WIDTH;
+        m_height = ELECTRICAL_ROOM_HEIGHT;
+        m_view.SetSize(m_width, m_height);
+
+        return ELECTRICAL_ROOM_STRUCTURE;
+    default:;
     }
 
     return "";

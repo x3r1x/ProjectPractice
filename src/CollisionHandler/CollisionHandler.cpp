@@ -146,16 +146,17 @@ void CollisionHandler::Interact(bool& isNoteOpen) const
     case TileType::LeftDoorClosed:
         m_map.SetTile(x, y, TileType::LeftDoorOpen);
         m_map.SetTile(x + 1, y, TileType::RightDoorOpen);
-        m_map.ChangeRoom(Room::Ennard);
-        m_player.SetPosition({100, 100});
-        m_view.SetMapPixelSize({ENNARD_ROOM_WIDTH * TILE_SIZE, ENNARD_ROOM_HEIGHT * TILE_SIZE});
 
         break;
     case TileType::RightDoorClosed:
         m_map.SetTile(x - 1, y, TileType::LeftDoorOpen);
         m_map.SetTile(x, y, TileType::RightDoorOpen);
-        m_map.ChangeRoom(Room::Ennard);
-        m_player.SetPosition({100, 100});
+
+        break;
+    case TileType::LeftDoorOpen:
+    case TileType::RightDoorOpen:
+        m_map.ChangeRoom(Room::Electrical);
+        m_player.SetPosition(ELECTRICAL_SPAWN_POSITION);
         m_view.SetMapPixelSize({ENNARD_ROOM_WIDTH * TILE_SIZE, ENNARD_ROOM_HEIGHT * TILE_SIZE});
 
         break;

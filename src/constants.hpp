@@ -7,17 +7,17 @@
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/System/Vector2.hpp>
 
-constexpr auto PLAYER_START_POSITION = sf::Vector2f(250.0, 150.0);
-constexpr float PLAYER_ACCELERATION = 600.0;
-constexpr float PLAYER_FRICTION = 400.0;
+constexpr auto PLAYER_START_POSITION = sf::Vector2f(500.0, 2010.0);
+constexpr float PLAYER_ACCELERATION = 460.0;
+constexpr float PLAYER_FRICTION = 510.0;
 constexpr float PLAYER_MAX_SPEED = 200.0;
-constexpr float PLAYER_GRAVITY = 800.0;
-constexpr float PLAYER_JUMP_SPEED = 600.0;
-constexpr float PLAYER_MAX_FALL_SPEED = 900.0;
+constexpr float PLAYER_GRAVITY = 980.0;
+constexpr float PLAYER_JUMP_SPEED = 550.0;
+constexpr float PLAYER_MAX_FALL_SPEED = 1000.0;
 constexpr float PLAYER_MAX_STAMINA = 100.0;
 constexpr float PLAYER_STAMINA_DRAIN = 25.0;
 constexpr float PLAYER_STAMINA_REGENERATION = 15.0;
-constexpr float PLAYER_STAMINA_SPEED_MULTIPLIER = 1.7;
+constexpr float PLAYER_STAMINA_SPEED_MULTIPLIER = 1.3;
 constexpr float PLAYER_SPRITE_SCALE = 0.06;
 
 constexpr float HUD_WIDTH = 200.0;
@@ -31,10 +31,19 @@ constexpr int WINDOW_HEIGHT = 600;
 
 constexpr int TILE_SIZE = 50;
 constexpr int MAIN_ROOM_WIDTH = 20;
-constexpr int MAIN_ROOM_HEIGHT = 26;
+constexpr int MAIN_ROOM_HEIGHT = 41;
 
 constexpr int ENNARD_ROOM_WIDTH = 12;
 constexpr int ENNARD_ROOM_HEIGHT = 10;
+constexpr auto ENNARD_ROOM_SPAWN_POSITION = sf::Vector2f(300, 500);
+
+constexpr int CIRCUS_BABY_ROOM_WIDTH = 20;
+constexpr int CIRCUS_BABY_ROOM_HEIGHT = 16;
+constexpr auto CIRCUS_BABY_SPAWN_POSITION = sf::Vector2f(500, 800);
+
+constexpr int ELECTRICAL_ROOM_WIDTH = 12;
+constexpr int ELECTRICAL_ROOM_HEIGHT = 10;
+constexpr auto ELECTRICAL_SPAWN_POSITION = sf::Vector2f(100, 500);
 
 constexpr float EPSILON = 0.001;
 constexpr float INTERACTION_DISTANCE = 25;
@@ -47,7 +56,7 @@ constexpr auto NOTE_BACKGROUND_WIDTH_MULTIPLIER = 0.35;
 constexpr auto NOTE_BACKGROUND_HEIGHT_MULTIPLIER = 0.8;
 constexpr auto NOTE_SCREEN_WIDTH = 0.3;
 constexpr auto NOTE_SCREEN_HEIGHT = 0.1;
-constexpr auto NOTE_TEXT = "ЗАПИСКА\nПривет!\nYou won't die, \nand It will only hurt for a moment.\n";
+constexpr auto NOTE_TEXT = "NOTE\nYou won't die, \nand It will only hurt for a moment.\n";
 constexpr auto NOTE_TEXT_SIZE = 14;
 constexpr auto NOTE_TEXT_FILL_COLOR = sf::Color(40, 35, 25);
 constexpr auto NOTE_TEXT_OFFSET_X = 30;
