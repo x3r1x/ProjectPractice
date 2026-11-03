@@ -7,7 +7,7 @@
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/System/Vector2.hpp>
 
-constexpr auto PLAYER_START_POSITION = sf::Vector2f(500.0, 2010.0);
+constexpr auto PLAYER_START_POSITION = sf::Vector2f(500.0, 1980.0);
 constexpr float PLAYER_ACCELERATION = 460.0;
 constexpr float PLAYER_FRICTION = 510.0;
 constexpr float PLAYER_MAX_SPEED = 200.0;
@@ -32,12 +32,12 @@ constexpr int WINDOW_HEIGHT = 600;
 constexpr int TILE_SIZE = 50;
 constexpr int MAIN_ROOM_WIDTH = 20;
 constexpr int MAIN_ROOM_HEIGHT = 41;
-constexpr auto MAIN_ROOM_FROM_CIRCUS_SPAWN_POSITION = sf::Vector2f(850.0, 2010.0);
-constexpr auto MAIN_ROOM_FROM_ELECTRICAL_SPAWN_POSITION = sf::Vector2f(500.0, 710.0);
+constexpr auto MAIN_ROOM_FROM_CIRCUS_SPAWN_POSITION = sf::Vector2f(850.0, 1980.0);
+constexpr auto MAIN_ROOM_FROM_ELECTRICAL_SPAWN_POSITION = sf::Vector2f(500.0, 680.0);
 
 constexpr int ENNARD_ROOM_WIDTH = 12;
 constexpr int ENNARD_ROOM_HEIGHT = 10;
-constexpr auto ENNARD_ROOM_SPAWN_POSITION = sf::Vector2f(300, 500);
+constexpr auto ENNARD_ROOM_SPAWN_POSITION = sf::Vector2f(300, 480);
 
 constexpr int CIRCUS_BABY_ROOM_WIDTH = 20;
 constexpr int CIRCUS_BABY_ROOM_HEIGHT = 16;
@@ -45,7 +45,7 @@ constexpr auto CIRCUS_BABY_SPAWN_POSITION = sf::Vector2f(500, 800);
 
 constexpr int ELECTRICAL_ROOM_WIDTH = 12;
 constexpr int ELECTRICAL_ROOM_HEIGHT = 10;
-constexpr auto ELECTRICAL_SPAWN_POSITION = sf::Vector2f(100, 500);
+constexpr auto ELECTRICAL_SPAWN_POSITION = sf::Vector2f(100, 480);
 
 constexpr float EPSILON = 0.001;
 constexpr float INTERACTION_DISTANCE = 25;
