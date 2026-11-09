@@ -6,11 +6,13 @@
 
 #include <algorithm>
 
+#include "../../GameConstants.hpp"
+
 Camera::Camera(float width, float height, const sf::Vector2f mapPixelSize)
 {
     m_view = sf::View(sf::FloatRect({0, 0}, {width, height}));
     m_mapPixelSize = mapPixelSize;
-    m_view.zoom(0.7);
+    m_view.zoom(GAME_CAMERA_ZOOM);
 }
 
 void Camera::SetMapPixelSize(const sf::Vector2f size)

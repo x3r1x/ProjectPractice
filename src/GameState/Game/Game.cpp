@@ -4,41 +4,30 @@
 
 #include "Game.hpp"
 
-Game::Game()
-    : m_view(m_map.GetView(), m_player), m_collisionHandler(m_player, m_map, m_view)
+Game::Game(sf::RenderWindow &window)
+    : m_view(window, m_map.GetView(), m_player), m_collisionHandler(m_player, m_map, m_view)
 {
 }
 
-Game::~Game()
+void Game::HandleEvent(const sf::Event &event)
 {
-    m_isRunning = false;
+    EventListener::HandleEvents(event, m_collisionHandler, m_isNoteOpen, m_currentNoteText);
+    m_view.SetIsShowingNote(m_isNoteOpen);
+    m_view.SetNoteText(m_currentNoteText);
 }
 
-void Game::StartGame()
+void Game::Update(const float deltaTime)
 {
-    m_isRunning = true;
-
-    while (m_view.GetWindow().isOpen() && m_isRunning)
+    if (m_isNoteOpen)
     {
-        EventListener::HandleEvents(m_view.GetWindow(), m_collisionHandler, m_isNoteOpen, m_currentNoteText);
-        m_view.SetIsShowingNote(m_isNoteOpen);
-
-        const float elapsedTime = m_clock.restart().asSeconds();
-
-        if (!m_isNoteOpen)
-        {
-            EventListener::HandleInput(m_player, elapsedTime);
-
-            m_collisionHandler.HandlePlayerMapCollision();
-
-            m_view.UpdateCamera(m_player.GetPosition());
-        }
-
-        m_view.DrawObjects();
+        return;
     }
+    EventListener::HandleInput(m_player, deltaTime);
+    m_collisionHandler.HandlePlayerMapCollision();
+    m_view.UpdateCamera(m_player.GetPosition());
 }
 
-void Game::EndGame()
+void Game::Draw()
 {
-    m_isRunning = false;
+    m_view.DrawObjects();
 }

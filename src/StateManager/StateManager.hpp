@@ -9,6 +9,10 @@
 
 #include <SFML/Graphics/RenderWindow.hpp>
 
+#include "../GameState/Game/Game.hpp"
+#include "../IState.hpp"
+#include "../MainMenu/MainMenu.hpp"
+
 enum class AppState: uint8_t
 {
     MainMenu = 0,
@@ -17,7 +21,7 @@ enum class AppState: uint8_t
     Newspaper = 3,
     GamePlaying = 4,
     GamePaused = 5,
-    Jumpscare = 6,
+    JumpScare = 6,
     GameLost = 7,
     BadEnding = 8,
     GoodEnding = 9
@@ -25,23 +29,23 @@ enum class AppState: uint8_t
 
 class StateManager
 {
-    AppState m_state;
     sf::RenderWindow m_window;
+
+    MainMenu m_mainMenu;
+    Game m_game;
+
+    IState& m_stateObject;
+    AppState m_state;
+
+    void HandleEvents(const sf::Event &event) const;
+    void Update(float elapsedTime) const;
+    void Draw();
+
 public:
     StateManager();
 
     AppState GetState() const;
-
-    void GoToMainMenu();
-    void ShowOptions();
-    void ShowTutorial();
-    void GoToNewspaper();
-    void GoToGame(); //?
-    void PauseGame();
-    void ShowJumpscare();
-    void GoToGameLost();
-    void GoToBadEnding();
-    void GoToGoodEnding();
+    void Run();
 };
 
 #endif // SFML_TEST_STATEMANAGER_HPP

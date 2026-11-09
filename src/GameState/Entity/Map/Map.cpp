@@ -7,7 +7,7 @@
 #include <algorithm>
 
 #include "../../CollisionHandler/CollisionType.hpp"
-#include "../../gameConstants.hpp"
+#include "../../GameConstants.hpp"
 
 // capital letter means that whatever lays inside that tile has benn used
 // . = empty space

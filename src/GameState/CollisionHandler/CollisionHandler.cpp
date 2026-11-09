@@ -4,8 +4,8 @@
 
 #include "CollisionHandler.hpp"
 
+#include "../GameConstants.hpp"
 #include "../ViewModule/View/View.hpp"
-#include "../gameConstants.hpp"
 #include "CollisionType.hpp"
 
 using namespace std;

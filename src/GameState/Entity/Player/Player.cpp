@@ -6,7 +6,7 @@
 
 #include <cmath>
 
-#include "../../gameConstants.hpp"
+#include "../../GameConstants.hpp"
 
 Player::Player()
 {

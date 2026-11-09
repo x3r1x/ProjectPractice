@@ -6,7 +6,7 @@
 
 #include <iostream>
 
-#include "../../constants.hpp"
+#include "../../GameConstants.hpp"
 
 enum class TileType : uint8_t;
 

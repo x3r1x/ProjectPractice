@@ -12,7 +12,7 @@ add_executable(app src/main.cpp
         src/GameState/Entity/Player/Player.hpp
         src/GameState/Entity/Map/Map.cpp
         src/GameState/Entity/Map/Map.hpp
-        src/GameState/gameConstants.hpp
+        src/GameState/GameConstants.hpp
         src/GameState/ViewModule/View/View.cpp
         src/GameState/ViewModule/View/View.hpp
         src/GameState/ViewModule/IDrawable.hpp
@@ -32,9 +32,13 @@ add_executable(app src/main.cpp
         src/GameState/CollisionHandler/CollisionType.hpp
         src/GameState/Entity/Map/Room.hpp
         src/GameState/CollisionHandler/InteracctionData.hpp
-        src/StateManager.cpp
-        src/StateManager.hpp
-        src/MainMenu.cpp
-        src/MainMenu.hpp
+        src/StateManager/StateManager.cpp
+        src/StateManager/StateManager.hpp
+        src/MainMenu/MainMenu.cpp
+        src/MainMenu/MainMenu.hpp
+        src/AppConstants.hpp
+        src/IState.hpp
+        src/MainMenu/MainMenuConstants.hpp
+        src/utils.hpp
 )
 target_link_libraries(app PRIVATE SFML::Graphics)

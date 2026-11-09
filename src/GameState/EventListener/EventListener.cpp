@@ -6,42 +6,28 @@
 
 #include "../Entity/Player/Player.hpp"
 
-void EventListener::HandleEvents(sf::RenderWindow &window, const CollisionHandler &collisionHandler,
+void EventListener::HandleEvents(const sf::Event &event, const CollisionHandler &collisionHandler,
                                  bool &isNoteOpen, std::string &noteText)
 {
-    while (const std::optional event = window.pollEvent())
+    const auto *key = event.getIf<sf::Event::KeyPressed>();
+
+    switch (key->code)
     {
-        if (event->is<sf::Event::Closed>())
+    case sf::Keyboard::Key::Escape:
+        isNoteOpen = false;
+        break;
+    case sf::Keyboard::Key::E:
+        if (isNoteOpen)
         {
-            window.close();
+            isNoteOpen = false;
         }
-
-        if (const auto *keyPressed = event->getIf<sf::Event::KeyPressed>())
+        else
         {
-            if (keyPressed->code == sf::Keyboard::Key::Escape)
-            {
-                if (isNoteOpen)
-                {
-                    isNoteOpen = false;
-                }
-                else
-                {
-                    window.close();
-                }
-            }
-
-            if (keyPressed->code == sf::Keyboard::Key::E)
-            {
-                if (isNoteOpen)
-                {
-                    isNoteOpen = false;
-                }
-                else
-                {
-                    collisionHandler.Interact(isNoteOpen, noteText);
-                }
-            }
+            collisionHandler.Interact(isNoteOpen, noteText);
         }
+        break;
+    default:
+        break;
     }
 }
 

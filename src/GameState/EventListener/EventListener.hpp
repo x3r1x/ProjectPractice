@@ -12,8 +12,8 @@
 class Player;
 class EventListener
 {
-  public:
-    static void HandleEvents(sf::RenderWindow &window, const CollisionHandler &collisionHandler,
+public:
+    static void HandleEvents(const sf::Event &event, const CollisionHandler &collisionHandler,
                              bool &isNoteOpen, std::string &noteText);
     static void HandleInput(Player &player, float elapsedTime);
 };

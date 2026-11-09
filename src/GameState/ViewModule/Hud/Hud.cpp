@@ -7,7 +7,8 @@
 #include <iostream>
 
 #include "../../Entity/Player/Player.hpp"
-#include "../../constants.hpp"
+#include "../../GameConstants.hpp"
+#include "../../../AppConstants.hpp"
 
 constexpr auto FONT_PATH = "../assets/ttf/Euclid Circular B Bold.ttf";
 
@@ -36,7 +37,6 @@ Hud::Hud(const Player &player) : m_player(player)
         static_cast<float>(WINDOW_HEIGHT) * NOTE_SCREEN_HEIGHT
     });
 
-    m_noteText.setString(NOTE_TEXT);
     m_noteText.setCharacterSize(NOTE_TEXT_SIZE);
     m_noteText.setFillColor(NOTE_TEXT_FILL_COLOR);
 

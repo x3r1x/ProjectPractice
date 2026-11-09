@@ -6,7 +6,7 @@
 
 #include <iostream>
 
-#include "../../constants.hpp"
+#include "../../GameConstants.hpp"
 
 constexpr auto PATH_TO_SPRITE = "../assets/png/Nightguard.png";
 

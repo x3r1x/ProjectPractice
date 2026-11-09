@@ -17,14 +17,14 @@ class View
 {
     Hud m_hud;
     std::vector<IDrawable*> m_objects;
-    sf::RenderWindow m_window;
+    sf::RenderWindow& m_window;
 
     Camera m_camera;
 
 public:
-    View(MapView& map_view, Player& player);
+    View(sf::RenderWindow& window, MapView& map_view, Player& player);
 
-    sf::RenderWindow& GetWindow();
+    sf::RenderWindow& GetWindow() const;
     void SetMapPixelSize(sf::Vector2f size);
     void SetIsShowingNote(bool isShowingNote);
     void SetNoteText(const std::string& text);

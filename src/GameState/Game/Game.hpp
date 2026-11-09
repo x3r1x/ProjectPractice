@@ -5,29 +5,28 @@
 #ifndef SFML_TEST_GAME_H
 #define SFML_TEST_GAME_H
 #pragma once
+#include "../../IState.hpp"
 #include "../CollisionHandler/CollisionHandler.hpp"
 #include "../Entity/Map/Map.hpp"
 #include "../Entity/Player/Player.hpp"
 #include "../EventListener/EventListener.hpp"
 #include "../ViewModule/View/View.hpp"
 
-class Game
+class Game: public IState
 {
     Player m_player;
     Map m_map;
     View m_view;
     CollisionHandler m_collisionHandler;
-    sf::Clock m_clock;
 
-    bool m_isRunning{};
     bool m_isNoteOpen = false;
     std::string m_currentNoteText;
 public:
-    Game();
-    ~Game();
+    explicit Game(sf::RenderWindow& window);
 
-    void StartGame();
-    void EndGame();
+    void HandleEvent(const sf::Event& event) override;
+    void Update(float deltaTime) override;
+    void Draw() override;
 };
 
 #endif // SFML_TEST_GAME_H

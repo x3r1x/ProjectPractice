@@ -5,22 +5,19 @@
 #include "View.hpp"
 
 #include "../../Entity/Player/Player.hpp"
-#include "../../constants.hpp"
+#include "../../GameConstants.hpp"
+#include "../../../AppConstants.hpp"
 #include "../Hud/Hud.hpp"
 
-View::View(MapView &map_view, Player &player)
-    : m_hud(player), m_camera(
-        WINDOW_WIDTH,
-        WINDOW_HEIGHT,
-        sf::Vector2f(MAIN_ROOM_WIDTH * TILE_SIZE, MAIN_ROOM_HEIGHT * TILE_SIZE))
+View::View(sf::RenderWindow& window, MapView &map_view, Player &player)
+    : m_hud(player), m_window(window), m_camera(WINDOW_WIDTH, WINDOW_HEIGHT,
+               sf::Vector2f(MAIN_ROOM_WIDTH * TILE_SIZE, MAIN_ROOM_HEIGHT * TILE_SIZE))
 {
-    m_window = sf::RenderWindow(sf::VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), "NaB: SL");
-
     m_objects.push_back(&map_view);
     m_objects.push_back(&player.GetView());
 }
 
-sf::RenderWindow &View::GetWindow()
+sf::RenderWindow &View::GetWindow() const
 {
     return m_window;
 }

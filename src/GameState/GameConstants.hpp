@@ -26,8 +26,7 @@ constexpr auto HUD_STAMINA_SIZE = sf::Vector2f(HUD_WIDTH, HUD_HEIGHT);
 constexpr auto HUD_STAMINA_BACKGROUND_COLOR = sf::Color(60, 60, 60);
 constexpr auto HUD_STAMINA_FILL = sf::Color(50, 200, 80);
 
-constexpr int WINDOW_WIDTH = 800;
-constexpr int WINDOW_HEIGHT = 600;
+constexpr float GAME_CAMERA_ZOOM = 0.4;
 
 constexpr int TILE_SIZE = 50;
 constexpr int MAIN_ROOM_WIDTH = 20;
@@ -58,7 +57,6 @@ constexpr auto NOTE_BACKGROUND_WIDTH_MULTIPLIER = 0.35;
 constexpr auto NOTE_BACKGROUND_HEIGHT_MULTIPLIER = 0.8;
 constexpr auto NOTE_SCREEN_WIDTH = 0.3;
 constexpr auto NOTE_SCREEN_HEIGHT = 0.1;
-constexpr auto NOTE_TEXT = "NOTE\nYou won't die, \nand It will only hurt for a moment.\n";
 constexpr auto NOTE_TEXT_SIZE = 14;
 constexpr auto NOTE_TEXT_FILL_COLOR = sf::Color(40, 35, 25);
 constexpr auto NOTE_TEXT_OFFSET_X = 30;
