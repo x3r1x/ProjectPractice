@@ -37,7 +37,7 @@ class StateManager
     IState* m_stateObject;
     AppState m_state;
 
-    void HandleEvents(const sf::Event &event) const;
+    void HandleEvents(const sf::Event &event);
     void Update(float elapsedTime) const;
     void Draw();
     void StartGame();

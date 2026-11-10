@@ -15,7 +15,7 @@ constexpr auto BACKGROUND_SPRITE_PATH = "../assets/png/MainScreen.png";
 constexpr auto FONT_PATH = "../assets/ttf/Orbitron-Black.ttf";
 
 MainMenu::MainMenu(sf::RenderWindow &window, std::function<void()> startGame)
-    : m_text(m_font), m_backgroundSprite(m_texture), m_window(window), m_onStartGame(std::move(startGame))
+    : m_backgroundSprite(m_texture), m_window(window), m_onStartGame(std::move(startGame))
 {
     if (!m_texture.loadFromFile(BACKGROUND_SPRITE_PATH))
     {
@@ -39,28 +39,22 @@ MainMenu::MainMenu(sf::RenderWindow &window, std::function<void()> startGame)
         return;
     }
 
-    m_text.setCharacterSize(MAIN_MENU_TEXT_FONT_SIZE);
-    m_text.setFillColor(MAIN_MENU_TEXT_FILL_COLOR);
-    m_text.setOutlineThickness(MAIN_MENU_TEXT_OUTLINE_THICKNESS);
-    m_text.setOutlineColor(MAIN_MENU_TEXT_OUTLINE_COLOR);
-    m_text.setString(MAIN_MENU_PLAY_TEXT);
-    m_text.setPosition(MAIN_MENU_PLAY_OFFSET);
+    InitText(MAIN_MENU_TITLE_TEXT, MAIN_MENU_TITLE_OFFSET_RATIO);
+    InitText(MAIN_MENU_PLAY_TEXT, MAIN_MENU_PLAY_OFFSET_RATIO);
+    InitText(MAIN_MENU_OPTIONS_TEXT, MAIN_MENU_OPTIONS_OFFSET_RATIO);
+    InitText(MAIN_MENU_HTP_TEXT, MAIN_MENU_HTP_OFFSET_RATIO);
+    InitText(MAIN_MENU_EXIT_TEXT, MAIN_MENU_EXIT_OFFSET_RATIO);
 }
 
-void MainMenu::DrawTitleText()
+void MainMenu::InitText(const char *string, const sf::Vector2f offsetRatio)
 {
-    m_text.setString(MAIN_MENU_TITLE_TEXT);
-    m_text.setPosition(MAIN_MENU_TITLE_OFFSET);
+    auto &text = m_texts.emplace_back(m_font);
 
-    m_window.draw(m_text);
-}
-
-void MainMenu::DrawPlayText()
-{
-    m_text.setString(MAIN_MENU_PLAY_TEXT);
-    m_text.setPosition(MAIN_MENU_PLAY_OFFSET);
-
-    m_window.draw(m_text);
+    text.setCharacterSize(MAIN_MENU_TEXT_FONT_SIZE);
+    text.setOutlineThickness(MAIN_MENU_TEXT_OUTLINE_THICKNESS);
+    text.setOutlineColor(MAIN_MENU_TEXT_OUTLINE_COLOR);
+    text.setString(string);
+    text.setPosition({WINDOW_WIDTH * offsetRatio.x, WINDOW_HEIGHT * offsetRatio.y});
 }
 
 void MainMenu::SetSprite(const int row, const int column)
@@ -77,15 +71,38 @@ void MainMenu::HandleEvent(const sf::Event &event)
 {
     if (const auto buttonPressed = event.getIf<sf::Event::MouseButtonPressed>())
     {
-        if (buttonPressed->button == sf::Mouse::Button::Left)
+        if (buttonPressed->button == sf::Mouse::Button::Left && !m_texts.empty())
         {
             const auto mousePosition = sf::Vector2f(buttonPressed->position);
-            const auto textBounds = m_text.getGlobalBounds();
+            const auto textBounds = m_texts[1].getGlobalBounds();
 
             if (textBounds.contains(mousePosition))
             {
                 m_onStartGame();
             }
+        }
+    }
+
+    const sf::Vector2f mousePos(sf::Mouse::getPosition(m_window));
+
+    for (auto& m_text : m_texts)
+    {
+        if (m_text.getPosition() == sf::Vector2f(WINDOW_WIDTH * MAIN_MENU_TITLE_OFFSET_RATIO.x,
+                                                 WINDOW_HEIGHT * MAIN_MENU_TITLE_OFFSET_RATIO.y))
+        {
+            continue;
+        }
+
+        const auto bounds = m_text.getGlobalBounds();
+        const bool hovered = bounds.contains(mousePos);
+
+        if (hovered)
+        {
+            m_text.setFillColor(MAIN_MENU_TEXT_HOVER_COLOR);
+        }
+        else
+        {
+            m_text.setFillColor(MAIN_MENU_TEXT_FILL_COLOR);
         }
     }
 }
@@ -115,6 +132,8 @@ void MainMenu::Update(const float deltaTime)
 void MainMenu::Draw()
 {
     m_window.draw(m_backgroundSprite);
-    DrawTitleText();
-    DrawPlayText();
+    for (const auto &text : m_texts)
+    {
+        m_window.draw(text);
+    }
 }

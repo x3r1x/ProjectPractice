@@ -6,6 +6,7 @@
 #define SFML_TEST_MAINMENU_HPP
 
 #include <functional>
+#include <vector>
 
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
@@ -19,7 +20,7 @@
 class MainMenu: public IState
 {
     sf::Font m_font;
-    sf::Text m_text;
+    std::vector<sf::Text> m_texts;
 
     sf::Vector2i m_backgroundFrameSize;
     sf::Texture m_texture;
@@ -35,8 +36,7 @@ class MainMenu: public IState
 
     std::function<void()> m_onStartGame;
     void SetSprite(int row, int column);
-    void DrawTitleText();
-    void DrawPlayText();
+    void InitText(const char* string, sf::Vector2f offsetRatio);
 public:
     MainMenu(sf::RenderWindow& window, std::function<void()> startGame);
 
