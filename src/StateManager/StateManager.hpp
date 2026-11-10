@@ -5,7 +5,6 @@
 #ifndef SFML_TEST_STATEMANAGER_HPP
 #define SFML_TEST_STATEMANAGER_HPP
 #pragma once
-#include <cstdint>
 
 #include <SFML/Graphics/RenderWindow.hpp>
 

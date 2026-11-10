@@ -14,8 +14,8 @@
 constexpr auto BACKGROUND_SPRITE_PATH = "../assets/png/MainScreen.png";
 constexpr auto FONT_PATH = "../assets/ttf/Orbitron-Black.ttf";
 
-MainMenu::MainMenu(sf::RenderWindow &window, std::function<void()> startGame)
-    : m_backgroundSprite(m_texture), m_window(window), m_onStartGame(std::move(startGame))
+MainMenu::MainMenu(sf::RenderWindow &window, std::function<void()> startGame, std::function<void()> closeApp)
+    : m_backgroundSprite(m_texture), m_window(window), m_onStartGame(std::move(startGame)), m_onExitApp(std::move(closeApp))
 {
     if (!m_texture.loadFromFile(BACKGROUND_SPRITE_PATH))
     {
@@ -74,11 +74,19 @@ void MainMenu::HandleEvent(const sf::Event &event)
         if (buttonPressed->button == sf::Mouse::Button::Left && !m_texts.empty())
         {
             const auto mousePosition = sf::Vector2f(buttonPressed->position);
-            const auto textBounds = m_texts[1].getGlobalBounds();
+            const auto playTextBounds = m_texts[MAIN_MENU_PLAY_TEXT_INDEX].getGlobalBounds();
 
-            if (textBounds.contains(mousePosition))
+            if (playTextBounds.contains(mousePosition))
             {
                 m_onStartGame();
+                return;
+            }
+
+            const auto exitTextBounds = m_texts[MAIN_MENU_EXIT_TEXT_INDEX].getGlobalBounds();
+            if (exitTextBounds.contains(mousePosition))
+            {
+                m_onExitApp();
+                return;
             }
         }
     }

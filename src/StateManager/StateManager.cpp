@@ -8,7 +8,7 @@
 
 StateManager::StateManager()
     : m_window(sf::RenderWindow(sf::VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), APP_NAME)),
-      m_mainMenu(m_window, [this] { StartGame(); }), m_game(m_window), m_stateObject(&m_mainMenu)
+      m_mainMenu(m_window, [this] { StartGame(); }, [this]{m_window.close();}), m_game(m_window), m_stateObject(&m_mainMenu)
 {
     m_window.setKeyRepeatEnabled(false);
     m_state = AppState::MainMenu;
