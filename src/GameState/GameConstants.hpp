@@ -61,3 +61,19 @@ constexpr auto NOTE_TEXT_SIZE = 14;
 constexpr auto NOTE_TEXT_FILL_COLOR = sf::Color(40, 35, 25);
 constexpr auto NOTE_TEXT_OFFSET_X = 30;
 constexpr auto NOTE_TEXT_OFFSET_Y = 15;
+
+constexpr auto PAUSE_BACKGROUND_TINT_COLOR = sf::Color(0, 0, 0, 150);
+constexpr int PAUSE_TEXT_FONT_SIZE = 44;
+constexpr auto PAUSE_TEXT_FILL_COLOR = sf::Color(150, 150, 150);
+constexpr int PAUSE_TEXT_OUTLINE_THICKNESS = 8;
+constexpr auto PAUSE_TEXT_OUTLINE_COLOR = sf::Color(46, 0, 180);
+constexpr auto PAUSE_TEXT_HOVER_COLOR = sf::Color(226, 222, 244);
+
+constexpr auto PAUSE_TEXT = "GAME PAUSED";
+constexpr auto PAUSE_TEXT_OFFSET_RATIO = sf::Vector2f(0.5, 0.4);
+
+constexpr auto CONTINUE_TEXT = "CONTINUE";
+constexpr auto CONTINUE_TEXT_OFFSET_RATIO = sf::Vector2f(0.5, 0.5);
+
+constexpr auto EXIT_TEXT = "EXIT";
+constexpr auto EXIT_TEXT_OFFSET_RATIO = sf::Vector2f(0.5, 0.57);

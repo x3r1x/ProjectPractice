@@ -7,11 +7,11 @@
 #include "../AppConstants.hpp"
 
 StateManager::StateManager()
-    : m_window(sf::RenderWindow(sf::VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), APP_NAME)),
-      m_mainMenu(m_window, [this] { StartGame(); }, [this]{m_window.close();}), m_game(m_window), m_stateObject(&m_mainMenu)
+    : m_window(sf::RenderWindow(sf::VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), APP_NAME))
 {
     m_window.setKeyRepeatEnabled(false);
-    m_state = AppState::MainMenu;
+    GoToMenu();
+    ApplyStateChange();
 }
 
 AppState StateManager::GetState() const
@@ -30,27 +30,19 @@ void StateManager::Draw()
 
 void StateManager::HandleEvents(const sf::Event &event)
 {
-    const auto* key = event.getIf<sf::Event::KeyPressed>();
+    const auto *key = event.getIf<sf::Event::KeyPressed>();
 
     if (key && key->code == sf::Keyboard::Key::Escape)
     {
-        if (m_state == AppState::GamePlaying)
+        if (m_state == AppState::GamePlaying || m_state == AppState::GamePaused)
         {
-            m_state = AppState::GamePaused;
-            return;
-        }
-
-        if (m_state == AppState::GamePaused)
-        {
-            m_state = AppState::GamePlaying;
+            SetGamePaused(m_state == AppState::GamePlaying);
             return;
         }
     }
 
-    if (m_state != AppState::GamePaused)
-    {
-        m_stateObject->HandleEvent(event);
-    }
+    m_stateObject->HandleEvent(event);
+    ApplyStateChange();
 }
 
 void StateManager::Update(const float elapsedTime) const
@@ -65,8 +57,49 @@ void StateManager::Update(const float elapsedTime) const
 
 void StateManager::StartGame()
 {
-    m_state = AppState::GamePlaying;
-    m_stateObject = &m_game;
+    m_pendingState = AppState::GamePlaying;
+}
+
+void StateManager::GoToMenu()
+{
+    m_pendingState = AppState::MainMenu;
+}
+
+void StateManager::ApplyStateChange()
+{
+    if (!m_pendingState)
+    {
+        return;
+    }
+
+    switch (*m_pendingState)
+    {
+    case AppState::MainMenu:
+        m_stateObject = std::make_unique<MainMenu>(
+            m_window, [this] { StartGame(); }, [this] { m_window.close(); });
+        break;
+    case AppState::GamePlaying:
+        m_stateObject = std::make_unique<Game>(
+            m_window, [this] { SetGamePaused(false); }, [this] { GoToMenu(); });
+        break;
+    default:
+        return;
+    }
+
+    m_state = *m_pendingState;
+    m_pendingState.reset();
+    m_window.setView(m_window.getDefaultView());
+}
+
+void StateManager::SetGamePaused(const bool paused)
+{
+    if (m_state != AppState::GamePlaying && m_state != AppState::GamePaused)
+    {
+        return;
+    }
+
+    dynamic_cast<Game&>(*m_stateObject).SetAppPause(paused);
+    m_state = paused ? AppState::GamePaused : AppState::GamePlaying;
 }
 
 void StateManager::Run()

@@ -6,6 +6,9 @@
 #define SFML_TEST_STATEMANAGER_HPP
 #pragma once
 
+#include <memory>
+#include <optional>
+
 #include <SFML/Graphics/RenderWindow.hpp>
 
 #include "../GameState/Game/Game.hpp"
@@ -30,16 +33,17 @@ class StateManager
 {
     sf::RenderWindow m_window;
 
-    MainMenu m_mainMenu;
-    Game m_game;
-
-    IState* m_stateObject;
-    AppState m_state;
+    std::unique_ptr<IState> m_stateObject;
+    AppState m_state = AppState::MainMenu;
+    std::optional<AppState> m_pendingState;
 
     void HandleEvents(const sf::Event &event);
     void Update(float elapsedTime) const;
     void Draw();
     void StartGame();
+    void GoToMenu();
+    void ApplyStateChange();
+    void SetGamePaused(bool paused);
 public:
     StateManager();
 

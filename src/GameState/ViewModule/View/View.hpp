@@ -15,12 +15,19 @@
 class Player;
 class View
 {
+    sf::Font m_pauseFont;
+    sf::Text m_pauseText;
+    sf::Text m_continueText;
+    sf::Text m_exitText;
+
     Hud m_hud;
     std::vector<IDrawable*> m_objects;
     sf::RenderWindow& m_window;
 
     Camera m_camera;
 
+    static void HandleButtonHover(sf::Text& text, sf::Vector2f mousePosition);
+    static void InitPauseText(sf::Text& text, const char *string, const sf::Vector2f offsetRatio);
 public:
     View(sf::RenderWindow& window, MapView& map_view, Player& player);
 
@@ -28,6 +35,10 @@ public:
     void SetMapPixelSize(sf::Vector2f size);
     void SetIsShowingNote(bool isShowingNote);
     void SetNoteText(const std::string& text);
+
+    void DrawPauseMenu();
+    bool IsExitClicked(const sf::Event& event) const;
+    bool IsContinueClicked(const sf::Event& event) const;
 
     void DrawObjects();
     void UpdateCamera(sf::Vector2f playerPosition);
