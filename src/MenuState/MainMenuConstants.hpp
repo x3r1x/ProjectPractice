@@ -35,4 +35,6 @@ constexpr auto MAIN_MENU_EXIT_TEXT = "EXIT";
 constexpr auto MAIN_MENU_EXIT_OFFSET_RATIO = sf::Vector2f(0.6, 0.66);
 
 constexpr int MAIN_MENU_PLAY_TEXT_INDEX = 1;
+constexpr int MAIN_MENU_OPTIONS_TEXT_INDEX = 2;
+constexpr int MAIN_MENU_HTP_TEXT_INDEX = 3;
 constexpr int MAIN_MENU_EXIT_TEXT_INDEX = 4;

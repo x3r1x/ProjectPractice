@@ -5,6 +5,12 @@
 #include "./StateManager.hpp"
 
 #include "../AppConstants.hpp"
+#include "../MenuState/Options/Options.hpp"
+#include "../MenuState/Tutorial/Tutorial.hpp"
+#include "../NewspaperState/NewspaperState.hpp"
+
+constexpr auto GAME_START_SPRITE_PATH = "../assets/png/GameStart.jpg";
+constexpr auto BAD_ENDING_SPRITE_PATH = "../assets/png/BadEnding.jpg";
 
 StateManager::StateManager()
     : m_window(sf::RenderWindow(sf::VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), APP_NAME))
@@ -76,11 +82,28 @@ void StateManager::ApplyStateChange()
     {
     case AppState::MainMenu:
         m_stateObject = std::make_unique<MainMenu>(
-            m_window, [this] { StartGame(); }, [this] { m_window.close(); });
+            m_window, [this] { m_pendingState = AppState::Newspaper; },
+            [this] { m_pendingState = AppState::Options; },
+            [this] { m_pendingState = AppState::Tutorial; }, [this] { m_window.close(); });
+        break;
+    case AppState::Options:
+        m_stateObject = std::make_unique<Options>(m_window, [this] { GoToMenu(); });
+        break;
+    case AppState::Tutorial:
+        m_stateObject = std::make_unique<Tutorial>(m_window, [this] { GoToMenu(); });
+        break;
+    case AppState::Newspaper:
+        m_stateObject = std::make_unique<NewspaperState>(m_window, GAME_START_SPRITE_PATH,
+                                                         [this] { StartGame(); });
+        break;
+    case AppState::BadEnding:
+        m_stateObject = std::make_unique<NewspaperState>(m_window, BAD_ENDING_SPRITE_PATH,
+                                                         [this] { GoToMenu(); });
         break;
     case AppState::GamePlaying:
         m_stateObject = std::make_unique<Game>(
-            m_window, [this] { SetGamePaused(false); }, [this] { GoToMenu(); });
+            m_window, [this] { SetGamePaused(false); }, [this] { GoToMenu(); },
+            [this] { m_pendingState = AppState::BadEnding; });
         break;
     default:
         return;

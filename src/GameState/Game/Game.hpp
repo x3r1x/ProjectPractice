@@ -23,6 +23,7 @@ class Game : public IState
 
     std::function<void()> m_onContinueGame;
     std::function<void()> m_onExitGame;
+    std::function<void()> m_onGameEnd;
 
     bool m_isNoteOpen = false;
     bool m_isAppPaused = false;
@@ -30,7 +31,7 @@ class Game : public IState
 
   public:
     explicit Game(sf::RenderWindow &window, std::function<void()> onContinueGame,
-                  std::function<void()> onExitGame);
+                  std::function<void()> onExitGame, std::function<void()> onGameEnd);
 
     void SetAppPause(bool isPaused);
 

@@ -24,6 +24,11 @@ Map::Map()
     ChangeRoom(Room::Main);
 }
 
+Room Map::GetRoom() const
+{
+    return m_room;
+}
+
 int Map::GetTileIndex(const int x, const int y) const
 {
     return y * m_width + x;

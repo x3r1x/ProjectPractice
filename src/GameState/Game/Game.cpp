@@ -6,8 +6,11 @@
 
 #include <utility>
 
-Game::Game(sf::RenderWindow& window, std::function<void()> onContinueGame, std::function<void()> onExitGame)
-    : m_view(window, m_map.GetView(), m_player), m_collisionHandler(m_player, m_map, m_view), m_onContinueGame(std::move(onContinueGame)), m_onExitGame(std::move(onExitGame))
+Game::Game(sf::RenderWindow &window, std::function<void()> onContinueGame,
+           std::function<void()> onExitGame, std::function<void()> onGameEnd)
+    : m_view(window, m_map.GetView(), m_player), m_collisionHandler(m_player, m_map, m_view),
+      m_onContinueGame(std::move(onContinueGame)), m_onExitGame(std::move(onExitGame)),
+      m_onGameEnd(std::move(onGameEnd))
 {
 }
 
@@ -33,6 +36,13 @@ void Game::HandleEvent(const sf::Event &event)
     }
 
     EventListener::HandleEvents(event, m_collisionHandler, m_isNoteOpen, m_currentNoteText);
+
+    if (m_map.GetRoom() == Room::Ennard)
+    {
+        m_onGameEnd();
+        return;
+    }
+
     m_view.SetIsShowingNote(m_isNoteOpen);
     m_view.SetNoteText(m_currentNoteText);
 }

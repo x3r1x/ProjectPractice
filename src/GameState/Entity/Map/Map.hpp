@@ -38,6 +38,7 @@ class Map
     Map();
 
     MapView &GetView();
+    Room GetRoom() const;
     void SetInteraction(bool canInteract);
     void SetInteractingTile(sf::FloatRect tileRect);
     TileType GetTile(float worldX, float worldY) const;

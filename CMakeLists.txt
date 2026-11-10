@@ -36,11 +36,19 @@ add_executable(app src/main.cpp
         src/StateManager/StateManager.hpp
         src/MenuState/MainMenu/MainMenu.cpp
         src/MenuState/MainMenu/MainMenu.hpp
+        src/MenuState/Options/Options.cpp
+        src/MenuState/Options/Options.hpp
+        src/MenuState/Options/OptionsConstants.hpp
+        src/MenuState/Tutorial/Tutorial.cpp
+        src/MenuState/Tutorial/Tutorial.hpp
+        src/MenuState/Tutorial/TutorialConstants.hpp
         src/AppConstants.hpp
         src/IState.hpp
         src/MenuState/MainMenuConstants.hpp
         src/utils.hpp
         src/MenuState/MenuBackground/MenuBackground.cpp
         src/MenuState/MenuBackground/MenuBackground.h
+        src/NewspaperState/NewspaperState.cpp
+        src/NewspaperState/NewspaperState.hpp
 )
 target_link_libraries(app PRIVATE SFML::Graphics)

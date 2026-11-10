@@ -12,8 +12,12 @@
 
 constexpr auto FONT_PATH = "../assets/ttf/Orbitron-Black.ttf";
 
-MainMenu::MainMenu(sf::RenderWindow &window, std::function<void()> startGame, std::function<void()> closeApp)
-    : m_window(window), m_onStartGame(std::move(startGame)), m_onExitApp(std::move(closeApp))
+MainMenu::MainMenu(sf::RenderWindow &window, std::function<void()> startGame,
+                   std::function<void()> openOptions, std::function<void()> openTutorial,
+                   std::function<void()> closeApp)
+    : m_window(window), m_onStartGame(std::move(startGame)),
+      m_onOptions(std::move(openOptions)), m_onTutorial(std::move(openTutorial)),
+      m_onExitApp(std::move(closeApp))
 {
     if (!m_font.openFromFile(FONT_PATH))
     {
@@ -45,12 +49,24 @@ void MainMenu::HandleEvent(const sf::Event &event)
     {
         if (buttonPressed->button == sf::Mouse::Button::Left && !m_texts.empty())
         {
-            const auto mousePosition = sf::Vector2f(buttonPressed->position);
+            const auto mousePosition = m_window.mapPixelToCoords(buttonPressed->position);
             const auto playTextBounds = m_texts[MAIN_MENU_PLAY_TEXT_INDEX].getGlobalBounds();
 
             if (playTextBounds.contains(mousePosition))
             {
                 m_onStartGame();
+                return;
+            }
+
+            if (m_texts[MAIN_MENU_OPTIONS_TEXT_INDEX].getGlobalBounds().contains(mousePosition))
+            {
+                m_onOptions();
+                return;
+            }
+
+            if (m_texts[MAIN_MENU_HTP_TEXT_INDEX].getGlobalBounds().contains(mousePosition))
+            {
+                m_onTutorial();
                 return;
             }
 

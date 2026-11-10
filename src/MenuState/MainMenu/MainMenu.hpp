@@ -26,11 +26,15 @@ class MainMenu: public IState
     sf::RenderWindow& m_window;
 
     std::function<void()> m_onStartGame;
+    std::function<void()> m_onOptions;
+    std::function<void()> m_onTutorial;
     std::function<void()> m_onExitApp;
 
     void InitText(const char* string, sf::Vector2f offsetRatio);
 public:
-    MainMenu(sf::RenderWindow& window, std::function<void()> startGame, std::function<void()> closeApp);
+    MainMenu(sf::RenderWindow& window, std::function<void()> startGame,
+             std::function<void()> openOptions, std::function<void()> openTutorial,
+             std::function<void()> closeApp);
 
     void HandleEvent(const sf::Event &event) override;
     void Update(float deltaTime) override;
