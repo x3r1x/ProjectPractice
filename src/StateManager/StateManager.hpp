@@ -34,13 +34,13 @@ class StateManager
     MainMenu m_mainMenu;
     Game m_game;
 
-    IState& m_stateObject;
+    IState* m_stateObject;
     AppState m_state;
 
     void HandleEvents(const sf::Event &event) const;
     void Update(float elapsedTime) const;
     void Draw();
-
+    void StartGame();
 public:
     StateManager();
 

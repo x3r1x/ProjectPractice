@@ -11,6 +11,11 @@ void EventListener::HandleEvents(const sf::Event &event, const CollisionHandler 
 {
     const auto *key = event.getIf<sf::Event::KeyPressed>();
 
+    if (!key)
+    {
+        return;
+    }
+
     switch (key->code)
     {
     case sf::Keyboard::Key::Escape:

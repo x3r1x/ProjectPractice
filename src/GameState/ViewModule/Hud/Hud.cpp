@@ -10,7 +10,7 @@
 #include "../../GameConstants.hpp"
 #include "../../../AppConstants.hpp"
 
-constexpr auto FONT_PATH = "../assets/ttf/Euclid Circular B Bold.ttf";
+constexpr auto FONT_PATH = "../assets/ttf/Jura-Bold.ttf";
 
 Hud::Hud(const Player &player) : m_player(player)
 {
@@ -21,9 +21,9 @@ Hud::Hud(const Player &player) : m_player(player)
     m_staminaFill.setPosition({20, 20});
     m_staminaFill.setFillColor(HUD_STAMINA_FILL);
 
-    if (!m_noteFont.openFromFile("../assets/ttf/Euclid Circular B Bold.ttf"))
+    if (!m_noteFont.openFromFile(FONT_PATH))
     {
-        std::cerr << "Error reading font!" << std::endl;
+        std::cerr << "Error reading HUD note font!" << std::endl;
     }
 
     m_noteBackground.setSize({
@@ -39,8 +39,6 @@ Hud::Hud(const Player &player) : m_player(player)
 
     m_noteText.setCharacterSize(NOTE_TEXT_SIZE);
     m_noteText.setFillColor(NOTE_TEXT_FILL_COLOR);
-
-    const auto bounds = m_noteText.getLocalBounds();
 
     m_noteText.setPosition({
         WINDOW_WIDTH * NOTE_SCREEN_WIDTH + NOTE_TEXT_OFFSET_X,

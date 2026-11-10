@@ -5,14 +5,17 @@
 #include "./MainMenu.hpp"
 
 #include <iostream>
+#include <utility>
 
 #include "../AppConstants.hpp"
 #include "../utils.hpp"
 #include "MainMenuConstants.hpp"
 
 constexpr auto BACKGROUND_SPRITE_PATH = "../assets/png/MainScreen.png";
+constexpr auto FONT_PATH = "../assets/ttf/Orbitron-Black.ttf";
 
-MainMenu::MainMenu(sf::RenderWindow &window) : m_backgroundSprite(m_texture), m_window(window)
+MainMenu::MainMenu(sf::RenderWindow &window, std::function<void()> startGame)
+    : m_text(m_font), m_backgroundSprite(m_texture), m_window(window), m_onStartGame(std::move(startGame))
 {
     if (!m_texture.loadFromFile(BACKGROUND_SPRITE_PATH))
     {
@@ -27,6 +30,37 @@ MainMenu::MainMenu(sf::RenderWindow &window) : m_backgroundSprite(m_texture), m_
     m_backgroundRow = GenerateRandomNumber(0, BACKGROUND_ROWS);
     m_backgroundColumn = GenerateRandomNumber(0, BACKGROUND_COLUMNS);
     SetSprite(m_backgroundRow, m_backgroundColumn);
+
+    m_backgroundSprite.setColor(BACKGROUND_TINT);
+
+    if (!m_font.openFromFile(FONT_PATH))
+    {
+        std::cerr << "Error reading main menu title font!" << std::endl;
+        return;
+    }
+
+    m_text.setCharacterSize(MAIN_MENU_TEXT_FONT_SIZE);
+    m_text.setFillColor(MAIN_MENU_TEXT_FILL_COLOR);
+    m_text.setOutlineThickness(MAIN_MENU_TEXT_OUTLINE_THICKNESS);
+    m_text.setOutlineColor(MAIN_MENU_TEXT_OUTLINE_COLOR);
+    m_text.setString(MAIN_MENU_PLAY_TEXT);
+    m_text.setPosition(MAIN_MENU_PLAY_OFFSET);
+}
+
+void MainMenu::DrawTitleText()
+{
+    m_text.setString(MAIN_MENU_TITLE_TEXT);
+    m_text.setPosition(MAIN_MENU_TITLE_OFFSET);
+
+    m_window.draw(m_text);
+}
+
+void MainMenu::DrawPlayText()
+{
+    m_text.setString(MAIN_MENU_PLAY_TEXT);
+    m_text.setPosition(MAIN_MENU_PLAY_OFFSET);
+
+    m_window.draw(m_text);
 }
 
 void MainMenu::SetSprite(const int row, const int column)
@@ -39,7 +73,22 @@ void MainMenu::SetSprite(const int row, const int column)
                                  static_cast<float>(WINDOW_HEIGHT) / m_backgroundFrameSize.y});
 }
 
-void MainMenu::HandleEvent(const sf::Event &event) {}
+void MainMenu::HandleEvent(const sf::Event &event)
+{
+    if (const auto buttonPressed = event.getIf<sf::Event::MouseButtonPressed>())
+    {
+        if (buttonPressed->button == sf::Mouse::Button::Left)
+        {
+            const auto mousePosition = sf::Vector2f(buttonPressed->position);
+            const auto textBounds = m_text.getGlobalBounds();
+
+            if (textBounds.contains(mousePosition))
+            {
+                m_onStartGame();
+            }
+        }
+    }
+}
 
 void MainMenu::Update(const float deltaTime)
 {
@@ -61,11 +110,11 @@ void MainMenu::Update(const float deltaTime)
 
         SetSprite(m_backgroundRow, m_backgroundColumn);
     }
-
-
 }
 
 void MainMenu::Draw()
 {
     m_window.draw(m_backgroundSprite);
+    DrawTitleText();
+    DrawPlayText();
 }

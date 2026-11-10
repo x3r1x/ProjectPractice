@@ -11,7 +11,7 @@
 enum class TileType : uint8_t;
 
 constexpr auto PATH_TO_SPRITE = "../assets/png/Tiles.png";
-constexpr auto FONT_PATH = "../assets/ttf/Euclid Circular B Bold.ttf";
+constexpr auto FONT_PATH = "../assets/ttf/Jura-Bold.ttf";
 
 MapView::MapView() : m_sprite(m_texture), m_text(m_font)
 {
@@ -23,7 +23,7 @@ MapView::MapView() : m_sprite(m_texture), m_text(m_font)
 
     if (!m_font.openFromFile(FONT_PATH))
     {
-        std::cerr << "Error reading font!" << std::endl;
+        std::cerr << "Error reading map font!" << std::endl;
     }
 
     m_text.setString(INTERACTION_TEXT);

@@ -8,7 +8,7 @@
 
 StateManager::StateManager()
     : m_window(sf::RenderWindow(sf::VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), APP_NAME)),
-      m_mainMenu(m_window), m_game(m_window), m_stateObject(m_mainMenu)
+      m_mainMenu(m_window, [this] { StartGame(); }), m_game(m_window), m_stateObject(&m_mainMenu)
 {
     m_state = AppState::MainMenu;
 }
@@ -22,19 +22,25 @@ void StateManager::Draw()
 {
     m_window.clear();
 
-    m_stateObject.Draw();
+    m_stateObject->Draw();
 
     m_window.display();
 }
 
 void StateManager::HandleEvents(const sf::Event &event) const
 {
-    m_stateObject.HandleEvent(event);
+    m_stateObject->HandleEvent(event);
 }
 
 void StateManager::Update(const float elapsedTime) const
 {
-    m_stateObject.Update(elapsedTime);
+    m_stateObject->Update(elapsedTime);
+}
+
+void StateManager::StartGame()
+{
+    m_state = AppState::GamePlaying;
+    m_stateObject = &m_game;
 }
 
 void StateManager::Run()

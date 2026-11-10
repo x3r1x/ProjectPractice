@@ -39,8 +39,6 @@ void View::SetIsShowingNote(const bool isShowingNote)
 
 void View::DrawObjects()
 {
-    m_window.clear();
-
     m_window.setView(m_camera.GetView());
 
     for (IDrawable *object : m_objects)
@@ -50,8 +48,6 @@ void View::DrawObjects()
 
     m_window.setView(m_window.getDefaultView());
     m_hud.Draw(m_window);
-
-    m_window.display();
 }
 
 void View::UpdateCamera(const sf::Vector2f playerPosition)
