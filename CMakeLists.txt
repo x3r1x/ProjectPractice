@@ -34,11 +34,13 @@ add_executable(app src/main.cpp
         src/GameState/CollisionHandler/InteracctionData.hpp
         src/StateManager/StateManager.cpp
         src/StateManager/StateManager.hpp
-        src/MainMenu/MainMenu.cpp
-        src/MainMenu/MainMenu.hpp
+        src/MenuState/MainMenu/MainMenu.cpp
+        src/MenuState/MainMenu/MainMenu.hpp
         src/AppConstants.hpp
         src/IState.hpp
-        src/MainMenu/MainMenuConstants.hpp
+        src/MenuState/MainMenuConstants.hpp
         src/utils.hpp
+        src/MenuState/MenuBackground/MenuBackground.cpp
+        src/MenuState/MenuBackground/MenuBackground.h
 )
 target_link_libraries(app PRIVATE SFML::Graphics)

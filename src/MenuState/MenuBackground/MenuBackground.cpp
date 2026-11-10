@@ -1,0 +1,62 @@
+//
+// Created by gleb.ryzhov on 11/11/26.
+//
+
+#include "MenuBackground.h"
+
+#include <stdexcept>
+
+#include "../../AppConstants.hpp"
+#include "../../utils.hpp"
+
+constexpr auto BACKGROUND_SPRITE_PATH = "../assets/png/MainScreen.png";
+
+MenuBackground::MenuBackground() : m_sprite(m_texture)
+{
+    if (!m_texture.loadFromFile(BACKGROUND_SPRITE_PATH))
+    {
+        throw std::runtime_error("Failed to load menu background texture");
+    }
+
+    m_frameSize = {static_cast<int>(m_texture.getSize().x / BACKGROUND_COLUMNS),
+                   static_cast<int>(m_texture.getSize().y / BACKGROUND_ROWS)};
+    m_row = GenerateRandomNumber(0, BACKGROUND_ROWS);
+    m_column = GenerateRandomNumber(0, BACKGROUND_COLUMNS);
+    SetSprite();
+
+    m_sprite.setColor(BACKGROUND_TINT);
+    m_sprite.setScale({static_cast<float>(WINDOW_WIDTH) / m_frameSize.x,
+                       static_cast<float>(WINDOW_HEIGHT) / m_frameSize.y});
+}
+
+void MenuBackground::SetSprite()
+{
+    m_sprite.setTextureRect(
+        sf::IntRect({m_column * m_frameSize.x, m_row * m_frameSize.y}, m_frameSize));
+}
+
+void MenuBackground::Update(const float deltaTime)
+{
+    m_rowTimeRemaining -= deltaTime;
+    m_columnTimeRemaining -= deltaTime;
+
+    if (m_rowTimeRemaining < 0)
+    {
+        m_rowTimeRemaining = BACKGROUND_ROW_INTERVAL;
+        m_row = GenerateRandomNumber(0, BACKGROUND_ROWS);
+        SetSprite();
+    }
+
+    if (m_columnTimeRemaining < 0)
+    {
+        m_columnTimeRemaining = BACKGROUND_COLUMN_INTERVAL;
+        m_column = GenerateRandomNumber(0, BACKGROUND_COLUMNS);
+        SetSprite();
+    }
+}
+
+void MenuBackground::Draw(sf::RenderWindow &window) const
+{
+    window.setView(window.getDefaultView());
+    window.draw(m_sprite);
+}

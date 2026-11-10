@@ -98,7 +98,7 @@ void StateManager::SetGamePaused(const bool paused)
         return;
     }
 
-    dynamic_cast<Game&>(*m_stateObject).SetAppPause(paused);
+    dynamic_cast<Game &>(*m_stateObject).SetAppPause(paused);
     m_state = paused ? AppState::GamePaused : AppState::GamePlaying;
 }
 

@@ -13,7 +13,7 @@
 
 #include "../GameState/Game/Game.hpp"
 #include "../IState.hpp"
-#include "../MainMenu/MainMenu.hpp"
+#include "../MenuState/MainMenu/MainMenu.hpp"
 
 enum class AppState: uint8_t
 {

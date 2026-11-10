@@ -10,34 +10,24 @@
 
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
-#include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
-#include <SFML/Graphics/Texture.hpp>
 
-#include "../IState.hpp"
-#include "MainMenuConstants.hpp"
+#include "../../IState.hpp"
+#include "../MainMenuConstants.hpp"
+#include "../MenuBackground/MenuBackground.h"
 
 class MainMenu: public IState
 {
     sf::Font m_font;
     std::vector<sf::Text> m_texts;
 
-    sf::Vector2i m_backgroundFrameSize;
-    sf::Texture m_texture;
-    sf::Sprite m_backgroundSprite;
-    float m_rowTimeRemaining = BACKGROUND_ROW_INTERVAL;
-    float m_columnTimeRemaining = BACKGROUND_COLUMN_INTERVAL;
-
-
-    int m_backgroundRow{};
-    int m_backgroundColumn{};
+    MenuBackground m_background;
 
     sf::RenderWindow& m_window;
 
     std::function<void()> m_onStartGame;
     std::function<void()> m_onExitApp;
 
-    void SetSprite(int row, int column);
     void InitText(const char* string, sf::Vector2f offsetRatio);
 public:
     MainMenu(sf::RenderWindow& window, std::function<void()> startGame, std::function<void()> closeApp);
