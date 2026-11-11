@@ -16,7 +16,7 @@ class MenuBackground
     sf::Texture m_texture;
     sf::Sprite m_sprite;
     sf::Vector2i m_frameSize;
-    float m_rowTimeRemaining = BACKGROUND_ROW_INTERVAL;
+    float m_rowTimeRemaining = BACKGROUND_ROW_SCARE_INTERVAL;
     float m_columnTimeRemaining = BACKGROUND_COLUMN_INTERVAL;
     int m_row{};
     int m_column{};

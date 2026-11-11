@@ -43,8 +43,19 @@ void MenuBackground::Update(const float deltaTime)
 
     if (m_rowTimeRemaining < 0)
     {
-        m_rowTimeRemaining = BACKGROUND_ROW_INTERVAL;
-        m_row = GenerateRandomNumber(0, BACKGROUND_ROWS);
+
+
+        if (m_row != 0)
+        {
+            m_row = 0;
+            m_rowTimeRemaining = BACKGROUND_ROW_DEFAULT_INTERVAL;
+        }
+        else
+        {
+            m_row = GenerateRandomNumber(0, BACKGROUND_ROWS);
+            m_rowTimeRemaining = BACKGROUND_ROW_SCARE_INTERVAL;
+        }
+
         SetSprite();
     }
 
