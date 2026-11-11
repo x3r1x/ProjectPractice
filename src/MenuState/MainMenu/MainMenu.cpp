@@ -15,7 +15,7 @@ constexpr auto FONT_PATH = "../assets/ttf/Orbitron-Black.ttf";
 MainMenu::MainMenu(sf::RenderWindow &window, std::function<void()> startGame,
                    std::function<void()> openOptions, std::function<void()> openTutorial,
                    std::function<void()> closeApp)
-    : m_window(window), m_onStartGame(std::move(startGame)),
+    : m_background(window.getSize()), m_window(window), m_onStartGame(std::move(startGame)),
       m_onOptions(std::move(openOptions)), m_onTutorial(std::move(openTutorial)),
       m_onExitApp(std::move(closeApp))
 {
@@ -40,7 +40,7 @@ void MainMenu::InitText(const char *string, const sf::Vector2f offsetRatio)
     text.setOutlineThickness(MAIN_MENU_TEXT_OUTLINE_THICKNESS);
     text.setOutlineColor(MAIN_MENU_TEXT_OUTLINE_COLOR);
     text.setString(string);
-    text.setPosition({WINDOW_WIDTH * offsetRatio.x, WINDOW_HEIGHT * offsetRatio.y});
+    text.setPosition({m_window.getSize().x * offsetRatio.x, m_window.getSize().y * offsetRatio.y});
 }
 
 void MainMenu::HandleEvent(const sf::Event &event)
@@ -83,8 +83,7 @@ void MainMenu::HandleEvent(const sf::Event &event)
 
     for (auto& m_text : m_texts)
     {
-        if (m_text.getPosition() == sf::Vector2f(WINDOW_WIDTH * MAIN_MENU_TITLE_OFFSET_RATIO.x,
-                                                 WINDOW_HEIGHT * MAIN_MENU_TITLE_OFFSET_RATIO.y))
+        if (m_text.getString() == MAIN_MENU_TITLE_TEXT)
         {
             continue;
         }

@@ -24,7 +24,8 @@ class Tutorial: public IState
     sf::RenderWindow &m_window;
     std::function<void()> m_onBack;
 
-    static void InitBigText(sf::Text &text, const std::string& string, sf::Vector2f offsetRatio);
+    sf::Vector2u m_windowSize;
+    void InitBigText(sf::Text &text, const std::string& string, sf::Vector2f offsetRatio) const;
 public:
     Tutorial(sf::RenderWindow &window, std::function<void()> onBack);
 

@@ -13,7 +13,6 @@
 #include <SFML/Graphics/Text.hpp>
 
 #include "../../IState.hpp"
-#include "../MainMenuConstants.hpp"
 #include "../MenuBackground/MenuBackground.hpp"
 
 class MainMenu: public IState

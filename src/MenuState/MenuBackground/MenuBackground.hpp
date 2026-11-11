@@ -21,9 +21,10 @@ class MenuBackground
     int m_row{};
     int m_column{};
 
+    sf::Vector2u m_windowSize;
     void SetSprite();
 public:
-    MenuBackground();
+    MenuBackground(sf::Vector2u windowSize);
 
     void Update(float deltaTime);
     void Draw(sf::RenderWindow& window) const;

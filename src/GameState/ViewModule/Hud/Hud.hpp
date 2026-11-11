@@ -21,10 +21,12 @@ class Hud: public IDrawable
 
     bool m_isShowingNote = false;
     sf::Font m_noteFont;
-    sf::Text m_noteText{m_noteFont};
+    sf::Text m_noteText;
     sf::RectangleShape m_noteBackground;
+
+    sf::Vector2u m_windowSize;
 public:
-    explicit Hud(const Player& player);
+    explicit Hud(const Player& player, sf::Vector2u windowSize);
 
     void SetNoteText(const std::string& text);
     void SetIsShowingNote(bool isShowingNote);

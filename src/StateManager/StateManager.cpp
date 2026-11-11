@@ -13,7 +13,7 @@ constexpr auto GAME_START_SPRITE_PATH = "../assets/png/GameStart.jpg";
 constexpr auto BAD_ENDING_SPRITE_PATH = "../assets/png/BadEnding.jpg";
 
 StateManager::StateManager()
-    : m_window(sf::RenderWindow(sf::VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), APP_NAME))
+    : m_window(sf::RenderWindow(sf::VideoMode::getDesktopMode(), APP_NAME, sf::State::Fullscreen))
 {
     m_window.setKeyRepeatEnabled(false);
     GoToMenu();

@@ -8,14 +8,13 @@
 
 #include <SFML/Graphics/RectangleShape.hpp>
 
-#include "../../AppConstants.hpp"
 #include "../MainMenuConstants.hpp"
 
 constexpr auto FONT_PATH = "../assets/ttf/Orbitron-Black.ttf";
 
 Tutorial::Tutorial(sf::RenderWindow &window, std::function<void()> onBack)
-    : m_titleText(m_font), m_bodyText(m_font), m_backText(m_font), m_window(window),
-      m_onBack(std::move(onBack))
+    : m_titleText(m_font), m_bodyText(m_font), m_backText(m_font), m_background(window.getSize()),
+      m_window(window), m_onBack(std::move(onBack)), m_windowSize(window.getSize())
 {
     if (!m_font.openFromFile(FONT_PATH))
     {
@@ -24,21 +23,21 @@ Tutorial::Tutorial(sf::RenderWindow &window, std::function<void()> onBack)
 
     m_bodyText.setString(TUTORIAL_TEXT);
     m_bodyText.setCharacterSize(TUTORIAL_BODY_FONT_SIZE);
-    m_bodyText.setPosition({WINDOW_WIDTH * TUTORIAL_BODY_OFFSET_RATIO.x,
-                        WINDOW_HEIGHT * TUTORIAL_BODY_OFFSET_RATIO.y});
+    m_bodyText.setPosition({m_windowSize.x * TUTORIAL_BODY_OFFSET_RATIO.x,
+                            m_windowSize.y * TUTORIAL_BODY_OFFSET_RATIO.y});
 
     InitBigText(m_titleText, TUTORIAL_TITLE_TEXT, TUTORIAL_TITLE_OFFSET_RATIO);
     InitBigText(m_backText, TUTORIAL_BACK_TEXT, TUTORIAL_BACK_OFFSET_RATIO);
 }
 
-void Tutorial::InitBigText(sf::Text &text, const std::string &string, sf::Vector2f offsetRatio)
+void Tutorial::InitBigText(sf::Text &text, const std::string &string,
+                           const sf::Vector2f offsetRatio) const
 {
     text.setString(string);
     text.setCharacterSize(MAIN_MENU_TEXT_FONT_SIZE);
     text.setOutlineThickness(MAIN_MENU_TEXT_OUTLINE_THICKNESS);
     text.setOutlineColor(MAIN_MENU_TEXT_OUTLINE_COLOR);
-    text.setPosition({WINDOW_WIDTH * offsetRatio.x,
-                      WINDOW_HEIGHT * offsetRatio.y});
+    text.setPosition({m_windowSize.x * offsetRatio.x, m_windowSize.y * offsetRatio.y});
 }
 
 void Tutorial::HandleEvent(const sf::Event &event)
@@ -71,7 +70,8 @@ void Tutorial::Draw()
 {
     m_background.Draw(m_window);
 
-    sf::RectangleShape tint({static_cast<float>(WINDOW_WIDTH), static_cast<float>(WINDOW_HEIGHT)});
+    sf::RectangleShape tint(
+        {static_cast<float>(m_windowSize.x), static_cast<float>(m_windowSize.y)});
     tint.setFillColor(TUTORiAL_TINT_COLOR);
     m_window.draw(tint);
     m_window.draw(m_titleText);

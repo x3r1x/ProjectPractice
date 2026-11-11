@@ -27,7 +27,7 @@ class View
     Camera m_camera;
 
     static void HandleButtonHover(sf::Text& text, sf::Vector2f mousePosition);
-    static void InitPauseText(sf::Text& text, const char *string, const sf::Vector2f offsetRatio);
+    void InitPauseText(sf::Text& text, const char *string, const sf::Vector2f offsetRatio) const;
 public:
     View(sf::RenderWindow& window, MapView& map_view, Player& player);
 

@@ -14,9 +14,9 @@
 constexpr auto FONT_PATH = "../assets/ttf/Jura-Bold.ttf";
 
 View::View(sf::RenderWindow &window, MapView &map_view, Player &player)
-    : m_pauseText(m_pauseFont), m_continueText(m_pauseFont), m_exitText(m_pauseFont), m_hud(player),
-      m_window(window),
-      m_camera(WINDOW_WIDTH, WINDOW_HEIGHT,
+    : m_pauseText(m_pauseFont), m_continueText(m_pauseFont), m_exitText(m_pauseFont),
+      m_hud(player, window.getSize()), m_window(window),
+      m_camera(window.getSize().x, window.getSize().y,
                sf::Vector2f(MAIN_ROOM_WIDTH * TILE_SIZE, MAIN_ROOM_HEIGHT * TILE_SIZE))
 {
     if (!m_pauseFont.openFromFile(FONT_PATH))
@@ -33,7 +33,7 @@ View::View(sf::RenderWindow &window, MapView &map_view, Player &player)
     InitPauseText(m_exitText, EXIT_TEXT, EXIT_TEXT_OFFSET_RATIO);
 }
 
-void View::InitPauseText(sf::Text &text, const char *string, const sf::Vector2f offsetRatio)
+void View::InitPauseText(sf::Text &text, const char *string, const sf::Vector2f offsetRatio) const
 {
     text.setCharacterSize(PAUSE_TEXT_FONT_SIZE);
     text.setOutlineThickness(PAUSE_TEXT_OUTLINE_THICKNESS);
@@ -41,7 +41,7 @@ void View::InitPauseText(sf::Text &text, const char *string, const sf::Vector2f 
     text.setString(string);
     const auto bounds = text.getLocalBounds();
     text.setOrigin(bounds.position + bounds.size / 2.0f);
-    text.setPosition({WINDOW_WIDTH * offsetRatio.x, WINDOW_HEIGHT * offsetRatio.y });
+    text.setPosition({m_window.getSize().x * offsetRatio.x, m_window.getSize().y * offsetRatio.y});
 }
 
 sf::RenderWindow &View::GetWindow() const
@@ -64,7 +64,7 @@ void View::SetIsShowingNote(const bool isShowingNote)
     m_hud.SetIsShowingNote(isShowingNote);
 }
 
-void View::HandleButtonHover(sf::Text& text, const sf::Vector2f mousePosition)
+void View::HandleButtonHover(sf::Text &text, const sf::Vector2f mousePosition)
 {
     const auto bounds = text.getGlobalBounds();
     const bool hovered = bounds.contains(mousePosition);
@@ -95,32 +95,30 @@ void View::DrawPauseMenu()
     m_window.draw(m_exitText);
 }
 
-bool View::IsExitClicked(const sf::Event& event) const
+bool View::IsExitClicked(const sf::Event &event) const
 {
-    const auto* click = event.getIf<sf::Event::MouseButtonPressed>();
+    const auto *click = event.getIf<sf::Event::MouseButtonPressed>();
 
     if (!click || click->button != sf::Mouse::Button::Left)
     {
         return false;
     }
 
-    const auto position = m_window.mapPixelToCoords(
-        click->position, m_window.getDefaultView());
+    const auto position = m_window.mapPixelToCoords(click->position, m_window.getDefaultView());
 
     return m_exitText.getGlobalBounds().contains(position);
 }
 
 bool View::IsContinueClicked(const sf::Event &event) const
 {
-    const auto* click = event.getIf<sf::Event::MouseButtonPressed>();
+    const auto *click = event.getIf<sf::Event::MouseButtonPressed>();
 
     if (!click || click->button != sf::Mouse::Button::Left)
     {
         return false;
     }
 
-    const auto position = m_window.mapPixelToCoords(
-        click->position, m_window.getDefaultView());
+    const auto position = m_window.mapPixelToCoords(click->position, m_window.getDefaultView());
 
     return m_continueText.getGlobalBounds().contains(position);
 }

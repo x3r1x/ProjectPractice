@@ -23,7 +23,8 @@ class Options: public IState
     sf::RenderWindow &m_window;
     std::function<void()> m_onBack;
 
-    static void InitText(sf::Text &text, const std::string& string, sf::Vector2f offsetRatio);
+    sf::Vector2u m_windowSize;
+    void InitText(sf::Text &text, const std::string& string, sf::Vector2f offsetRatio) const;
 public:
     Options(sf::RenderWindow &window, std::function<void()> onBack);
 

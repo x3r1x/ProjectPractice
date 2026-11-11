@@ -11,7 +11,7 @@
 
 constexpr auto BACKGROUND_SPRITE_PATH = "../assets/png/MainScreen.png";
 
-MenuBackground::MenuBackground() : m_sprite(m_texture)
+MenuBackground::MenuBackground(const sf::Vector2u windowSize) : m_sprite(m_texture), m_windowSize(windowSize)
 {
     if (!m_texture.loadFromFile(BACKGROUND_SPRITE_PATH))
     {
@@ -25,8 +25,9 @@ MenuBackground::MenuBackground() : m_sprite(m_texture)
     SetSprite();
 
     m_sprite.setColor(BACKGROUND_TINT);
-    m_sprite.setScale({static_cast<float>(WINDOW_WIDTH) / m_frameSize.x,
-                       static_cast<float>(WINDOW_HEIGHT) / m_frameSize.y});
+
+    m_sprite.setScale({static_cast<float>(m_windowSize.x) / m_frameSize.x,
+                       static_cast<float>(m_windowSize.y) / m_frameSize.y});
 }
 
 void MenuBackground::SetSprite()

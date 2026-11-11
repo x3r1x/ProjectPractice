@@ -12,7 +12,7 @@
 
 constexpr auto FONT_PATH = "../assets/ttf/Jura-Bold.ttf";
 
-Hud::Hud(const Player &player) : m_player(player)
+Hud::Hud(const Player &player, sf::Vector2u windowSize) : m_player(player), m_noteText(m_noteFont), m_windowSize(windowSize)
 {
     m_staminaBackground.setSize(HUD_STAMINA_SIZE);
     m_staminaBackground.setPosition({20, 20});
@@ -26,24 +26,19 @@ Hud::Hud(const Player &player) : m_player(player)
         std::cerr << "Error reading HUD note font!" << std::endl;
     }
 
-    m_noteBackground.setSize({
-        static_cast<float>(WINDOW_WIDTH) * NOTE_BACKGROUND_WIDTH_MULTIPLIER,
-        static_cast<float>(WINDOW_HEIGHT) * NOTE_BACKGROUND_HEIGHT_MULTIPLIER
-    });
+    m_noteBackground.setSize(
+        {static_cast<float>(windowSize.x * NOTE_BACKGROUND_WIDTH_MULTIPLIER),
+         static_cast<float>(windowSize.y * NOTE_BACKGROUND_HEIGHT_MULTIPLIER)});
 
     m_noteBackground.setFillColor(NOTE_BACKGROUND_COLOR);
-    m_noteBackground.setPosition({
-        static_cast<float>(WINDOW_WIDTH) * NOTE_SCREEN_WIDTH,
-        static_cast<float>(WINDOW_HEIGHT) * NOTE_SCREEN_HEIGHT
-    });
+    m_noteBackground.setPosition({static_cast<float>(windowSize.x * NOTE_SCREEN_WIDTH),
+                                  static_cast<float>(windowSize.y * NOTE_SCREEN_HEIGHT)});
 
     m_noteText.setCharacterSize(NOTE_TEXT_SIZE);
     m_noteText.setFillColor(NOTE_TEXT_FILL_COLOR);
 
-    m_noteText.setPosition({
-        WINDOW_WIDTH * NOTE_SCREEN_WIDTH + NOTE_TEXT_OFFSET_X,
-        WINDOW_HEIGHT * NOTE_SCREEN_HEIGHT + NOTE_TEXT_OFFSET_Y
-    });
+    m_noteText.setPosition({static_cast<float>(windowSize.x * NOTE_SCREEN_WIDTH + NOTE_TEXT_OFFSET_X),
+                            static_cast<float>(windowSize.y * NOTE_SCREEN_HEIGHT + NOTE_TEXT_OFFSET_Y)});
 }
 
 void Hud::SetNoteText(const std::string &text)
