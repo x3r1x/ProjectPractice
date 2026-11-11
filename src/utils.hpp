@@ -1,6 +1,7 @@
 //
 // Created by x3r1x on 11/10/26.
 //
+#pragma once
 
 #include <random>
 

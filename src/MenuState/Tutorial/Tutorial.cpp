@@ -10,7 +10,6 @@
 
 #include "../../AppConstants.hpp"
 #include "../MainMenuConstants.hpp"
-#include "TutorialConstants.hpp"
 
 constexpr auto FONT_PATH = "../assets/ttf/Orbitron-Black.ttf";
 
@@ -23,25 +22,23 @@ Tutorial::Tutorial(sf::RenderWindow &window, std::function<void()> onBack)
         std::cerr << "Failed to load tutorial font!" << std::endl;
     }
 
-    m_titleText.setString(TUTORIAL_TITLE_TEXT);
-    m_titleText.setCharacterSize(MAIN_MENU_TEXT_FONT_SIZE);
-    m_titleText.setOutlineThickness(MAIN_MENU_TEXT_OUTLINE_THICKNESS);
-    m_titleText.setOutlineColor(MAIN_MENU_TEXT_OUTLINE_COLOR);
-    m_titleText.setPosition({WINDOW_WIDTH * TUTORIAL_TITLE_OFFSET_RATIO.x,
-                         WINDOW_HEIGHT * TUTORIAL_TITLE_OFFSET_RATIO.y});
-
     m_bodyText.setString(TUTORIAL_TEXT);
     m_bodyText.setCharacterSize(TUTORIAL_BODY_FONT_SIZE);
     m_bodyText.setPosition({WINDOW_WIDTH * TUTORIAL_BODY_OFFSET_RATIO.x,
                         WINDOW_HEIGHT * TUTORIAL_BODY_OFFSET_RATIO.y});
 
-    m_backText.setString(TUTORIAL_BACK_TEXT);
-    m_backText.setCharacterSize(MAIN_MENU_TEXT_FONT_SIZE);
-    m_backText.setFillColor(MAIN_MENU_TEXT_FILL_COLOR);
-    m_backText.setOutlineThickness(MAIN_MENU_TEXT_OUTLINE_THICKNESS);
-    m_backText.setOutlineColor(MAIN_MENU_TEXT_OUTLINE_COLOR);
-    m_backText.setPosition({WINDOW_WIDTH * TUTORIAL_BACK_OFFSET_RATIO.x,
-                        WINDOW_HEIGHT * TUTORIAL_BACK_OFFSET_RATIO.y});
+    InitBigText(m_titleText, TUTORIAL_TITLE_TEXT, TUTORIAL_TITLE_OFFSET_RATIO);
+    InitBigText(m_backText, TUTORIAL_BACK_TEXT, TUTORIAL_BACK_OFFSET_RATIO);
+}
+
+void Tutorial::InitBigText(sf::Text &text, const std::string &string, sf::Vector2f offsetRatio)
+{
+    text.setString(string);
+    text.setCharacterSize(MAIN_MENU_TEXT_FONT_SIZE);
+    text.setOutlineThickness(MAIN_MENU_TEXT_OUTLINE_THICKNESS);
+    text.setOutlineColor(MAIN_MENU_TEXT_OUTLINE_COLOR);
+    text.setPosition({WINDOW_WIDTH * offsetRatio.x,
+                      WINDOW_HEIGHT * offsetRatio.y});
 }
 
 void Tutorial::HandleEvent(const sf::Event &event)

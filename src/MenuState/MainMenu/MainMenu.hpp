@@ -14,7 +14,7 @@
 
 #include "../../IState.hpp"
 #include "../MainMenuConstants.hpp"
-#include "../MenuBackground/MenuBackground.h"
+#include "../MenuBackground/MenuBackground.hpp"
 
 class MainMenu: public IState
 {

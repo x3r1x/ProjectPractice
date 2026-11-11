@@ -2,7 +2,7 @@
 // Created by gleb.ryzhov on 11/11/26.
 //
 
-#include "MenuBackground.h"
+#include "MenuBackground.hpp"
 
 #include <stdexcept>
 

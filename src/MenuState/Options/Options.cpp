@@ -12,7 +12,6 @@
 
 #include "../../AppConstants.hpp"
 #include "../MainMenuConstants.hpp"
-#include "OptionsConstants.hpp"
 
 constexpr auto FONT_PATH = "../assets/ttf/Orbitron-Black.ttf";
 
@@ -24,20 +23,18 @@ Options::Options(sf::RenderWindow &window, std::function<void()> onBack)
         std::cerr << "Failed to load menu page font!" << std::endl;
     }
 
-    m_titleText.setString(OPTIONS_TITLE_TEXT);
-    m_titleText.setCharacterSize(MAIN_MENU_TEXT_FONT_SIZE);
-    m_titleText.setOutlineThickness(MAIN_MENU_TEXT_OUTLINE_THICKNESS);
-    m_titleText.setOutlineColor(MAIN_MENU_TEXT_OUTLINE_COLOR);
-    m_titleText.setPosition({WINDOW_WIDTH * OPTIONS_TITLE_OFFSET_RATIO.x,
-                             WINDOW_HEIGHT * OPTIONS_TITLE_OFFSET_RATIO.y});
+    InitText(m_titleText, OPTIONS_TITLE_TEXT, OPTIONS_TITLE_OFFSET_RATIO);
+    InitText(m_backText, OPTIONS_BACK_TEXT, OPTIONS_BACK_OFFSET_RATIO);
+}
 
-    m_backText.setString(OPTIONS_BACK_TEXT);
-    m_backText.setCharacterSize(MAIN_MENU_TEXT_FONT_SIZE);
-    m_backText.setFillColor(MAIN_MENU_TEXT_FILL_COLOR);
-    m_backText.setOutlineThickness(MAIN_MENU_TEXT_OUTLINE_THICKNESS);
-    m_backText.setOutlineColor(MAIN_MENU_TEXT_OUTLINE_COLOR);
-    m_backText.setPosition(
-        {WINDOW_WIDTH * OPTIONS_BACK_OFFSET_RATIO.x, WINDOW_HEIGHT * OPTIONS_BACK_OFFSET_RATIO.y});
+void Options::InitText(sf::Text &text, const std::string& string, const sf::Vector2f offsetRatio)
+{
+    text.setString(string);
+    text.setCharacterSize(MAIN_MENU_TEXT_FONT_SIZE);
+    text.setOutlineThickness(MAIN_MENU_TEXT_OUTLINE_THICKNESS);
+    text.setOutlineColor(MAIN_MENU_TEXT_OUTLINE_COLOR);
+    text.setPosition({WINDOW_WIDTH * offsetRatio.x,
+                      WINDOW_HEIGHT * offsetRatio.y});
 }
 
 void Options::HandleEvent(const sf::Event &event)

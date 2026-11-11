@@ -11,7 +11,7 @@
 #include <SFML/Graphics/Text.hpp>
 
 #include "../../IState.hpp"
-#include "../MenuBackground/MenuBackground.h"
+#include "../MenuBackground/MenuBackground.hpp"
 
 class Options: public IState
 {
@@ -23,6 +23,7 @@ class Options: public IState
     sf::RenderWindow &m_window;
     std::function<void()> m_onBack;
 
+    static void InitText(sf::Text &text, const std::string& string, sf::Vector2f offsetRatio);
 public:
     Options(sf::RenderWindow &window, std::function<void()> onBack);
 
