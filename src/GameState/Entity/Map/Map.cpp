@@ -8,6 +8,7 @@
 
 #include "../../CollisionHandler/CollisionType.hpp"
 #include "../../GameConstants.hpp"
+#include "../../Interactable/Door/Door.hpp"
 
 // capital letter means that whatever lays inside that tile has benn used
 // . = empty space
@@ -38,6 +39,7 @@ void Map::ChangeToMainRoom()
 {
     m_width = MAIN_ROOM_WIDTH;
     m_height = MAIN_ROOM_HEIGHT;
+    m_interactableObjects.clear();
 
     //DOORS
     SetInteractionData(9, 12, {
@@ -46,6 +48,8 @@ void Map::ChangeToMainRoom()
         Room::Electrical,
         ELECTRICAL_SPAWN_POSITION
     });
+
+    m_interactableObjects.push_back(std::make_unique<Door>( Room::Electrical, ELECTRICAL_SPAWN_POSITION));
 
     SetInteractionData(10, 12, {
         InteractionType::Door,

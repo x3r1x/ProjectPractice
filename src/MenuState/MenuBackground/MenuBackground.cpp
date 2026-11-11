@@ -43,8 +43,6 @@ void MenuBackground::Update(const float deltaTime)
 
     if (m_rowTimeRemaining < 0)
     {
-
-
         if (m_row != 0)
         {
             m_row = 0;

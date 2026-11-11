@@ -7,6 +7,7 @@
 #pragma once
 
 #include "../../CollisionHandler/InteracctionData.hpp"
+#include "../../Interactable/IInteractable.h"
 #include "../../ViewModule/MapView/MapView.hpp"
 #include "Room.hpp"
 #include "TileType.hpp"
@@ -17,6 +18,7 @@ class Map
 
     std::vector<TileType> m_grid;
     std::unordered_map<int, InteractionData> m_interactionData;
+    std::vector<std::unique_ptr<IInteractable>> m_interactableObjects;
 
     int m_width{};
     int m_height{};

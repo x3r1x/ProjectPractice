@@ -48,5 +48,12 @@ add_executable(app src/main.cpp
         src/MenuState/MenuBackground/MenuBackground.hpp
         src/NewspaperState/NewspaperState.cpp
         src/NewspaperState/NewspaperState.hpp
+        src/GameState/Interactable/IInteractable.h
+        src/GameState/Interactable/Door/Door.cpp
+        src/GameState/Interactable/Door/Door.hpp
+        src/GameState/Interactable/Key/Key.cpp
+        src/GameState/Interactable/Key/Key.hpp
+        src/GameState/Interactable/Note/Note.cpp
+        src/GameState/Interactable/Note/Note.hpp
 )
 target_link_libraries(app PRIVATE SFML::Graphics)
