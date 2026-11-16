@@ -13,6 +13,7 @@ class Player
     sf::Vector2f m_position;
     sf::Vector2f m_velocity;
     float m_stamina;
+    int m_keysCount = 0;
     bool m_isSprinting = false;
     bool m_isGrounded = false;
 
@@ -26,11 +27,13 @@ public:
 
     PlayerView& GetView();
     float GetStamina() const;
+    int GetKeysCount() const;
     sf::Vector2f GetVelocity() const;
     sf::Vector2f GetPosition() const;
     bool IsGrounded() const;
     void SetGround(bool grounded);
 
+    void AddKey();
     void SetPosition(sf::Vector2f position);
     void SetVelocity(sf::Vector2f velocity);
 

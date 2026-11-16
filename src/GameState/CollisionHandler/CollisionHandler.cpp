@@ -105,21 +105,17 @@ void CollisionHandler::HandlePlayerMapInteraction()
     bounds.size.x += INTERACTION_DISTANCE * 2;
     bounds.size.y += INTERACTION_DISTANCE * 2;
 
-    const auto interactableTiles = m_map.GetNearbyInteractableTiles(bounds);
-    bool canInteract = false;
+    m_currentInteractable = m_map.GetInteractableAt(bounds);
 
-    for (const auto &tileRect : interactableTiles)
+    if (m_currentInteractable != nullptr)
     {
-        if (bounds.findIntersection(tileRect))
-        {
-            m_map.SetInteractingTile(tileRect);
-            m_interactingTile = tileRect;
-            canInteract = true;
-        }
+        m_map.SetInteraction(true);
+        m_map.SetInteractingObject(*m_currentInteractable);
     }
-
-    m_isInteracting = canInteract;
-    m_map.SetInteraction(canInteract);
+    else
+    {
+        m_map.SetInteraction(false);
+    }
 }
 
 void CollisionHandler::HandlePlayerMapCollision()
@@ -128,80 +124,20 @@ void CollisionHandler::HandlePlayerMapCollision()
     HandlePlayerMapInteraction();
 }
 
-void CollisionHandler::Interact(bool& isNoteOpen, std::string& noteText) const
+void CollisionHandler::Interact(bool& isNoteOpen, std::string& noteText)
 {
-    if (!m_isInteracting)
+    if (m_currentInteractable == nullptr || !m_currentInteractable->CanInteract())
     {
         return;
     }
 
-    const TileType tileType =
-        m_map.GetTile(m_interactingTile.position.x, m_interactingTile.position.y);
+    const Room previousRoom = m_map.GetRoom();
+    InteractionContext context{m_player, m_map, m_view, isNoteOpen, noteText};
+    m_currentInteractable->Interact(context);
 
-    const int x = static_cast<int>(m_interactingTile.position.x / TILE_SIZE);
-    const int y = static_cast<int>(m_interactingTile.position.y / TILE_SIZE);
-
-    switch (tileType)
+    if (m_map.GetRoom() != previousRoom || !m_currentInteractable->CanInteract())
     {
-    case TileType::LeftDoorClosed:
-        m_map.SetTile(x, y, TileType::LeftDoorOpen);
-        m_map.SetTile(x + 1, y, TileType::RightDoorOpen);
-
-        break;
-    case TileType::RightDoorClosed:
-        m_map.SetTile(x - 1, y, TileType::LeftDoorOpen);
-        m_map.SetTile(x, y, TileType::RightDoorOpen);
-
-        break;
-    case TileType::LeftDoorOpen:
-    case TileType::RightDoorOpen:
-    {
-        const auto data = m_map.GetInteractionData(x, y);
-
-        if (data)
-        {
-            m_player.SetPosition(data->spawnPosition);
-
-            switch (data->targetRoom)
-            {
-            case Room::Main:
-                m_view.SetMapPixelSize({MAIN_ROOM_WIDTH * TILE_SIZE, MAIN_ROOM_HEIGHT * TILE_SIZE});
-                break;
-            case Room::CircusBaby:
-                m_view.SetMapPixelSize({CIRCUS_BABY_ROOM_WIDTH * TILE_SIZE, CIRCUS_BABY_ROOM_HEIGHT * TILE_SIZE});
-                break;
-            case Room::Electrical:
-                m_view.SetMapPixelSize({ELECTRICAL_ROOM_WIDTH * TILE_SIZE, ELECTRICAL_ROOM_HEIGHT * TILE_SIZE});
-                break;
-            case Room::Ennard:
-                m_view.SetMapPixelSize({ENNARD_ROOM_WIDTH * TILE_SIZE, ELECTRICAL_ROOM_HEIGHT * TILE_SIZE});
-                break;
-            }
-
-            m_map.ChangeRoom(data->targetRoom);
-        }
-
-        break;
-    }
-    case TileType::Key:
-        m_map.SetTile(x, y, TileType::CollectedKey);
-
-        break;
-    case TileType::Note:
-    {
-        const auto data = m_map.GetInteractionData(x, y);
-
-        if (data && data->type != InteractionType::None)
-        {
-            noteText = data->noteText;
-            isNoteOpen = true;
-            m_view.SetNoteText(noteText);
-            m_map.SetTile(x, y, TileType::CollectedNote);
-        }
-
-        break;
-    }
-    default:
-        break;
+        m_currentInteractable = nullptr;
+        m_map.SetInteraction(false);
     }
 }

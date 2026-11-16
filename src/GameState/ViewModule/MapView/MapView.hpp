@@ -5,6 +5,7 @@
 #ifndef SFML_TEST_MAPVIEW_H
 #define SFML_TEST_MAPVIEW_H
 #pragma once
+#include <vector>
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
@@ -31,7 +32,7 @@ public:
 
     void SetSize(int width, int height);
     void SetCanInteract(bool canInteract);
-    void SetInteractionPosition(sf::FloatRect tileRect, TileType type);
+    void SetInteractionPosition(sf::Vector2f position);
     void SetGrid(const std::vector<TileType> &grid);
 
     void Draw(sf::RenderWindow &window) override;

@@ -15,8 +15,7 @@ class CollisionHandler
     Map& m_map;
     View& m_view;
 
-    bool m_isInteracting = false;
-    sf::FloatRect m_interactingTile;
+    IInteractable* m_currentInteractable = nullptr;
 
     void HandlePlayerMapBumpByX(const std::vector<sf::FloatRect>& collidableTiles) const;
     void HandlePlayerMapBumpByY(const std::vector<sf::FloatRect>& collidableTiles) const;
@@ -26,7 +25,7 @@ public:
     CollisionHandler(Player &player, Map &map, View& view);
 
     void HandlePlayerMapCollision();
-    void Interact(bool& isNoteOpen, std::string& noteText) const;
+    void Interact(bool& isNoteOpen, std::string& noteText);
 };
 
 #endif // SFML_TEST_COLLISIONHANDLER_H

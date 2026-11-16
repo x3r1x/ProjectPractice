@@ -26,6 +26,16 @@ float Player::GetStamina() const
     return m_stamina;
 }
 
+int Player::GetKeysCount() const
+{
+    return m_keysCount;
+}
+
+void Player::AddKey()
+{
+    m_keysCount++;
+}
+
 sf::Vector2f Player::GetPosition() const
 {
     return m_position;

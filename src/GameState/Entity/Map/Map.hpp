@@ -17,7 +17,6 @@ class Map
     Room m_room = Room::Main;
 
     std::vector<TileType> m_grid;
-    std::unordered_map<int, InteractionData> m_interactionData;
     std::vector<std::unique_ptr<IInteractable>> m_interactableObjects;
 
     int m_width{};
@@ -25,9 +24,6 @@ class Map
 
     MapView m_view;
 
-    int GetTileIndex(int x, int y) const;
-
-    const char *GetRoomStructure(Room room);
     void ReadRoom(const char *structure);
     static TileType GetTileType(char tileAbbreviation);
 
@@ -36,21 +32,19 @@ class Map
     void ChangeToCircusBabyRoom();
     void ChangeToElectricalRoom();
 
-  public:
+public:
     Map();
 
     MapView &GetView();
     Room GetRoom() const;
     void SetInteraction(bool canInteract);
-    void SetInteractingTile(sf::FloatRect tileRect);
+    void SetInteractingObject(const IInteractable &interactable);
     TileType GetTile(float worldX, float worldY) const;
     void SetTile(int worldX, int worldY, TileType type);
-    void SetInteractionData(int x, int y, const InteractionData &data);
-    const InteractionData *GetInteractionData(int x, int y) const;
 
     void ChangeRoom(Room room);
     std::vector<sf::FloatRect> GetNearbyCollidableTiles(const sf::FloatRect &bounds) const;
-    std::vector<sf::FloatRect> GetNearbyInteractableTiles(const sf::FloatRect &bounds) const;
+    IInteractable *GetInteractableAt(const sf::FloatRect &bounds) const;
 };
 
 #endif // SFML_TEST_MAP_H

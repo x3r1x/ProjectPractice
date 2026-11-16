@@ -9,8 +9,10 @@
 #include "../../CollisionHandler/CollisionType.hpp"
 #include "../../GameConstants.hpp"
 #include "../../Interactable/Door/Door.hpp"
+#include "../../Interactable/Key/Key.hpp"
+#include "../../Interactable/Note/Note.hpp"
 
-// capital letter means that whatever lays inside that tile has benn used
+// capital letter means that whatever lays inside that tile has been used
 // . = empty space
 // # = solid block
 // p = platform
@@ -30,99 +32,45 @@ Room Map::GetRoom() const
     return m_room;
 }
 
-int Map::GetTileIndex(const int x, const int y) const
-{
-    return y * m_width + x;
-}
-
 void Map::ChangeToMainRoom()
 {
     m_width = MAIN_ROOM_WIDTH;
     m_height = MAIN_ROOM_HEIGHT;
-    m_interactableObjects.clear();
 
-    //DOORS
-    SetInteractionData(9, 12, {
-        InteractionType::Door,
-        "",
-        Room::Electrical,
-        ELECTRICAL_SPAWN_POSITION
-    });
-
-    m_interactableObjects.push_back(std::make_unique<Door>( Room::Electrical, ELECTRICAL_SPAWN_POSITION));
-
-    SetInteractionData(10, 12, {
-        InteractionType::Door,
-        "",
-        Room::Electrical,
-        ELECTRICAL_SPAWN_POSITION
-    });
-
-    SetInteractionData(2, 39, {
-        InteractionType::Door,
-        "",
-        Room::Ennard,
-        ENNARD_ROOM_SPAWN_POSITION
-    });
-
-    SetInteractionData(3, 39, {
-        InteractionType::Door,
-        "",
-        Room::Ennard,
-        ENNARD_ROOM_SPAWN_POSITION
-    });
-
-    SetInteractionData(16, 39, {
-        InteractionType::Door,
-        "",
-        Room::CircusBaby,
-        CIRCUS_BABY_SPAWN_POSITION
-    });
-
-    SetInteractionData(17, 39, {
-        InteractionType::Door,
-        "",
-        Room::CircusBaby,
-        CIRCUS_BABY_SPAWN_POSITION
-    });
+    // DOORS
+    m_interactableObjects.push_back(
+        std::make_unique<Door>(sf::Vector2i{9, 12}, Room::Electrical, ELECTRICAL_SPAWN_POSITION, true));
+    m_interactableObjects.push_back(
+        std::make_unique<Door>(sf::Vector2i{2, 39}, Room::Ennard, ENNARD_ROOM_SPAWN_POSITION, true));
+    m_interactableObjects.push_back(
+        std::make_unique<Door>(sf::Vector2i{16, 39}, Room::CircusBaby, CIRCUS_BABY_SPAWN_POSITION, true));
 
     // NOTES
-    //left at spawn
-    SetInteractionData(6, 39, {
-        InteractionType::Note,
-        "NOTE 1\nHey!"
-    });
+    // left at spawn
+    m_interactableObjects.push_back(
+        std::make_unique<Note>(sf::Vector2i{6, 39}, "NOTE 1\nHey!"));
 
-    //right at spawn
-    SetInteractionData(13, 39, {
-        InteractionType::Note,
-        "NOTE 2\nHello!"
-    });
+    // right at spawn
+    m_interactableObjects.push_back(
+        std::make_unique<Note>(sf::Vector2i{13, 39}, "NOTE 2\nHello!"));
 
-    //left near spawn
-    SetInteractionData(1, 36, {
-        InteractionType::Note,
-        "NOTE 3\nGoodbye!"
-    });
+    // left near spawn
+    m_interactableObjects.push_back(
+        std::make_unique<Note>(sf::Vector2i{1, 36}, "NOTE 3\nGoodbye!"));
 
+    // right near spawn
+    m_interactableObjects.push_back(
+        std::make_unique<Note>(sf::Vector2i{18, 36}, "NOTE 4\nBye!"));
 
-    //right near spawn
-    SetInteractionData(18, 36, {
-        InteractionType::Note,
-        "NOTE 4\nBye!"
-    });
+    // funtime freddy room
+    m_interactableObjects.push_back(
+        std::make_unique<Note>(sf::Vector2i{5, 1},
+                               "NOTE 5\nSay hello to Funtime Freddy,\nas well as his BonBon!"));
 
-    //funtime freddy room
-    SetInteractionData(5, 1, {
-        InteractionType::Note,
-        "NOTE 5\nSay hello to Funtime Freddy,\nas well as his BonBon!"
-    });
-
-    //bidybab and electrobab room
-    SetInteractionData(14, 21, {
-        InteractionType::Note,
-        "NOTE 6\nSay hello to Bidybab and\nElectrobab duo!"
-    });
+    // bidybab and electrobab room
+    m_interactableObjects.push_back(
+        std::make_unique<Note>(sf::Vector2i{14, 21},
+                               "NOTE 6\nSay hello to Bidybab and\nElectrobab duo!"));
 }
 
 void Map::ChangeToEnnardRoom()
@@ -130,20 +78,9 @@ void Map::ChangeToEnnardRoom()
     m_width = ENNARD_ROOM_WIDTH;
     m_height = ENNARD_ROOM_HEIGHT;
 
-    //DOORS
-    SetInteractionData(5, 8, {
-        InteractionType::Door,
-        "",
-        Room::Main,
-        PLAYER_START_POSITION
-    });
-
-    SetInteractionData(6, 8, {
-        InteractionType::Door,
-        "",
-        Room::Main,
-        PLAYER_START_POSITION
-    });
+    // DOORS
+    m_interactableObjects.push_back(
+        std::make_unique<Door>(sf::Vector2i{5, 8}, Room::Main, PLAYER_START_POSITION, false));
 }
 
 void Map::ChangeToCircusBabyRoom()
@@ -151,26 +88,13 @@ void Map::ChangeToCircusBabyRoom()
     m_width = CIRCUS_BABY_ROOM_WIDTH;
     m_height = CIRCUS_BABY_ROOM_HEIGHT;
 
-    //DOORS
-    SetInteractionData(9, 14, {
-        InteractionType::Door,
-        "",
-        Room::Main,
-        MAIN_ROOM_FROM_CIRCUS_SPAWN_POSITION
-    });
-
-    SetInteractionData(10, 14, {
-        InteractionType::Door,
-        "",
-        Room::Main,
-        MAIN_ROOM_FROM_CIRCUS_SPAWN_POSITION
-    });
+    // DOORS
+    m_interactableObjects.push_back(
+        std::make_unique<Door>(sf::Vector2i{9, 14}, Room::Main, MAIN_ROOM_FROM_CIRCUS_SPAWN_POSITION, false));
 
     // NOTES
-    SetInteractionData(11, 3, {
-        InteractionType::Note,
-        "NOTE 7\nSay hello to CIIIIIRCUS BABY!"
-    });
+    m_interactableObjects.push_back(
+        std::make_unique<Note>(sf::Vector2i{11, 3}, "NOTE 7\nSay hello to CIIIIIRCUS BABY!"));
 }
 
 void Map::ChangeToElectricalRoom()
@@ -178,51 +102,17 @@ void Map::ChangeToElectricalRoom()
     m_width = ELECTRICAL_ROOM_WIDTH;
     m_height = ELECTRICAL_ROOM_HEIGHT;
 
-    //DOORS
-    SetInteractionData(1, 8, {
-        InteractionType::Door,
-        "",
-        Room::Main,
-        MAIN_ROOM_FROM_ELECTRICAL_SPAWN_POSITION
-    });
-
-    SetInteractionData(2, 8, {
-        InteractionType::Door,
-        "",
-        Room::Main,
-        MAIN_ROOM_FROM_ELECTRICAL_SPAWN_POSITION
-    });
+    // DOORS
+    m_interactableObjects.push_back(
+        std::make_unique<Door>(sf::Vector2i{1, 8}, Room::Main, MAIN_ROOM_FROM_ELECTRICAL_SPAWN_POSITION, false));
 
     // NOTES
-    SetInteractionData(9, 2, {
-        InteractionType::Note,
-        "NOTE 8\nSome secrets are gonna be \nrevealed here...\nIdk which ones, so...\n\n\nCOMING SOON!"
-    });
+    m_interactableObjects.push_back(
+        std::make_unique<Note>(sf::Vector2i{9, 2},
+                               "NOTE 8\nSome secrets are gonna be \nrevealed here...\nIdk which ones, so...\n\n\nCOMING SOON!"));
 }
 
-const char *Map::GetRoomStructure(const Room room)
-{
-    switch (room)
-    {
-    case Room::Main:
-        ChangeToMainRoom();
-        return MAIN_ROOM_STRUCTURE;
-    case Room::Ennard:
-        ChangeToEnnardRoom();
-        return ENNARD_ROOM_STRUCTURE;
-    case Room::CircusBaby:
-        ChangeToCircusBabyRoom();
-        return CIRCUS_BABY_ROOM_STRUCTURE;
-    case Room::Electrical:
-        ChangeToElectricalRoom();
-        return ELECTRICAL_ROOM_STRUCTURE;
-    default:;
-    }
-
-    return "";
-}
-
-void Map::ReadRoom(const char* structure)
+void Map::ReadRoom(const char *structure)
 {
     m_grid.assign(m_width * m_height, TileType::Empty);
 
@@ -230,7 +120,13 @@ void Map::ReadRoom(const char* structure)
     {
         for (int j = 0; j < m_height; j++)
         {
-            SetTile(i, j, GetTileType(structure[j * m_width + i]));
+            const TileType type = GetTileType(structure[j * m_width + i]);
+            m_grid[j * m_width + i] = type;
+
+            if (type == TileType::Key)
+            {
+                m_interactableObjects.push_back(std::make_unique<Key>(sf::Vector2i{i, j}));
+            }
         }
     }
 
@@ -260,16 +156,14 @@ void Map::SetInteraction(const bool canInteract)
     m_view.SetCanInteract(canInteract);
 }
 
-void Map::SetInteractingTile(const sf::FloatRect tileRect)
+void Map::SetInteractingObject(const IInteractable &interactable)
 {
-    const TileType tileType = GetTile(tileRect.position.x, tileRect.position.y);
-
-    m_view.SetInteractionPosition(tileRect, tileType);
+    m_view.SetInteractionPosition(interactable.GetPromptPosition());
 }
 
 void Map::SetTile(const int worldX, const int worldY, const TileType type)
 {
-    if (worldX < m_width && worldY < m_height)
+    if (worldX >= 0 && worldY >= 0 && worldX < m_width && worldY < m_height)
     {
         m_grid[worldY * m_width + worldX] = type;
         m_view.SetGrid(m_grid);
@@ -293,10 +187,10 @@ TileType Map::GetTile(const float worldX, const float worldY) const
 
 void Map::ChangeRoom(const Room room)
 {
-    m_interactionData.clear();
+    m_interactableObjects.clear();
 
     m_room = room;
-    const char* roomStructure;
+    const char *roomStructure = "";
 
     switch (room)
     {
@@ -316,27 +210,12 @@ void Map::ChangeRoom(const Room room)
         ChangeToElectricalRoom();
         roomStructure = ELECTRICAL_ROOM_STRUCTURE;
         break;
-    default:;
-        roomStructure = "";
+    default:
+        break;
     }
 
     m_view.SetSize(m_width, m_height);
     ReadRoom(roomStructure);
-}
-
-void Map::SetInteractionData(int x, int y, const InteractionData &data)
-{
-    m_interactionData[GetTileIndex(x, y)] = data;
-}
-
-const InteractionData *Map::GetInteractionData(const int x, const int y) const
-{
-    const auto data = m_interactionData.find(GetTileIndex(x, y));
-
-    if (data == m_interactionData.end())
-        return nullptr;
-
-    return &data->second;
 }
 
 std::vector<sf::FloatRect> Map::GetNearbyCollidableTiles(const sf::FloatRect &bounds) const
@@ -367,30 +246,15 @@ std::vector<sf::FloatRect> Map::GetNearbyCollidableTiles(const sf::FloatRect &bo
     return nearbyTiles;
 }
 
-std::vector<sf::FloatRect> Map::GetNearbyInteractableTiles(const sf::FloatRect &bounds) const
+IInteractable *Map::GetInteractableAt(const sf::FloatRect &bounds) const
 {
-    std::vector<sf::FloatRect> nearbyTiles;
-
-    const int minCol = std::clamp(static_cast<int>(bounds.position.x / TILE_SIZE), 0, m_width - 1);
-    const int maxCol = std::clamp(static_cast<int>((bounds.position.x + bounds.size.x) / TILE_SIZE),
-                                  0, m_width - 1);
-    const int minRow = std::clamp(static_cast<int>(bounds.position.y / TILE_SIZE), 0, m_height - 1);
-    const int maxRow = std::clamp(static_cast<int>((bounds.position.y + bounds.size.y) / TILE_SIZE),
-                                  0, m_height - 1);
-
-    for (int r = minRow; r <= maxRow; r++)
+    for (const auto &object : m_interactableObjects)
     {
-        for (int c = minCol; c <= maxCol; c++)
+        if (object->CanInteract() && bounds.findIntersection(object->GetBounds()))
         {
-            const CollisionType collisionType = GetCollisionType(m_grid[r * m_width + c]);
-
-            if (collisionType == CollisionType::Interaction)
-            {
-                nearbyTiles.emplace_back(sf::Vector2f(c * TILE_SIZE, r * TILE_SIZE),
-                                         sf::Vector2f(TILE_SIZE, TILE_SIZE));
-            }
+            return object.get();
         }
     }
 
-    return nearbyTiles;
+    return nullptr;
 }

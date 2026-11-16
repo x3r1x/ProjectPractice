@@ -4,26 +4,22 @@
 
 #ifndef SFML_TEST_NOTE_HPP
 #define SFML_TEST_NOTE_HPP
-#include <string>
+#pragma once
 
-#include <SFML/Graphics/Font.hpp>
-#include <SFML/Graphics/Text.hpp>
+#include <string>
 
 #include "../IInteractable.h"
 
-class Note: public IInteractable
+class Note : public IInteractable
 {
-    sf::Font m_font;
-    sf::Text m_text;
-
-    std::string m_string;
-
+    std::string m_text;
     bool m_isCollected = false;
-public:
-    Note();
 
-    void Interact() override;
-    bool CanInteract() override;
+public:
+    Note(sf::Vector2i position, std::string text);
+
+    void Interact(InteractionContext &context) override;
+    bool CanInteract() const override;
 };
 
 #endif // SFML_TEST_NOTE_HPP

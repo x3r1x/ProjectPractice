@@ -8,8 +8,6 @@
 
 #include "../../GameConstants.hpp"
 
-enum class TileType : uint8_t;
-
 constexpr auto PATH_TO_SPRITE = "../assets/png/Tiles.png";
 constexpr auto FONT_PATH = "../assets/ttf/Jura-Bold.ttf";
 
@@ -48,30 +46,9 @@ void MapView::SetCanInteract(const bool canInteract)
     m_canInteract = canInteract;
 }
 
-void MapView::SetInteractionPosition(const sf::FloatRect tileRect, const TileType type)
+void MapView::SetInteractionPosition(const sf::Vector2f position)
 {
-    if (type == TileType::LeftDoorClosed || type == TileType::LeftDoorOpen)
-    {
-        const float x = tileRect.position.x + tileRect.size.x;
-        const float y = tileRect.position.y + tileRect.size.y / 2;
-
-        m_text.setPosition({x, y});
-        return;
-    }
-
-    if (type == TileType::RightDoorClosed || type == TileType::RightDoorOpen)
-    {
-        const float x = tileRect.position.x;
-        const float y = tileRect.position.y + tileRect.size.y / 2;
-
-        m_text.setPosition({x, y});
-        return;
-    }
-
-    const float x = tileRect.position.x + tileRect.size.x / 2;
-    const float y = tileRect.position.y + tileRect.size.y / 2;
-
-    m_text.setPosition({x, y});
+    m_text.setPosition(position);
 }
 
 void MapView::SetGrid(const std::vector<TileType> &grid)
