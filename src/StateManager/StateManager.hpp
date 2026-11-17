@@ -23,10 +23,9 @@ enum class AppState: uint8_t
     Newspaper = 3,
     GamePlaying = 4,
     GamePaused = 5,
-    JumpScare = 6,
-    GameLost = 7,
-    BadEnding = 8,
-    GoodEnding = 9
+    GameLost = 6,
+    BadEnding = 7,
+    GoodEnding = 8
 };
 
 class StateManager

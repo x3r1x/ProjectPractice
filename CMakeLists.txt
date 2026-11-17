@@ -64,5 +64,8 @@ add_executable(app src/main.cpp
         src/GameState/ViewModule/EnemyView/EnemyView.hpp
         src/GameState/Entity/Enemy/EnemyFactory/EnemyFactory.cpp
         src/GameState/Entity/Enemy/EnemyFactory/EnemyFactory.hpp
+        src/GameLostState/GameLostState.cpp
+        src/GameLostState/GameLostState.hpp
+        src/GameLostState/GameLostConstants.hpp
 )
 target_link_libraries(app PRIVATE SFML::Graphics)

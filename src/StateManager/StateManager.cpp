@@ -5,6 +5,7 @@
 #include "./StateManager.hpp"
 
 #include "../AppConstants.hpp"
+#include "../GameLostState/GameLostState.hpp"
 #include "../MenuState/Options/Options.hpp"
 #include "../MenuState/Tutorial/Tutorial.hpp"
 #include "../NewspaperState/NewspaperState.hpp"
@@ -96,6 +97,9 @@ void StateManager::ApplyStateChange()
         m_stateObject = std::make_unique<NewspaperState>(m_window, GAME_START_SPRITE_PATH,
                                                          [this] { StartGame(); });
         break;
+    case AppState::GameLost:
+        m_stateObject = std::make_unique<GameLostState>(m_window, [this]{ GoToMenu(); });
+        break;
     case AppState::BadEnding:
         m_stateObject = std::make_unique<NewspaperState>(m_window, BAD_ENDING_SPRITE_PATH,
                                                          [this] { GoToMenu(); });
@@ -103,7 +107,7 @@ void StateManager::ApplyStateChange()
     case AppState::GamePlaying:
         m_stateObject = std::make_unique<Game>(
             m_window, [this] { SetGamePaused(false); }, [this] { GoToMenu(); },
-            [this] { m_pendingState = AppState::BadEnding; });
+            [this] { m_pendingState = AppState::GameLost; });
         break;
     default:
         return;
