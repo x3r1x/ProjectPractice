@@ -107,7 +107,7 @@ void StateManager::ApplyStateChange()
     case AppState::GamePlaying:
         m_stateObject = std::make_unique<Game>(
             m_window, [this] { SetGamePaused(false); }, [this] { GoToMenu(); },
-            [this] { m_pendingState = AppState::GameLost; });
+            [this] { m_pendingState = AppState::GameLost; }, [this] { m_pendingState = AppState::BadEnding; });
         break;
     default:
         return;

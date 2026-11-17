@@ -6,8 +6,10 @@
 #define SFML_TEST_JUMPSCARE_HPP
 #pragma once
 
-#include <SFML/Graphics.hpp>
+#include <functional>
 #include <string>
+
+#include <SFML/Graphics.hpp>
 
 class JumpScare {
     sf::Texture m_texture;
@@ -17,14 +19,15 @@ class JumpScare {
     float m_elapsedTime = 0.0;
     bool m_isPlaying = false;
 
+    std::function<void()> m_onEnd;
 public:
-    JumpScare(const std::string& texturePath, sf::Vector2u windowSize);
+    JumpScare(const std::string& texturePath, sf::Vector2u windowSize, std::function<void()> onEnd);
 
-    void play();
-    void update(float dt);
-    void render(sf::RenderWindow& window) const;
+    void Play();
+    void Update(float dt);
+    void Draw(sf::RenderWindow& window) const;
 
-    bool isPlaying() const;
+    bool IsPlaying() const;
 };
 
 #endif // SFML_TEST_JUMPSCARE_HPP

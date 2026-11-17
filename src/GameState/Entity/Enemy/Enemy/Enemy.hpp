@@ -27,7 +27,7 @@ protected:
     virtual void UpdateBehavior(const EnemyContext &context, float deltaTime) = 0;
 
 public:
-    Enemy(sf::Vector2f spawnPosition, const std::string &spritePath, sf::Vector2f spriteScale,
+    Enemy(sf::Vector2f spawnPosition, const std::string &spritePath, sf::Vector2f spriteScale, std::function<void()> onJumpScareEnd,
           const std::string &jumpScarePath, sf::Vector2u windowSize, float moveSpeed,
           bool useGravity = true);
     virtual ~Enemy() = default;

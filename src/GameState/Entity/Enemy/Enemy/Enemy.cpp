@@ -3,13 +3,17 @@
 //
 
 #include "Enemy.hpp"
+
+#include <utility>
+
 #include "../../../GameConstants.hpp"
 
 Enemy::Enemy(const sf::Vector2f spawnPosition, const std::string &spritePath,
-             const sf::Vector2f spriteScale, const std::string &jumpScarePath,
-             const sf::Vector2u windowSize, const float moveSpeed, const bool useGravity)
+             const sf::Vector2f spriteScale, std::function<void()> onJumpScareEnd,
+             const std::string &jumpScarePath, const sf::Vector2u windowSize, const float moveSpeed,
+             const bool useGravity)
     : m_position(spawnPosition), m_moveSpeed(moveSpeed), m_useGravity(useGravity),
-      m_view(spritePath, spriteScale), m_jumpScare(jumpScarePath, windowSize)
+      m_view(spritePath, spriteScale), m_jumpScare(jumpScarePath, windowSize, std::move(onJumpScareEnd))
 {
     m_view.SetPosition(m_position);
 }

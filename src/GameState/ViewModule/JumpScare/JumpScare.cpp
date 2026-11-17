@@ -5,11 +5,12 @@
 #include "JumpScare.hpp"
 
 #include <iostream>
+#include <utility>
 
 #include "../../GameConstants.hpp"
 
-JumpScare::JumpScare(const std::string& texturePath, sf::Vector2u windowSize)
-    : m_sprite(m_texture)
+JumpScare::JumpScare(const std::string& texturePath, const sf::Vector2u windowSize, std::function<void()> onEnd)
+    : m_sprite(m_texture), m_onEnd(std::move(onEnd))
 {
     if (!m_texture.loadFromFile(texturePath))
     {
@@ -22,7 +23,7 @@ JumpScare::JumpScare(const std::string& texturePath, sf::Vector2u windowSize)
                        static_cast<float>(windowSize.y) / JUMPSCARE_FRAME_SIZE.y});
 }
 
-void JumpScare::play() {
+void JumpScare::Play() {
     m_currentFrame = 0;
     m_elapsedTime = 0.0f;
     m_isPlaying = true;
@@ -30,7 +31,7 @@ void JumpScare::play() {
     m_sprite.setTextureRect(sf::IntRect({0, 0}, JUMPSCARE_FRAME_SIZE));
 }
 
-void JumpScare::update(const float dt) {
+void JumpScare::Update(const float dt) {
     if (!m_isPlaying) return;
 
     m_elapsedTime += dt;
@@ -46,19 +47,24 @@ void JumpScare::update(const float dt) {
         int left = m_currentFrame % JUMPSCARE_FRAMES * JUMPSCARE_FRAME_SIZE.x;
         int top = m_currentFrame / JUMPSCARE_FRAMES * JUMPSCARE_FRAME_SIZE.y;
         m_sprite.setTextureRect(sf::IntRect({left, top}, JUMPSCARE_FRAME_SIZE));
+
+        if (m_currentFrame > JUMPSCARE_FRAMES)
+        {
+            m_onEnd();
+        }
     }
 }
 
-void JumpScare::render(sf::RenderWindow& window) const {
+void JumpScare::Draw(sf::RenderWindow& window) const {
     if (!m_isPlaying) return;
 
-    sf::View oldView = window.getView();
+    const sf::View oldView = window.getView();
     window.setView(window.getDefaultView());
     window.draw(m_sprite);
     window.setView(oldView);
 }
 
-bool JumpScare::isPlaying() const
+bool JumpScare::IsPlaying() const
 {
     return m_isPlaying;
 }

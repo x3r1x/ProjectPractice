@@ -7,11 +7,12 @@
 #include <utility>
 
 Game::Game(sf::RenderWindow &window, std::function<void()> onContinueGame,
-           std::function<void()> onExitGame, std::function<void()> onGameEnd)
+           std::function<void()> onExitGame, std::function<void()> onPlayerDeath,
+           std::function<void()> onGameEnd)
     : m_enemies(std::vector<std::unique_ptr<Enemy>>()), m_view(window, m_map.GetView(), m_player),
       m_collisionHandler(m_player, m_enemies, m_map, m_view),
       m_onContinueGame(std::move(onContinueGame)), m_onExitGame(std::move(onExitGame)),
-      m_onGameEnd(std::move(onGameEnd))
+      m_onPlayerDeath(std::move(onPlayerDeath)), m_onGameEnd(std::move(onGameEnd))
 {
 }
 
