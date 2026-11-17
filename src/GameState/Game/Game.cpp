@@ -8,7 +8,9 @@
 
 Game::Game(sf::RenderWindow &window, std::function<void()> onContinueGame,
            std::function<void()> onExitGame, std::function<void()> onGameEnd)
-    : m_view(window, m_map.GetView(), m_player), m_collisionHandler(m_player, m_map, m_view),
+    : m_enemies(std::vector<std::unique_ptr<Enemy>>()), m_view(window, m_map.GetView(), m_player),
+      m_collisionHandler(m_player, m_enemies, m_map, m_view),
+      m_jumpScare("../assets/png/FuntimeFreddyJumpScare.png", window.getSize()),
       m_onContinueGame(std::move(onContinueGame)), m_onExitGame(std::move(onExitGame)),
       m_onGameEnd(std::move(onGameEnd))
 {
@@ -25,7 +27,9 @@ void Game::HandleEvent(const sf::Event &event)
     {
         if (m_view.IsExitClicked(event))
         {
-            m_onExitGame();
+            m_jumpScare.play();
+            m_onContinueGame();
+            // m_onExitGame();
         }
 
         if (m_view.IsContinueClicked(event))
@@ -49,6 +53,10 @@ void Game::HandleEvent(const sf::Event &event)
 
 void Game::Update(const float deltaTime)
 {
+    if (m_jumpScare.isPlaying())
+    {
+        m_jumpScare.update(deltaTime);
+    }
     if (m_isNoteOpen)
     {
         return;
@@ -65,5 +73,10 @@ void Game::Draw()
     if (m_isAppPaused)
     {
         m_view.DrawPauseMenu();
+    }
+
+    if (m_jumpScare.isPlaying())
+    {
+        m_jumpScare.render(m_view.GetWindow());
     }
 }

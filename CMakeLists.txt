@@ -55,5 +55,14 @@ add_executable(app src/main.cpp
         src/GameState/Interactable/Key/Key.hpp
         src/GameState/Interactable/Note/Note.cpp
         src/GameState/Interactable/Note/Note.hpp
+        src/GameState/ViewModule/JumpScare/JumpScare.cpp
+        src/GameState/ViewModule/JumpScare/JumpScare.hpp
+        src/GameState/Entity/Enemy/Enemy/Enemy.cpp
+        src/GameState/Entity/Enemy/Enemy/Enemy.hpp
+        src/GameState/Entity/Enemy/EnemyType.hpp
+        src/GameState/ViewModule/EnemyView/EnemyView.cpp
+        src/GameState/ViewModule/EnemyView/EnemyView.hpp
+        src/GameState/Entity/Enemy/EnemyFactory/EnemyFactory.cpp
+        src/GameState/Entity/Enemy/EnemyFactory/EnemyFactory.hpp
 )
 target_link_libraries(app PRIVATE SFML::Graphics)

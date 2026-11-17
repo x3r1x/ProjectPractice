@@ -7,11 +7,12 @@
 #include "../GameConstants.hpp"
 #include "../ViewModule/View/View.hpp"
 #include "CollisionType.hpp"
+#include "../Entity/Player/Player.hpp"
 
 using namespace std;
 
-CollisionHandler::CollisionHandler(Player &player, Map &map, View &view)
-    : m_player(player), m_map(map), m_view(view)
+CollisionHandler::CollisionHandler(Player &player, std::vector<std::unique_ptr<Enemy>> &enemies, Map &map, View &view)
+    : m_player(player), m_enemies(enemies), m_map(map), m_view(view)
 {
 }
 
@@ -88,12 +89,95 @@ void CollisionHandler::HandlePlayerMapBumpByY(
     }
 }
 
+void CollisionHandler::HandleEnemyMapCollisionByX(
+    Enemy &enemy, const std::vector<sf::FloatRect> &collidableTiles) const
+{
+    sf::FloatRect bounds = enemy.GetBounds();
+    const sf::Vector2f position = enemy.GetPosition();
+    const sf::Vector2f velocity = enemy.GetVelocity();
+
+    bounds.position.y += EPSILON * 5000;
+    bounds.size.y -= EPSILON * 10000;
+
+    for (const auto &tileRect : collidableTiles)
+    {
+        const auto tileType = m_map.GetTile(tileRect.position.x, tileRect.position.y);
+        const auto collisionType = GetCollisionType(tileType);
+
+        if (bounds.findIntersection(tileRect) && collisionType == CollisionType::Bump &&
+            tileType == TileType::Solid)
+        {
+            if (velocity.x > 0)
+            {
+                enemy.SetPosition({tileRect.position.x - bounds.size.x / 2 - EPSILON, position.y});
+                enemy.SetVelocity({0, velocity.y});
+                enemy.CollideWithWall(true);
+            }
+            else if (velocity.x < 0)
+            {
+                enemy.SetPosition(
+                    {tileRect.position.x + tileRect.size.x + bounds.size.x / 2 + EPSILON,
+                     position.y});
+                enemy.SetVelocity({0, velocity.y});
+                enemy.CollideWithWall(false);
+            }
+            break;
+        }
+    }
+}
+
+void CollisionHandler::HandleEnemyMapCollisionByY(
+    Enemy &enemy, const std::vector<sf::FloatRect> &collidableTiles) const
+{
+    enemy.SetGround(false);
+    sf::FloatRect bounds = enemy.GetBounds();
+    const auto velocity = enemy.GetVelocity();
+    const auto position = enemy.GetPosition();
+
+    bounds.position.x += EPSILON * 5000;
+    bounds.size.x -= EPSILON * 10000;
+
+    for (const auto &tileRect : collidableTiles)
+    {
+        const auto tileType = m_map.GetTile(tileRect.position.x, tileRect.position.y);
+        const auto collisionType = GetCollisionType(tileType);
+
+        if (bounds.findIntersection(tileRect) && collisionType == CollisionType::Bump &&
+            !(tileType == TileType::Platform && velocity.y <= 0))
+        {
+            if (velocity.y > 0)
+            {
+                enemy.SetPosition({position.x, tileRect.position.y - bounds.size.y / 2 - EPSILON});
+                enemy.SetGround(true);
+            }
+            else if (velocity.y < 0)
+            {
+                enemy.SetPosition({position.x, tileRect.position.y + tileRect.size.y +
+                                                     bounds.size.y / 2 + EPSILON});
+            }
+
+            enemy.SetVelocity({velocity.x, 0});
+            break;
+        }
+    }
+}
+
 void CollisionHandler::HandlePlayerMapBump() const
 {
     const auto collidableTiles = m_map.GetNearbyCollidableTiles(m_player.GetView().GetBounds());
 
     HandlePlayerMapBumpByX(collidableTiles);
     HandlePlayerMapBumpByY(collidableTiles);
+}
+
+void CollisionHandler::HandleEnemiesMapCollision() const
+{
+    for (auto &enemy : m_enemies)
+    {
+        const auto collidableTiles = m_map.GetNearbyCollidableTiles(enemy->GetBounds());
+        HandleEnemyMapCollisionByX(*enemy, collidableTiles);
+        HandleEnemyMapCollisionByY(*enemy, collidableTiles);
+    }
 }
 
 void CollisionHandler::HandlePlayerMapInteraction()

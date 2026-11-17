@@ -12,14 +12,17 @@
 #include "../Entity/Map/Map.hpp"
 #include "../Entity/Player/Player.hpp"
 #include "../EventListener/EventListener.hpp"
+#include "../ViewModule/JumpScare/JumpScare.hpp"
 #include "../ViewModule/View/View.hpp"
 
 class Game : public IState
 {
     Player m_player;
     Map m_map;
+    std::vector<std::unique_ptr<Enemy>> m_enemies;
     View m_view;
     CollisionHandler m_collisionHandler;
+    JumpScare m_jumpScare;
 
     std::function<void()> m_onContinueGame;
     std::function<void()> m_onExitGame;
