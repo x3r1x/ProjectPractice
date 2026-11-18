@@ -4,14 +4,15 @@
 
 #include "CollisionHandler.hpp"
 
+#include "../Entity/Player/Player.hpp"
 #include "../GameConstants.hpp"
 #include "../ViewModule/View/View.hpp"
 #include "CollisionType.hpp"
-#include "../Entity/Player/Player.hpp"
 
 using namespace std;
 
-CollisionHandler::CollisionHandler(Player &player, std::vector<std::unique_ptr<Enemy>> &enemies, Map &map, View &view)
+CollisionHandler::CollisionHandler(Player &player, std::vector<std::unique_ptr<Enemy>> &enemies,
+                                   Map &map, View &view)
     : m_player(player), m_enemies(enemies), m_map(map), m_view(view)
 {
 }
@@ -50,6 +51,32 @@ void CollisionHandler::HandlePlayerMapBumpByX(
             break;
         }
     }
+}
+
+void CollisionHandler::HandleEnemiesMapCollision() const
+{
+    for (auto &enemy : m_enemies)
+    {
+        const auto collidableTiles = m_map.GetNearbyCollidableTiles(enemy->GetBounds());
+        HandleEnemyMapCollisionByX(*enemy, collidableTiles);
+        HandleEnemyMapCollisionByY(*enemy, collidableTiles);
+        enemy->ClampToZone();
+    }
+}
+
+Enemy *CollisionHandler::GetCollidingEnemy() const
+{
+    const sf::FloatRect playerBounds = m_player.GetView().GetBounds();
+
+    for (const auto &enemy : m_enemies)
+    {
+        if (playerBounds.findIntersection(enemy->GetBounds()))
+        {
+            return enemy.get();
+        }
+    }
+
+    return nullptr;
 }
 
 void CollisionHandler::HandlePlayerMapBumpByY(
@@ -153,7 +180,7 @@ void CollisionHandler::HandleEnemyMapCollisionByY(
             else if (velocity.y < 0)
             {
                 enemy.SetPosition({position.x, tileRect.position.y + tileRect.size.y +
-                                                     bounds.size.y / 2 + EPSILON});
+                                                   bounds.size.y / 2 + EPSILON});
             }
 
             enemy.SetVelocity({velocity.x, 0});
@@ -168,16 +195,6 @@ void CollisionHandler::HandlePlayerMapBump() const
 
     HandlePlayerMapBumpByX(collidableTiles);
     HandlePlayerMapBumpByY(collidableTiles);
-}
-
-void CollisionHandler::HandleEnemiesMapCollision() const
-{
-    for (auto &enemy : m_enemies)
-    {
-        const auto collidableTiles = m_map.GetNearbyCollidableTiles(enemy->GetBounds());
-        HandleEnemyMapCollisionByX(*enemy, collidableTiles);
-        HandleEnemyMapCollisionByY(*enemy, collidableTiles);
-    }
 }
 
 void CollisionHandler::HandlePlayerMapInteraction()
@@ -208,7 +225,7 @@ void CollisionHandler::HandlePlayerMapCollision()
     HandlePlayerMapInteraction();
 }
 
-void CollisionHandler::Interact(bool& isNoteOpen, std::string& noteText)
+void CollisionHandler::Interact(bool &isNoteOpen, std::string &noteText)
 {
     if (m_currentInteractable == nullptr || !m_currentInteractable->CanInteract())
     {

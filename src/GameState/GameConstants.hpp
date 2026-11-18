@@ -82,5 +82,3 @@ constexpr auto JUMPSCARE_FRAME_SIZE = sf::Vector2i(468, 264);
 constexpr int JUMPSCARE_FRAMES = 14508 / JUMPSCARE_FRAME_SIZE.x;
 constexpr int JUMPSCARE_FPS = 24;
 constexpr float JUMPSCARE_FRAME_DURATION = 1.0 / JUMPSCARE_FPS;
-
-constexpr float ENEMY_VELOCITY_EPSILON = 0.1;

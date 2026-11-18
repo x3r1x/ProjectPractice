@@ -9,11 +9,16 @@
 #include <functional>
 #include <string>
 
+#include <SFML/Audio/Sound.hpp>
+#include <SFML/Audio/SoundBuffer.hpp>
 #include <SFML/Graphics.hpp>
 
 class JumpScare {
     sf::Texture m_texture;
     sf::Sprite m_sprite;
+
+    sf::SoundBuffer m_soundBuffer;
+    sf::Sound m_sound;
 
     int m_currentFrame = 0;
     float m_elapsedTime = 0.0;
@@ -21,7 +26,7 @@ class JumpScare {
 
     std::function<void()> m_onEnd;
 public:
-    JumpScare(const std::string& texturePath, sf::Vector2u windowSize, std::function<void()> onEnd);
+    JumpScare(const std::string& texturePath, const std::string& soundPath, sf::Vector2u windowSize, std::function<void()> onEnd);
 
     void Play();
     void Update(float dt);

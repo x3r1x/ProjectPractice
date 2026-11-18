@@ -36,6 +36,8 @@ class StateManager
     AppState m_state = AppState::MainMenu;
     std::optional<AppState> m_pendingState;
 
+    sf::Music m_menuTheme;
+
     void HandleEvents(const sf::Event &event);
     void Update(float elapsedTime) const;
     void Draw();

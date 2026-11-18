@@ -7,14 +7,86 @@
 #include <utility>
 
 #include "../../../GameConstants.hpp"
+#include "../EnemyConstants.hpp"
 
-Enemy::Enemy(const sf::Vector2f spawnPosition, const std::string &spritePath,
-             const sf::Vector2f spriteScale, std::function<void()> onJumpScareEnd,
-             const std::string &jumpScarePath, const sf::Vector2u windowSize, const float moveSpeed,
-             const bool useGravity)
-    : m_position(spawnPosition), m_moveSpeed(moveSpeed), m_useGravity(useGravity),
-      m_view(spritePath, spriteScale), m_jumpScare(jumpScarePath, windowSize, std::move(onJumpScareEnd))
+Enemy::Enemy(const sf::Vector2f spawnPosition, const sf::IntRect zoneTiles,
+             const std::string &spritePath, const std::string &soundPath,
+             std::function<void()> onJumpScareEnd, const std::string &jumpScarePath,
+             const sf::Vector2u windowSize, const float moveSpeed, const bool useGravity)
+    : m_position(spawnPosition), m_zone(zoneTiles), m_moveSpeed(moveSpeed),
+      m_useGravity(useGravity), m_view(spritePath, ENEMY_SPRITE_SCALE),
+      m_jumpScare(jumpScarePath, soundPath, windowSize, std::move(onJumpScareEnd))
 {
+    m_view.SetPosition(m_position);
+    ClampToZone();
+}
+
+sf::FloatRect Enemy::GetZoneWorldBounds() const
+{
+    return {
+        {static_cast<float>(m_zone.position.x * TILE_SIZE),
+         static_cast<float>(m_zone.position.y * TILE_SIZE)},
+        {static_cast<float>(m_zone.size.x * TILE_SIZE),
+         static_cast<float>(m_zone.size.y * TILE_SIZE)}
+    };
+}
+
+bool Enemy::IsPlayerInZone(const sf::Vector2f playerPosition) const
+{
+    return GetZoneWorldBounds().contains(playerPosition);
+}
+
+void Enemy::ClampToZone()
+{
+    const sf::FloatRect zoneBounds = GetZoneWorldBounds();
+    const sf::FloatRect enemyBounds = GetBounds();
+
+    const float halfWidth = enemyBounds.size.x / 2;
+    const float halfHeight = enemyBounds.size.y / 2;
+
+    const float minX = zoneBounds.position.x + halfWidth;
+    const float maxX = zoneBounds.position.x + zoneBounds.size.x - halfWidth;
+    const float minY = zoneBounds.position.y + halfHeight;
+    const float maxY = zoneBounds.position.y + zoneBounds.size.y - halfHeight;
+
+    if (minX <= maxX)
+    {
+        if (m_position.x < minX)
+        {
+            m_position.x = minX;
+            m_velocity.x = 0;
+            CollideWithWall(false);
+        }
+        else if (m_position.x > maxX)
+        {
+            m_position.x = maxX;
+            m_velocity.x = 0;
+            CollideWithWall(true);
+        }
+    }
+
+    if (minY <= maxY)
+    {
+        if (m_position.y < minY)
+        {
+            m_position.y = minY;
+            if (m_velocity.y < 0)
+            {
+                m_velocity.y = 0;
+            }
+        }
+        else if (m_position.y > maxY)
+        {
+            m_position.y = maxY;
+            if (m_velocity.y > 0)
+            {
+                m_velocity.y = 0;
+                m_isGrounded = true;
+            }
+        }
+    }
+
+    m_view.SetFacingRight(m_facingRight);
     m_view.SetPosition(m_position);
 }
 

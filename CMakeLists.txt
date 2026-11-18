@@ -4,6 +4,7 @@ project(sfml-test)
 set(CMAKE_CXX_STANDARD 17)
 
 find_package(SFML 3 COMPONENTS Graphics REQUIRED)
+find_package(SFML 3 COMPONENTS Graphics Window System Audio REQUIRED)
 
 add_executable(app src/main.cpp
         src/GameState/Game/Game.cpp
@@ -67,5 +68,14 @@ add_executable(app src/main.cpp
         src/GameLostState/GameLostState.cpp
         src/GameLostState/GameLostState.hpp
         src/GameLostState/GameLostConstants.hpp
+        src/GameState/Entity/Enemy/Enemies/Enemies.cpp
+        src/GameState/Entity/Enemy/Enemies/Enemies.hpp
+        src/GameState/Entity/Enemy/EnemyConstants.hpp
 )
-target_link_libraries(app PRIVATE SFML::Graphics)
+target_link_libraries(app PRIVATE
+        SFML::Graphics
+        SFML::Window
+        SFML::System
+        SFML::Audio
+)
+

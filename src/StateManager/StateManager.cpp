@@ -19,6 +19,11 @@ StateManager::StateManager()
     m_window.setKeyRepeatEnabled(false);
     GoToMenu();
     ApplyStateChange();
+
+    if (m_menuTheme.openFromFile("../assets/ost/Main Menu Theme.mp3")) {
+        m_menuTheme.setLooping(true);
+        m_menuTheme.play();
+    }
 }
 
 AppState StateManager::GetState() const
@@ -83,9 +88,9 @@ void StateManager::ApplyStateChange()
     {
     case AppState::MainMenu:
         m_stateObject = std::make_unique<MainMenu>(
-            m_window, [this] { m_pendingState = AppState::Newspaper; },
+            m_window, [this] { m_pendingState = AppState::Newspaper; m_menuTheme.stop(); },
             [this] { m_pendingState = AppState::Options; },
-            [this] { m_pendingState = AppState::Tutorial; }, [this] { m_window.close(); });
+            [this] { m_pendingState = AppState::Tutorial; }, [this] { m_window.close(); m_menuTheme.stop(); });
         break;
     case AppState::Options:
         m_stateObject = std::make_unique<Options>(m_window, [this] { GoToMenu(); });
@@ -98,7 +103,7 @@ void StateManager::ApplyStateChange()
                                                          [this] { StartGame(); });
         break;
     case AppState::GameLost:
-        m_stateObject = std::make_unique<GameLostState>(m_window, [this]{ GoToMenu(); });
+        m_stateObject = std::make_unique<GameLostState>(m_window, [this]{ GoToMenu(); m_menuTheme.play(); });
         break;
     case AppState::BadEnding:
         m_stateObject = std::make_unique<NewspaperState>(m_window, BAD_ENDING_SPRITE_PATH,
@@ -146,10 +151,10 @@ void StateManager::Run()
             HandleEvents(*event);
         }
 
-        const float elapsedTime = clock.restart().asSeconds();
+        const float elapsedTime = std::min(clock.restart().asSeconds(), 0.05f);
 
         Update(elapsedTime);
-
+        ApplyStateChange();
         Draw();
     }
 }

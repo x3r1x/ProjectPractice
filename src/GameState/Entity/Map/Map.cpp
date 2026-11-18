@@ -32,6 +32,11 @@ Room Map::GetRoom() const
     return m_room;
 }
 
+const std::vector<EnemySpawnInfo> &Map::GetEnemySpawns() const
+{
+    return m_enemySpawns;
+}
+
 void Map::ChangeToMainRoom()
 {
     m_width = MAIN_ROOM_WIDTH;
@@ -71,6 +76,14 @@ void Map::ChangeToMainRoom()
     m_interactableObjects.push_back(
         std::make_unique<Note>(sf::Vector2i{14, 21},
                                "NOTE 6\nSay hello to Bidybab and\nElectrobab duo!"));
+
+    // ANIMATRONICS
+    m_enemySpawns.push_back(EnemySpawnInfo{EnemyType::FuntimeFreddy, {2, 8}, sf::IntRect({1, 1}, {5, 9})});
+    m_enemySpawns.push_back(EnemySpawnInfo{EnemyType::BonBon, {3, 15}, sf::IntRect({1, 11}, {5, 6})});
+    m_enemySpawns.push_back(EnemySpawnInfo{EnemyType::ElecroBab, {16, 14}, sf::IntRect({14, 11}, {5, 7})});
+    m_enemySpawns.push_back(EnemySpawnInfo{EnemyType::BidyBab, {16, 21}, sf::IntRect({14, 18}, {5, 4})});
+    m_enemySpawns.push_back(EnemySpawnInfo{EnemyType::Balora, {9, 32}, sf::IntRect({5, 25}, {10, 9})});
+    m_enemySpawns.push_back(EnemySpawnInfo{EnemyType::FuntimeFoxy, {3, 35}, sf::IntRect({1, 35}, {18, 5})});
 }
 
 void Map::ChangeToEnnardRoom()
@@ -95,6 +108,9 @@ void Map::ChangeToCircusBabyRoom()
     // NOTES
     m_interactableObjects.push_back(
         std::make_unique<Note>(sf::Vector2i{11, 3}, "NOTE 7\nSay hello to CIIIIIRCUS BABY!"));
+
+    // BABY
+    m_enemySpawns.push_back(EnemySpawnInfo{EnemyType::CircusBaby, {10, 6}, sf::IntRect({1, 1}, {18, 14})});
 }
 
 void Map::ChangeToElectricalRoom()
@@ -188,6 +204,7 @@ TileType Map::GetTile(const float worldX, const float worldY) const
 void Map::ChangeRoom(const Room room)
 {
     m_interactableObjects.clear();
+    m_enemySpawns.clear();
 
     m_room = room;
     const char *roomStructure = "";

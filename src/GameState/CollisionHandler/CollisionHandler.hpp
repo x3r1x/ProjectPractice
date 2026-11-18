@@ -34,6 +34,7 @@ public:
 
     void HandlePlayerMapCollision();
     void HandleEnemiesMapCollision() const;
+    Enemy *GetCollidingEnemy() const;
     void Interact(bool &isNoteOpen, std::string &noteText);
 };
 

@@ -6,6 +6,7 @@
 #define SFML_TEST_GAMELOSTSTATE_HPP
 #include <functional>
 
+#include <SFML/Audio/Music.hpp>
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Sprite.hpp>
@@ -28,6 +29,8 @@ class GameLostState: public IState
     sf::RenderWindow& m_window;
 
     std::function<void()> m_onExit;
+
+    sf::Music m_music;
 
     float m_screenDuration = 0;
     bool m_isYouDied = false;

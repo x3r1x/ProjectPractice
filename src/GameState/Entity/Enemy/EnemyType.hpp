@@ -7,6 +7,7 @@
 #pragma once
 
 #include <cstdint>
+#include <SFML/Graphics/Rect.hpp>
 #include <SFML/System/Vector2.hpp>
 
 enum class EnemyType : uint8_t
@@ -16,13 +17,21 @@ enum class EnemyType : uint8_t
     Balora = 2,
     ElecroBab = 3,
     BidyBab = 4,
-    FuntimeFoxy = 5
+    FuntimeFoxy = 5,
+    CircusBaby
 };
 
 struct EnemyContext
 {
     sf::Vector2f playerPosition;
     sf::Vector2f playerVelocity;
+};
+
+struct EnemySpawnInfo
+{
+    EnemyType type;
+    sf::Vector2i spawnTile;
+    sf::IntRect zoneTiles;
 };
 
 #endif // SFML_TEST_ENEMYTYPE_HPP

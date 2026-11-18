@@ -45,6 +45,12 @@ GameLostState::GameLostState(sf::RenderWindow &window, std::function<void()> exi
     m_youDiedScreenSprite.setScale(
         {static_cast<float>(m_window.getSize().x) / m_youDiedScreenTexture.getSize().x,
          static_cast<float>(m_window.getSize().y) / m_youDiedScreenTexture.getSize().y});
+
+    if (m_music.openFromFile("../assets/ost/Game Over Theme.mp3")) {
+        m_music.setLooping(true);
+        m_music.setVolume(50.f);
+        m_music.play();
+    }
 }
 
 void GameLostState::HandleEvent(const sf::Event &event)

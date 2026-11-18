@@ -7,6 +7,8 @@
 #pragma once
 #include <functional>
 
+#include <SFML/Audio/Music.hpp>
+
 #include "../../IState.hpp"
 #include "../CollisionHandler/CollisionHandler.hpp"
 #include "../Entity/Map/Map.hpp"
@@ -22,6 +24,9 @@ class Game : public IState
     View m_view;
     CollisionHandler m_collisionHandler;
 
+    Room m_currentRoom = Room::Main;
+    JumpScare *m_activeJumpScare = nullptr;
+
     std::function<void()> m_onContinueGame;
     std::function<void()> m_onExitGame;
     std::function<void()> m_onPlayerDeath;
@@ -31,6 +36,8 @@ class Game : public IState
     bool m_isAppPaused = false;
     std::string m_currentNoteText;
 
+    sf::Music m_music;
+    void SpawnEnemiesForCurrentRoom();
 public:
     explicit Game(sf::RenderWindow &window, std::function<void()> onContinueGame,
                   std::function<void()> onExitGame, std::function<void()> onPlayerDeath, std::function<void()> onGameEnd);

@@ -10,6 +10,7 @@
 #include "../Camera/Camera.hpp"
 #include "../Hud/Hud.hpp"
 #include "../IDrawable.hpp"
+#include "../../Entity/Enemy/Enemy/Enemy.hpp"
 #include "../MapView/MapView.hpp"
 
 class Player;
@@ -41,6 +42,7 @@ public:
     bool IsContinueClicked(const sf::Event& event) const;
 
     void DrawObjects();
+    void DrawEnemies(const std::vector<std::unique_ptr<Enemy>> &enemies);
     void UpdateCamera(sf::Vector2f playerPosition);
 };
 

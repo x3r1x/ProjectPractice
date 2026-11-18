@@ -5,6 +5,7 @@
 #include "Player.hpp"
 
 #include <cmath>
+#include <iostream>
 
 #include "../../GameConstants.hpp"
 

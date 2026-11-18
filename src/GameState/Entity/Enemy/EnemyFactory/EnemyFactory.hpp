@@ -6,7 +6,10 @@
 #define SFML_TEST_ENEMYFACTORY_HPP
 #pragma once
 
+#include <functional>
 #include <memory>
+
+#include <SFML/Graphics/Rect.hpp>
 #include <SFML/System/Vector2.hpp>
 
 #include "../Enemy/Enemy.hpp"
@@ -16,6 +19,8 @@ class EnemyFactory
 {
 public:
     static std::unique_ptr<Enemy> Create(EnemyType type, sf::Vector2f spawnPosition,
+                                         sf::IntRect zoneTiles,
+                                         std::function<void()> onJumpScareEnd,
                                          sf::Vector2u windowSize);
 };
 

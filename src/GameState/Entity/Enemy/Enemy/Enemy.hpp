@@ -16,6 +16,8 @@ class Enemy
 protected:
     sf::Vector2f m_position;
     sf::Vector2f m_velocity{0.0, 0.0};
+    sf::IntRect m_zone;
+
     float m_moveSpeed;
     bool m_useGravity;
     bool m_isGrounded = false;
@@ -24,15 +26,19 @@ protected:
     EnemyView m_view;
     JumpScare m_jumpScare;
 
+    sf::FloatRect GetZoneWorldBounds() const;
+    bool IsPlayerInZone(sf::Vector2f playerPosition) const;
     virtual void UpdateBehavior(const EnemyContext &context, float deltaTime) = 0;
 
 public:
-    Enemy(sf::Vector2f spawnPosition, const std::string &spritePath, sf::Vector2f spriteScale, std::function<void()> onJumpScareEnd,
+    Enemy(sf::Vector2f spawnPosition, sf::IntRect zoneTiles, const std::string &spritePath,
+          const std::string &soundPath, std::function<void()> onJumpScareEnd,
           const std::string &jumpScarePath, sf::Vector2u windowSize, float moveSpeed,
           bool useGravity = true);
     virtual ~Enemy() = default;
 
     void Update(const EnemyContext &context, float deltaTime);
+    void ClampToZone();
     virtual void CollideWithWall(bool hitRightWall);
 
     EnemyView &GetView();

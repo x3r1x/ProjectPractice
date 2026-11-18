@@ -6,7 +6,6 @@
 
 #include <iostream>
 
-#include "../../../AppConstants.hpp"
 #include "../../Entity/Player/Player.hpp"
 #include "../../GameConstants.hpp"
 #include "../Hud/Hud.hpp"
@@ -121,6 +120,18 @@ bool View::IsContinueClicked(const sf::Event &event) const
     const auto position = m_window.mapPixelToCoords(click->position, m_window.getDefaultView());
 
     return m_continueText.getGlobalBounds().contains(position);
+}
+
+void View::DrawEnemies(const std::vector<std::unique_ptr<Enemy>> &enemies)
+{
+    m_window.setView(m_camera.GetView());
+
+    for (const auto &enemy : enemies)
+    {
+        enemy->GetView().Draw(m_window);
+    }
+
+    m_window.setView(m_window.getDefaultView());
 }
 
 void View::DrawObjects()
