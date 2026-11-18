@@ -61,8 +61,11 @@ void Tutorial::Update(const float deltaTime)
 {
     m_background.Update(deltaTime);
 
-    const auto mousePosition = m_window.mapPixelToCoords(sf::Mouse::getPosition(m_window));
-    const bool hovered = m_backText.getGlobalBounds().contains(mousePosition);
+    const auto pixelPosition = sf::Mouse::getPosition(m_window);
+    const auto mousePosition = m_window.mapPixelToCoords(pixelPosition);
+
+    const auto bounds = m_backText.getGlobalBounds();
+    const bool hovered = bounds.contains(mousePosition);
     m_backText.setFillColor(hovered ? MAIN_MENU_TEXT_HOVER_COLOR : MAIN_MENU_TEXT_FILL_COLOR);
 }
 

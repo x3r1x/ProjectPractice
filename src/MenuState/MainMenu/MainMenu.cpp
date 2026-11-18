@@ -88,8 +88,11 @@ void MainMenu::HandleEvent(const sf::Event &event)
             continue;
         }
 
+        const auto pixelPosition = sf::Mouse::getPosition(m_window);
+        const auto mousePosition = m_window.mapPixelToCoords(pixelPosition);
+
         const auto bounds = m_text.getGlobalBounds();
-        const bool hovered = bounds.contains(mousePos);
+        const bool hovered = bounds.contains(mousePosition);
 
         if (hovered)
         {

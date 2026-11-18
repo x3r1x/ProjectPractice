@@ -71,6 +71,8 @@ add_executable(app src/main.cpp
         src/GameState/Entity/Enemy/Enemies/Enemies.cpp
         src/GameState/Entity/Enemy/Enemies/Enemies.hpp
         src/GameState/Entity/Enemy/EnemyConstants.hpp
+        src/GameState/ViewModule/Lightning/Lightning.cpp
+        src/GameState/ViewModule/Lightning/Lightning.hpp
 )
 target_link_libraries(app PRIVATE
         SFML::Graphics

@@ -70,9 +70,11 @@ void GameLostState::HandleEvent(const sf::Event &event)
         }
     }
 
-    const sf::Vector2f mousePos(sf::Mouse::getPosition(m_window));
+    const auto pixelPosition = sf::Mouse::getPosition(m_window);
+    const auto mousePosition = m_window.mapPixelToCoords(pixelPosition);
+
     const auto bounds = m_text.getGlobalBounds();
-    const bool hovered = bounds.contains(mousePos);
+    const bool hovered = bounds.contains(mousePosition);
 
     if (hovered && m_isYouDied)
     {
@@ -95,7 +97,7 @@ void GameLostState::Update(const float deltaTime)
 
     if (!m_isYouDied)
     {
-        constexpr int frameWidth = static_cast<int>(GAME_LOST_DEATH_FRAME_SIZE.x);
+        constexpr int frameWidth = GAME_LOST_DEATH_FRAME_SIZE.x;
         const int totalFrames = static_cast<int>(m_deathScreenTexture.getSize().x) / frameWidth;
 
         const int rawFrame = static_cast<int>(m_screenDuration / GAME_LOST_FRAME_DURATION);
